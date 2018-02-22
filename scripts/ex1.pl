@@ -5,7 +5,7 @@
 use utf8;
 use File::Slurp::Unicode;
 
-#TODO: convendrá convertir esto a paralelización, este programa se tarda
+#TODO: este programa se tarda, convendría paralelizarlo
 my $archivo_palabras = $ARGV[0];
 my $archivo_contenido = $ARGV[1];
 
