@@ -22,7 +22,7 @@ if [ -d "$entrada" ]; then
 	find "$entrada" -type f -exec cat {} >> "$entrada" \;
 fi
 
-#sed -e 's|^</*doc.*$||g' -e 's|([^)]*)||g' -e 's|[[:punct:]]| & |g' -e '/^$/d' "$entrada" | tr -s [:space:] > "$salida"
+#FIXME: En algunos puntos del corpus hay espacios que son identicos a los espacios per no son espacios, hay que limpiar eso, tampoco son capturados por [:space:]
 sed -e 's|^</*doc.*$||g' -e 's|([^)]*)||g' -e 's|[[:punct:]]||g' "$entrada" | tr -s [:space:] > "$salida"
 #perl -C -ne 'print lc' "$salida" | perl -C -pe 's/\d+([^ ]\d+)*/DIGITO/g' > "${salida}_minusculas"
 perl -C -ne 'print lc' "$salida" | perl -C -pe 's/[^ ]*\d[^ ]*/DIGITO/g' > "${salida}_minusculas"
