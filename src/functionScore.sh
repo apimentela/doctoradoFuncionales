@@ -1,9 +1,10 @@
 #!/bin/bash
 
-##	vocabulario_freqs
-#	Este programa tiene el propósito de obtener el vocabulario de un corpus
-#	y opcionalmente de encontrar la frecuencia de cada una de las palabras del vocabulario
-#	de manera estándar hace ambas cosas
+##	functionScore
+#	Este programa tiene el propósito de calcular un valor que
+#	indique que tan funcional es una palabra.
+#	como entrada recibe una lista de palabras con sus frecuencias
+#	(ver salida de vocabulario_freqs)
 
 nombre_programa=$0
 
@@ -15,11 +16,10 @@ function usage {
     echo "	-o SUFIJO_SALIDA, --output=SUFIJO_SALIDA
 		Establece el sufijo para los diferentes archivos de salida,
 		si se omite se usará como salida: salida_vocabulario_freqs"
-    echo "	-f, --freqs
-		Activa la opción de cuenta de frecuencias
-		Esta opción está activada por defecto"
-    echo "	-r, --raw
-		Desactiva la cuenta de frecuencias"
+    echo "	-n VAL
+		Establece un valor de peso para el numerador, por defecto 1"
+    echo "	-d VAL
+		Establece un valor de peso para el denominador, por defecto 1"
 }
 
 # Transform long options to short ones
@@ -27,15 +27,14 @@ for arg in "$@"; do
   shift
   case "$arg" in
 	"--output") set -- "$@" "-o" ;; #FIXME: esta opción recibe un parámetro, hay que convertirla para que acepte el símbolo =
-	"--freqs") set -- "$@" "-f" ;;
-	"--raw") set -- "$@" "-r" ;;
 	"--"*) echo "Opción desconocida: $arg" >&2 ; usage ; exit 1;; #TODO: Hay que ver si esto funciona, sobre todo al usar tan solo -- que es para terminar opciones
     *)        set -- "$@" "$arg"
   esac
 done
 
 # Default behavior
-export flag_count=true
+export n=1
+export d=1
 
 # Parse short options
 OPTIND=1
@@ -43,8 +42,8 @@ while getopts "o:fr" opt
 do
   case "$opt" in
 	"o") salida="$OPTARG" ;;
-	"f") flag_count=true ;;
-	"r") flag_count=false ;;
+	"n") n="$OPTARG" ;;
+	"d") d="$OPTARG" ;;
 	"?") echo "Opción desconocida: -$OPTARG" >&2 ; usage ; exit 1;;
   esac
 done
@@ -52,8 +51,6 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # Opción final de la salida
 entrada="$1"
-: ${salida:="salida_vocabulario_freqs"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
+: ${salida:="salida_functionScores"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
 
-cat "${entrada}" | tr [:space:] "\n" | tr -s [:space:] | sort \
-| if [[ $flag_count ==true ]]; then uniq -c | sort -rn ; else uniq | sort;fi > "${salida}"
-#~ awk '{printf "%f %s\n", $1/length($2),$2}' "${salida}_freqs" | sort -rn > "${salida}_functionScores"
+awk -v n=$n -p=$p '{printf "%f %s\n", ($1*n)/(length($2)*p),$2}' "${entrada}" | sort -rn > "${salida}"

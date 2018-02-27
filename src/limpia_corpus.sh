@@ -19,7 +19,7 @@ function usage {
 ##	Uso
 #	Esta función muestra en pantalla el modo de empleo de este programa
 
-    echo "Uso: ./$nombre_programa [OPCIÓN]... [-o SUFIJO_SALIDA] ARCHIVO_ENTRADA..."
+    echo "Uso: $nombre_programa [OPCIÓN]... [-o SUFIJO_SALIDA] ARCHIVO_ENTRADA..."
     echo "	-o SUFIJO_SALIDA, --output=SUFIJO_SALIDA
 		Establece el sufijo para los diferentes archivos de salida,
 		si se omite se usará como salida: salida_limpia_corpus"
@@ -40,7 +40,8 @@ function usage {
 		Desactiva la eliminación de los números" 
 	echo "	-d REMPLAZO, --digito=REMPLAZO
 		Recibe como parámetro la etiqueta con la que se van a reemplazar
-		todos los números, por defecto esta opción está activada con la etiqueta DIGITO" 
+		todos los números, por defecto esta opción está activada
+		con la etiqueta DIGITO" 
     echo "	-e, --empty
 		Desactiva la eliminación de las líneas vacías" 
 }
