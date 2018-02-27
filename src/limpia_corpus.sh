@@ -25,24 +25,24 @@ function usage {
 		si se omite se usará como salida: salida_limpia_corpus"
     echo "	-w, --wikipedia
 		Activa la opción de eliminación de las etiquetas xml
-		de los artículos de wikipedia" #TODO: Esta opción por ahora está activada siempre, hace falta implementarla.
+		de los artículos de wikipedia" 
     echo "	-p, --parentesis, --parenthesis
-		Desactiva la eliminación de los objetos entre parentesis" #TODO
+		Desactiva la eliminación de los objetos entre parentesis" 
 	echo "	-s, --signos, --simbolos, --punct, --punctuation, --puntuacion
-		Desactiva la eliminación de los signos de puntuación" #TODO
+		Desactiva la eliminación de los signos de puntuación" 
 	echo "	-M, --mayus
-		Desactiva la transformación a minúsculas" #TODO
+		Desactiva la transformación a minúsculas" 
 	echo "	-m, --minus
-		Activa la transformación a minúsculas, activado por defecto" #TODO
+		Activa la transformación a minúsculas, activado por defecto" 
     echo "	-h, --help, --ayuda
 		Muestra la ayuda"
 	echo "	-n,--num
-		Desactiva la eliminación de los números" #TODO
+		Desactiva la eliminación de los números" 
 	echo "	-d REMPLAZO, --digito=REMPLAZO
 		Recibe como parámetro la etiqueta con la que se van a reemplazar
-		todos los números, por defecto esta opción está activada con la etiqueta DIGITO" #TODO
+		todos los números, por defecto esta opción está activada con la etiqueta DIGITO" 
     echo "	-e, --empty
-		Desactiva la eliminación de las líneas vacías" #TODO
+		Desactiva la eliminación de las líneas vacías" 
 }
 
 # Transform long options to short ones
@@ -116,7 +116,3 @@ export -f main
 #FIXME: En algunos puntos del corpus hay espacios que son identicos a los espacios per no son espacios, hay que limpiar eso, tampoco son capturados por [:space:]
 parallel --env _ --linebuffer main ::: $@ \
 | if [[ $flag_empty == false ]]; then tr -s [:space:]; else cat; fi > "$salida"
-
-#~ cat "${salida}_minusculas" | tr [:space:] "\n" | tr -s [:space:] > "${salida}_oneperline"
-#~ sort "${salida}_oneperline" | uniq -c | sort -rn > "${salida}_freqs"
-#~ awk '{printf "%f %s\n", $1/length($2),$2}' "${salida}_freqs" | sort -rn > "${salida}_functionScores"
