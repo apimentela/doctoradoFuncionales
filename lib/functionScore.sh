@@ -38,7 +38,7 @@ export d=1
 
 # Parse short options
 OPTIND=1
-while getopts "o:fr" opt
+while getopts "o:nd" opt
 do
   case "$opt" in
 	"o") salida="$OPTARG" ;;

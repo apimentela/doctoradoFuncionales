@@ -26,9 +26,9 @@ function usage {
     echo "	-w, --wikipedia
 		Activa la opción de eliminación de las etiquetas xml
 		de los artículos de wikipedia" 
-    echo "	-p, --parentesis, --parenthesis
+    echo "	-b, --brackets,--parentesis, --parenthesis
 		Desactiva la eliminación de los objetos entre parentesis" 
-	echo "	-s, --signos, --simbolos, --punct, --punctuation, --puntuacion
+	echo "	-p, --punct, --punctuation, --puntuacion
 		Desactiva la eliminación de los signos de puntuación" 
 	echo "	-M, --mayus
 		Desactiva la transformación a minúsculas" 
@@ -43,7 +43,10 @@ function usage {
 		todos los números, por defecto esta opción está activada
 		con la etiqueta DIGITO" 
     echo "	-e, --empty
-		Desactiva la eliminación de las líneas vacías" 
+		Desactiva la eliminación de las líneas vacías"
+	echo "	-s [LINES], --splitlines[=LINES]
+		Divide la salida en LINES cantidad de lineas
+		si no se da un valor, se usan 50,000"
 }
 
 # Transform long options to short ones
@@ -52,13 +55,12 @@ for arg in "$@"; do
   case "$arg" in
 	"--output") set -- "$@" "-o" ;; #FIXME: esta opción recibe un parámetro, hay que convertirla para que acepte el símbolo =
 	"--wikipedia") set -- "$@" "-w" ;;
-	"--parentesis") set -- "$@" "-p" ;;
-	"--parenthesis") set -- "$@" "-p" ;;
-	"--signos") set -- "$@" "-s" ;;
-	"--simbolos") set -- "$@" "-s" ;;
-	"--punct") set -- "$@" "-s" ;;
-	"--punctuation") set -- "$@" "-s" ;;
-	"--puntuacion") set -- "$@" "-s" ;;
+	"--brackets") set -- "$@" "-b" ;;
+	"--parentesis") set -- "$@" "-b" ;;
+	"--parenthesis") set -- "$@" "-b" ;;
+	"--punct") set -- "$@" "-p" ;;
+	"--punctuation") set -- "$@" "-p" ;;
+	"--puntuacion") set -- "$@" "-p" ;;
 	"--mayus") set -- "$@" "-M" ;;
 	"--minus") set -- "$@" "-m" ;;
 	"--help") set -- "$@" "-h" ;;
@@ -66,6 +68,7 @@ for arg in "$@"; do
 	"--num") set -- "$@" "-n" ;;
 	"--digito") set -- "$@" "-d" ;; #FIXME: esta opción recibe un parámetro, hay que convertirla para que acepte el símbolo =
 	"--empty") set -- "$@" "-e" ;;
+	"--splitlines") set -- "$@" "-s" ;; #FIXME: esta opción recibe un parámetro, hay que convertirla para que acepte el símbolo =
 	"--"*) echo "Opción desconocida: $arg" >&2 ; usage ; exit 1;; #TODO: Hay que ver si esto funciona, sobre todo al usar tan solo -- que es para terminar opciones
     *)        set -- "$@" "$arg"
   esac
@@ -80,22 +83,26 @@ export flag_minus=true
 export flag_num=false
 export etiqueta_DIGITO="DIGITO"
 export flag_empty=false
+export flag_split=false
+export split_LINES=50000
 
 # Parse short options
 OPTIND=1
-while getopts "o:wpsMmhnd:e" opt
+while getopts "o:wpbs:Mmhnd:e" opt
 do
   case "$opt" in
 	"o") salida="$OPTARG" ;;
 	"w") flag_wiki=true ;;
-	"p") flag_parentesis=true ;;
-	"s") flag_punct=true ;;
+	"b") flag_parentesis=true ;;
+	"p") flag_punct=true ;;
 	"M") flag_mayus=true ; flag_minus=false ;;
 	"m") flag_minus=true ; flag_mayus=false ;;
 	"h") usage; exit 0 ;;
 	"n") flag_num=true ;;
 	"d") etiqueta_DIGITO="$OPTARG" ;;
 	"e") flag_empty=true ;;
+	"s") split_LINES="$OPTARG"; flag_split=true;;
+	":") if [[ $OPTARG != "s" ]]; then echo "La opción -$OPTARG necesita un argumento"; else flag_split=true; fi;;
 	"?") echo "Opción desconocida: -$OPTARG" >&2 ; usage ; exit 1;;
   esac
 done
@@ -103,8 +110,11 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # Opción final de la salida
 : ${salida:="salida_limpia_corpus"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
+export salida
 
 function main() {
+##	Esta es la función principal del programa
+#	utiliza las banderas de las opciones para hacer el procedimiento de cada una de las limpiezas.
 	cat "$1" \
 	| if [[ $flag_wiki == true ]]; then sed -e 's|^</*doc.*$||g'; else cat; fi \
 	| if [[ $flag_parentesis == false ]]; then sed -e 's|([^)]*)||g'; else cat; fi \
@@ -116,4 +126,5 @@ export -f main
 
 #FIXME: En algunos puntos del corpus hay espacios que son identicos a los espacios per no son espacios, hay que limpiar eso, tampoco son capturados por [:space:]
 parallel --env _ --linebuffer main ::: $@ \
-| if [[ $flag_empty == false ]]; then tr -s [:space:]; else cat; fi > "$salida"
+| if [[ $flag_empty == false ]]; then tr -s [:space:]; else cat; fi \
+| if [[ $flag_split == true ]]; then split -l "$split_LINES" - "${salida}_"; else cat - > "$salida";fi

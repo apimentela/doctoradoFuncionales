@@ -1,11 +1,12 @@
 #!/usr/bin/perl
 
-#TODO: descripción del programa, entradas y salidas
+##	contextos_funs
+#	Este programa tiene el propósito de obtener contextos funcionales a partir
+#	de una lista de palabras funcionales y un archivo con el corpus
 
 use utf8;
 use File::Slurp::Unicode;
 
-#TODO: este programa se tarda, convendría paralelizarlo
 my $archivo_palabras = $ARGV[0];
 my $archivo_contenido = $ARGV[1];
 

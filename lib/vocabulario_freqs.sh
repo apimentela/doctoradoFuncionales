@@ -51,9 +51,8 @@ done
 shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # Opción final de la salida
-entrada="$1"
+entrada=$@
 : ${salida:="salida_vocabulario_freqs"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
 
 cat "${entrada}" | tr [:space:] "\n" | tr -s [:space:] | sort \
 | if [[ $flag_count ==true ]]; then uniq -c | sort -rn ; else uniq | sort;fi > "${salida}"
-#~ awk '{printf "%f %s\n", $1/length($2),$2}' "${salida}_freqs" | sort -rn > "${salida}_functionScores"
