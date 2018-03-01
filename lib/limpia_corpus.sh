@@ -13,7 +13,7 @@
 ##	DEPENDENCIAS
 #	- parallel
 
-nombre_programa=$0
+nombre_programa="$BASH_SOURCE"
 
 function usage {
 ##	Uso
@@ -112,6 +112,8 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 : ${salida:="salida_limpia_corpus"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
 export salida
 
+# AQUI COMIENZA EL PROGRAMA
+
 function main() {
 ##	Esta es la función principal del programa
 #	utiliza las banderas de las opciones para hacer el procedimiento de cada una de las limpiezas.
@@ -120,7 +122,7 @@ function main() {
 	| if [[ $flag_parentesis == false ]]; then sed -e 's|([^)]*)||g'; else cat; fi \
 	| if [[ $flag_punct == false ]]; then sed -e 's|[[:punct:]]||g'; else cat; fi \
 	| if [[ $flag_minus == true ]]; then perl -C -ne 'print lc'; else cat; fi \
-	| if [[ $flag_num == false ]]; then perl -C -pe 's/[^ ]*\d[^ ]*/'"$etiqueta_DIGITO"'/g'; else cat; fi
+	| if [[ $flag_num == false ]]; then perl -C -pe 's/\S*\d\S*/'"$etiqueta_DIGITO"'/g'; else cat; fi
 }
 export -f main
 

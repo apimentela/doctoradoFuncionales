@@ -1,5 +1,5 @@
 #!/bin/bash
 
-for file in $1; do
-        echo "${file}"
-	done
+echo "$BASH_SOURCE"
+cd "${BASH_SOURCE%/*}" #|| true
+ls

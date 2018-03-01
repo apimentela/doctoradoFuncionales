@@ -5,7 +5,7 @@
 #	y opcionalmente de encontrar la frecuencia de cada una de las palabras del vocabulario
 #	de manera estándar hace ambas cosas
 
-nombre_programa=$0
+nombre_programa="$BASH_SOURCE"
 
 function usage {
 ##	Uso
@@ -35,7 +35,7 @@ for arg in "$@"; do
 done
 
 # Default behavior
-export flag_count=true
+flag_count=true
 
 # Parse short options
 OPTIND=1
@@ -51,8 +51,10 @@ done
 shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # Opción final de la salida
-entrada=$@
 : ${salida:="salida_vocabulario_freqs"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
+entrada=$@
 
-cat "${entrada}" | tr [:space:] "\n" | tr -s [:space:] | sort \
-| if [[ $flag_count ==true ]]; then uniq -c | sort -rn ; else uniq | sort;fi > "${salida}"
+# AQUI COMIENZA EL PROGRAMA
+
+cat $entrada | tr [:space:] "\n" | tr -s [:space:] | sort \
+| if [[ $flag_count == true ]]; then uniq -c | sort -rn ; else uniq | sort;fi > "${salida}"

@@ -15,13 +15,13 @@ chomp($palabras_funcionales);	# Es mas facil usar chomp que: substr($palabras_fu
 $palabras_funcionales =~ s/\n/|/g;
 $unaOmas_funcionales = '(?: ?\b(?:' . $palabras_funcionales . ')\b ?)+';
 #~ $expresion_palabras = '([^ ]*' . $unaOmas_funcionales . ')(?=([^ ]*))';	# Esta expresión devuelve contextos de palabras funcionales rodeados de una palabra no funcional. No se si sea mejor que busque todas las palabras no funcionales juntas, quizá no haga falta, y no se si la siguiente expresión sea más productiva de cualquier forma.
-$expresion_palabras = '(' . $unaOmas_funcionales . ' .+? )(?=(' . $unaOmas_funcionales . '))'; # Esta expresión regresa todos los contextos de palabras no funcionales rodeados de todoas las palabras funcionales juntas que encuentra al rededor
+$expresion_palabras = '(' . $unaOmas_funcionales . ')( .+? )(?=(' . $unaOmas_funcionales . '))'; # Esta expresión regresa todos los contextos de palabras no funcionales rodeados de todoas las palabras funcionales juntas que encuentra al rededor
 
 open(INPUT,"<$archivo_contenido") or die "No se pudo abrir el archivo, $!";
 my @coincidencias;
 while(<INPUT>){
 	while ($_ =~ /$expresion_palabras/g){
-		chomp(my $salida = "$1$2");
+		chomp(my $salida = "$1,$2,$3");
 		print "$salida\n";	
 	}	
 }

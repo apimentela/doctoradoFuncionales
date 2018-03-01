@@ -6,7 +6,7 @@
 #	como entrada recibe una lista de palabras con sus frecuencias
 #	(ver salida de vocabulario_freqs)
 
-nombre_programa=$0
+nombre_programa="$BASH_SOURCE"
 
 function usage {
 ##	Uso
@@ -38,12 +38,13 @@ export d=1
 
 # Parse short options
 OPTIND=1
-while getopts "o:nd" opt
+while getopts "o:n:d:" opt
 do
   case "$opt" in
 	"o") salida="$OPTARG" ;;
 	"n") n="$OPTARG" ;;
 	"d") d="$OPTARG" ;;
+	":") echo "La opción $OPTARG necesita parámetros" >&2 ; usage ; exit 1;;
 	"?") echo "Opción desconocida: -$OPTARG" >&2 ; usage ; exit 1;;
   esac
 done
@@ -53,4 +54,6 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 entrada="$1"
 : ${salida:="salida_functionScores"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
 
-awk -v n=$n -p=$p '{printf "%f %s\n", ($1*n)/(length($2)*p),$2}' "${entrada}" | sort -rn > "${salida}"
+# AQUI COMIENZA EL PROGRAMA
+
+awk -v n=$n -v p=$p '{printf "%f %s\n", ($1*n)/(length($2)*p+1),$2}' "${entrada}" | sort -rn > "${salida}"

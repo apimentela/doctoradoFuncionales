@@ -8,6 +8,7 @@
 #	con ayuda de un programa de perl.
 #	La salida del vocabulario con las frecuencias se encontrará en ../out/SUFIJO_SALIDA_freqs
 #	La salida de la lista de palabras funcionales se encontrará en ../out/SUFIJO_SALIDA_funcs
+#	La salida de la lista de scores funcionales se encontrará en ../out/SUFIJO_SALIDA_scores
 #	La salida de la lista de contextos funcionales se encontrará en ../out/SUFIJO_SALIDA_contexts
 #	Las salidas del corpus limpio depende de si los archivos se van a dividir o no.
 #	Si se dividen se sacan los corpus limpios a ../corpus/split_out/SUFIJO_SALIDA_*
@@ -15,13 +16,13 @@
 ##	DEPENDENCIAS
 #	- parallel
 
-nombre_programa=$0
+nombre_programa="$BASH_SOURCE"
 
 function usage {
 ##	Uso
 #	Esta función muestra en pantalla el modo de empleo de este programa
 
-    echo "Uso: $nombre_programa ARCHIVO_PALABRAS SUFIJO_SALIDA ARCHIVO_ENTRADA..."
+    echo "Uso: $nombre_programa [OPCIÓN]... SUFIJO_SALIDA ARCHIVO_ENTRADA..."
     echo "	-S [LINES], --Splitlines[=LINES]
 		Divide la entrada en LINES cantidad de lineas si no se da un valor,
 		se usan 50,000.
@@ -76,7 +77,7 @@ export split_out="split_out" #TODO: dar opcion
 
 # Parse short options
 OPTIND=1
-while getopts "s:je:S:hnd" opt
+while getopts "s:je:S:h:nd" opt
 do
   case "$opt" in
 	"S") Split_LINES="$OPTARG"; flag_Split=true;;
@@ -92,29 +93,45 @@ do
 done
 shift $(expr $OPTIND - 1) # remove options from positional parameters
 
-export archivo_palabras="$1"
-export salida="$2"
-shift 2
+export dir_salida=$(realpath "$1")
+	dir_salida="${dir_salida%/*}"
+export salida="${1##*/}"
+shift
+export dir_entrada=$(realpath "$1")
+	dir_entrada="${dir_entrada%/*}"
+export entrada_name="${1##*/}"
+export entrada1="$dir_entrada/${1##*/}"
+for arg in "$@"; do
+	shift
+	set -- "$@" "$dir_entrada/${arg##*/}"
+done
 export entrada=$@
 
-if [[ ! -d "$corpus" ]]; then mkdir "$corpus"
-if [[ ! -d "$out" ]]; then mkdir "$out"
+cd "${BASH_SOURCE%/*}" || exit # AQUI COMIENZA EL PROGRAMA
+
+ruta=$(realpath ..)
+
+if [[ ! -d "../corpus" ]]; then mkdir "../corpus"; fi
+if [[ ! -d "../out" ]]; then mkdir "../out"; fi
 
 if [[ $flag_Split == true ]]; then
-	if [[ ! -d "${corpus}/${split}" ]]; then mkdir -p "${corpus}/${split}"; fi
-	split -l "$Split_LINES" "$entrada" "${corpus}/${split}/${entrada}_"
-	entrada=../corpus/split/*
+	if [[ ! -d "../corpus/split" ]]; then mkdir -p "../corpus/split"; fi
+	split -l "$Split_LINES" "$entrada1" "../corpus/split/${entrada_name}_"
+	entrada=$(realpath "../corpus/split")
+	entrada="$entrada/*"
 fi
 
 if [[ $flag_split == true ]]; then
-	if [[ ! -d "${corpus}s${plit_out}" ]]; then mkdir -p "${corpus}/${split_out}"; fi
-	bash ../lib/limpia_corpus.sh -s "$split_LINES" -wo "${corpus}/${split_out}/$salida" $entrada
-	bash ../lib/vocabulario_freqs.sh -o "${out}/${salida}_freqs" "${corpus}/${split_out}"/*
-	grep -v "$etiqueta_DIGITO" "${out}/${salida}_freqs" | head -n "$head_funcs" > "${out}/${salida}_funcs"
-	parallel --linebuffer perl -C contextos_funcs.pl ::: "${out}/${salida}_funcs" ::: "${corpus}/${split_out}"/* > "${out}/${salida}_contextos"
+	if [[ ! -d "../corpus/split_out" ]]; then mkdir -p "../corpus/split_out"; fi
+	bash ../lib/limpia_corpus.sh -s "$split_LINES" -wo "$ruta/corpus/split_out/$salida" $entrada
+	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}_freqs" "$ruta/corpus/split_out"/*
+	bash ../lib/functionScore.sh -n "$n" -d "$d" -o "$ruta/out/${salida}_scores" "$ruta/out/${salida}_freqs"
+	awk '{printf "%s\n",$2}' "../out/${salida}_scores" | grep -v "$etiqueta_DIGITO" | head -n "$head_funcs" > "../out/${salida}_funcs"
+	parallel --linebuffer perl -C contextos_funcs.pl ::: "../out/${salida}_funcs" ::: "../corpus/split_out"/* > "../out/${salida}_contextos"
 else
-	bash ../lib/limpia_corpus.sh -wo "${corpus}/${salida}_out" $entrada
-	bash ../lib/vocabulario_freqs.sh -o "${out}/${salida}_freqs" "${corpus}/${salida}_out"
-	grep -v "$etiqueta_DIGITO" "${out}/${salida}_freqs" | head -n "$head_funcs" > "${out}/${salida}_funcs"
-	perl -C contextos_funcs.pl "${out}/${salida}_funcs" "${corpus}/${salida}_out" > "${out}/${salida}_contextos"
+	bash ../lib/limpia_corpus.sh -wo "$ruta/corpus/${salida}_out" $entrada
+	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}_freqs" "$ruta/corpus/${salida}_out"
+	bash ../lib/functionScore.sh -n "$n" -d "$d" -o "$ruta/out/${salida}_scores" "$ruta/out/${salida}_freqs"
+	awk '{printf "%s\n",$2}' "../out/${salida}_scores" | grep -v "$etiqueta_DIGITO" | head -n "$head_funcs" > "../out/${salida}_funcs"
+	perl -C contextos_funcs.pl "../out/${salida}_funcs" "../corpus/${salida}_out" > "../out/${salida}_contextos"
 fi
