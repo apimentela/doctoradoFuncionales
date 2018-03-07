@@ -135,3 +135,28 @@ else
 	awk '{printf "%s\n",$2}' "../out/${salida}_scores" | grep -v "$etiqueta_DIGITO" | head -n "$head_funcs" > "../out/${salida}_funcs"
 	perl -C contextos_funcs.pl "../out/${salida}_funcs" "../corpus/${salida}_out" > "../out/${salida}_contextos"
 fi
+
+# En esta sección se separan los archivos de tablas en pares de palabra/palabra_funcional
+#	el primer archivo es para la palabra funcional que aparece antes de
+#	el segundo archivo es para la palabra que aparece después de
+#	HAY QUE RECORDAR QUE ESTO ES PARA LA EXPRESIÓN QUE TOMA LAS PALABRA FUNCIONALES EN MEDIO
+function pares1{
+awk -F "," '{
+	if ($1 != ""){
+		n=split($2,mid, " ");
+		printf("%s %s\n",$1,mid[1]);
+		}
+	}' "../out/${salida}_contextos" > "../out/${salida}_pares1"
+}
+export -f pares1
+function pares2{
+awk -F "," '{
+	if ($3 != ""){
+		n=split($2,mid, " ");
+		printf("%s %s\n",$3,mid[n]);
+		}
+	}' "../out/${salida}_contextos" > "../out/${salida}_pares2"
+}
+export -f pares2
+
+parallel ::: pares1 pares2
