@@ -146,7 +146,7 @@ awk -F "," '{
 		n=split($2,mid, " ");
 		printf("%s %s\n",$1,mid[1]);
 		}
-	}' "../out/${salida}_contextos" > "../out/${salida}_pares1"
+	}' "../out/${salida}_contextos" | sort | uniq -c > "../out/${salida}_pares1"
 }
 export -f pares1
 function pares2{
@@ -155,7 +155,7 @@ awk -F "," '{
 		n=split($2,mid, " ");
 		printf("%s %s\n",$3,mid[n]);
 		}
-	}' "../out/${salida}_contextos" > "../out/${salida}_pares2"
+	}' "../out/${salida}_contextos" | sort | uniq -c > "../out/${salida}_pares2"
 }
 export -f pares2
 
