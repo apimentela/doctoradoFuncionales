@@ -106,56 +106,61 @@ for arg in "$@"; do
 	set -- "$@" "$dir_entrada/${arg##*/}"
 done
 export entrada=$@
+export flag_cleaned=false
 
-cd "${BASH_SOURCE%/*}" || exit # AQUI COMIENZA EL PROGRAMA
-
+export ruta=$(realpath "$BASH_SOURCE")
+cd "${ruta%/*}" || exit # AQUI COMIENZA EL PROGRAMA
 ruta=$(realpath ..)
 
-if [[ ! -d "../corpus" ]]; then mkdir "../corpus"; fi
-if [[ ! -d "../out" ]]; then mkdir "../out"; fi
+if [[ ! -d "$ruta/corpus" ]]; then mkdir "$ruta/corpus"; fi
+if [[ ! -d "$ruta/out" ]]; then mkdir "$ruta/out"; fi
 
 if [[ $flag_Split == true ]]; then
-	if [[ ! -d "../corpus/split" ]]; then mkdir -p "../corpus/split"; fi
-	split -l "$Split_LINES" "$entrada1" "../corpus/split/${entrada_name}_"
-	entrada=$(realpath "../corpus/split")
-	entrada="$entrada/*"
+	if [[ ! -d "$ruta/corpus/split" ]]; then
+		mkdir -p "$ruta/corpus/split"
+		split -l "$Split_LINES" "$entrada1" "$ruta/corpus/split/${entrada_name}_"
+	else
+		echo "Se encontró un corpus ya dividido"
+	fi
+	entrada="$ruta/corpus/split/*"
 fi
 
 if [[ $flag_split == true ]]; then
-	if [[ ! -d "../corpus/split_out" ]]; then mkdir -p "../corpus/split_out"; fi
-	bash ../lib/limpia_corpus.sh -s "$split_LINES" -wo "$ruta/corpus/split_out/$salida" $entrada
-	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}_freqs" "$ruta/corpus/split_out"/*
+	if [[ ! -d "$ruta/corpus/split_out" ]]; then mkdir -p "$ruta/corpus/split_out"; else echo "Se encontró un corpus ya limpiado y dividido"; flag_cleaned=true ; fi
+	if [[ $flag_cleaned == true ]]; then bash ../lib/limpia_corpus.sh -s "$split_LINES" -wo "$ruta/corpus/split_out/$salida" $entrada; fi
+	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}" "$ruta/corpus/split_out"/*
 	bash ../lib/functionScore.sh -n "$n" -d "$d" -o "$ruta/out/${salida}_scores" "$ruta/out/${salida}_freqs"
-	awk '{printf "%s\n",$2}' "../out/${salida}_scores" | grep -v "$etiqueta_DIGITO" | head -n "$head_funcs" > "../out/${salida}_funcs"
-	parallel --linebuffer perl -C contextos_funcs.pl ::: "../out/${salida}_funcs" ::: "../corpus/split_out"/* > "../out/${salida}_contextos"
+	awk '{printf("%s\n"),$2}' "$ruta/out/${salida}_scores" | grep -v "$etiqueta_DIGITO" | head -n "$head_funcs" > "$ruta/out/${salida}_funcs"
+	parallel --linebuffer perl -C contextos_funcs.pl ::: "../out/${salida}_funcs" ::: "$ruta/corpus/split_out"/* > "$ruta/out/${salida}_contextos"
 else
-	bash ../lib/limpia_corpus.sh -wo "$ruta/corpus/${salida}_out" $entrada
-	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}_freqs" "$ruta/corpus/${salida}_out"
+	
+	if [[ ! -f "$ruta/corpus/${salida}_out" ]]; then bash ../lib/limpia_corpus.sh -wo "$ruta/corpus/${salida}_out" $entrada; else echo "Se encontró un corpus ya limpiado"; fi
+	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}" "$ruta/corpus/${salida}_out"
 	bash ../lib/functionScore.sh -n "$n" -d "$d" -o "$ruta/out/${salida}_scores" "$ruta/out/${salida}_freqs"
-	awk '{printf "%s\n",$2}' "../out/${salida}_scores" | grep -v "$etiqueta_DIGITO" | head -n "$head_funcs" > "../out/${salida}_funcs"
-	perl -C contextos_funcs.pl "../out/${salida}_funcs" "../corpus/${salida}_out" > "../out/${salida}_contextos"
+	awk '{printf("%s\n",$2)}' "$ruta/out/${salida}_scores" | grep -v "$etiqueta_DIGITO" | head -n "$head_funcs" > "$ruta/out/${salida}_funcs"
+	perl -C contextos_funcs.pl "$ruta/out/${salida}_funcs" "$ruta/corpus/${salida}_out" > "$ruta/out/${salida}_contextos"
 fi
 
 # En esta sección se separan los archivos de tablas en pares de palabra/palabra_funcional
 #	el primer archivo es para la palabra funcional que aparece antes de
 #	el segundo archivo es para la palabra que aparece después de
 #	HAY QUE RECORDAR QUE ESTO ES PARA LA EXPRESIÓN QUE TOMA LAS PALABRA FUNCIONALES EN MEDIO
-function pares1{
+function pares1 {
 awk -F "," '{
 	if ($1 != ""){
 		n=split($2,mid, " ");
 		printf("%s %s\n",$1,mid[1]);
 		}
-	}' "../out/${salida}_contextos" | sort | uniq -c > "../out/${salida}_pares1"
+	}' "$ruta/out/${salida}_contextos" | sort | uniq -c > "$ruta/out/${salida}_pares1"
 }
 export -f pares1
-function pares2{
+function pares2 {
 awk -F "," '{
 	if ($3 != ""){
 		n=split($2,mid, " ");
 		printf("%s %s\n",$3,mid[n]);
 		}
-	}' "../out/${salida}_contextos" | sort | uniq -c > "../out/${salida}_pares2"
+	}' "$ruta/out/${salida}_contextos" | sort | uniq -c > "$ruta/out/${salida}_pares2"
 }
 export -f pares2
 

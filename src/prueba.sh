@@ -1,5 +1,6 @@
 #!/bin/bash
 
-echo "$BASH_SOURCE"
-cd "${BASH_SOURCE%/*}" #|| true
-ls
+entrada="$1"
+while read linea; do
+	echo "$linea"
+done < <(cat "$entrada")

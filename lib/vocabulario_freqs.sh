@@ -51,10 +51,12 @@ done
 shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # Opción final de la salida
-: ${salida:="salida_vocabulario_freqs"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
+: ${salida:="salida_vocabulario"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
 entrada=$@
+salida_freqs="${salida}_freqs"
+salida_vocab="${salida}_vocab"
 
 # AQUI COMIENZA EL PROGRAMA
 
 cat $entrada | tr [:space:] "\n" | tr -s [:space:] | sort \
-| if [[ $flag_count == true ]]; then uniq -c | sort -rn ; else uniq | sort;fi > "${salida}"
+| if [[ $flag_count == true ]]; then uniq -c | sort -rn | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq | sort;fi > "$salida_vocab"
