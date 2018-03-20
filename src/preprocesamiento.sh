@@ -127,7 +127,7 @@ fi
 
 if [[ $flag_split == true ]]; then
 	if [[ ! -d "$ruta/corpus/split_out" ]]; then mkdir -p "$ruta/corpus/split_out"; else echo "Se encontró un corpus ya limpiado y dividido"; flag_cleaned=true ; fi
-	if [[ $flag_cleaned == true ]]; then bash ../lib/limpia_corpus.sh -s "$split_LINES" -wo "$ruta/corpus/split_out/$salida" $entrada; fi
+	if [[ $flag_cleaned == false ]]; then bash ../lib/limpia_corpus.sh -s "$split_LINES" -wo "$ruta/corpus/split_out/$salida" $entrada; fi
 	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}" "$ruta/corpus/split_out"/*
 	bash ../lib/functionScore.sh -n "$n" -d "$d" -o "$ruta/out/${salida}_scores" "$ruta/out/${salida}_freqs"
 	awk '{printf("%s\n"),$2}' "$ruta/out/${salida}_scores" | grep -v "$etiqueta_DIGITO" | head -n "$head_funcs" > "$ruta/out/${salida}_funcs"
