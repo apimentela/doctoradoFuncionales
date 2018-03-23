@@ -36,29 +36,37 @@ def main(args):
 	
 	dimension_funcionales=len(lista_funcionales)
 	
-	freq1,palabra1,funcional1=archivo_pares1.readline().split()	# Lectura inicial
-	freq2,palabra2,funcional2=archivo_pares2.readline().split()
+	freq1,palabra1,funcional1=archivo_pares1.readline().strip().split()	# Lectura inicial
+	freq1=int(freq1)
+	freq2,palabra2,funcional2=archivo_pares2.readline().strip().split()
+	freq2=int(freq2)
+	print(freq1,palabra1,funcional1)
 	
 	for palabra_vocabulario in archivo_vocabulario:	# Recorrido para armar el vector de cada una de las palabras del vocabulario
 		if palabra_vocabulario in lista_funcionales: continue
 		vector=np.zeros(dimension_funcionales)
 		
 		while True:	# Recorrido para el primer archivo
-			if freq1 <= min_apariciones :
-				freq1,palabra1,funcional1=archivo_pares1.readline().split()
-				continue
-			if palabra1 != palabra_vocabulario:
+			if palabra1 > palabra_vocabulario:
 				break
+			if freq1 <= min_apariciones or palabra1 < palabra_vocabulario:	# si la frecuencia es menor al mínimo, o bien, la palabra que se tiene es menor que la que va en vocabulario (no puede ser mayor por la condición anterior) pasa a la siguiente palabra
+				print (palabra1)
+				freq1,palabra1,funcional1=archivo_pares1.readline().strip().split()
+				freq1=int(freq1)
+				continue
 			vector[lista_funcionales.index(funcional1)]=freq1
-			freq1,palabra1,funcional1=archivo_pares1.readline().split()
+			freq1,palabra1,funcional1=archivo_pares1.readline().strip().split()
+			freq1=int(freq1)
 		while True:	# Recorrido para el segundo archivo
-			if freq2 <= min_apariciones :
-				freq2,palabra2,funcional2=archivo_pares2.readline().split()
-				continue
-			if palabra2 != palabra_vocabulario:
+			if palabra2 > palabra_vocabulario:
 				break
+			if freq2 <= min_apariciones or palabra2 < palabra_vocabulario:
+				freq2,palabra2,funcional2=archivo_pares2.readline().strip().split()
+				freq2=int(freq2)
+				continue
 			vector[dimension_funcionales+lista_funcionales.index(funcional1)]=freq1	# La diferencia de ambos archivos esta aqui, ya que forma la segunda parte del vector
-			freq2,palabra2,funcional2=archivo_pares2.readline().split()
+			freq2,palabra2,funcional2=archivo_pares2.readline().strip().split()
+			freq2=int(freq2)
 	
 		if np.sum(vector) > min_suma :
 			vector_normalizado=vector/np.sum(vector)

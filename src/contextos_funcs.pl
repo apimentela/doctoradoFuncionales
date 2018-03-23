@@ -11,7 +11,7 @@ my $archivo_palabras = $ARGV[0];
 my $archivo_contenido = $ARGV[1];
 
 my $palabras_funcionales = read_file($archivo_palabras);
-chomp($palabras_funcionales);	# Es mas facil usar chomp que: substr($palabras_funcionales,0,-1);
+chomp($palabras_funcionales);	# Es mas facil usar chomp que: substr($palabras_funcionales,0,-1); Para quitar el último salto de linea
 $palabras_funcionales =~ s/\n/|/g;
 $unaOmas_funcionales = '(?: ?\b(?:' . $palabras_funcionales . ')\b ?)+';
 $expresion_palabras = '([^ ]*)(' . $unaOmas_funcionales . ')(?=([^ ]*))';	# Esta expresión devuelve contextos de palabras funcionales rodeados de una palabra no funcional. No se si sea mejor que busque todas las palabras no funcionales juntas, quizá no haga falta, y no se si la siguiente expresión sea más productiva de cualquier forma.

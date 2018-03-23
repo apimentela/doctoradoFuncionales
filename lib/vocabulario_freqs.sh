@@ -58,5 +58,5 @@ salida_vocab="${salida}_vocab"
 
 # AQUI COMIENZA EL PROGRAMA
 
-cat $entrada | tr [:space:] "\n" | tr -s [:space:] | sort \
+cat $entrada | tr [:space:] "\n" | tr -s [:space:] | LC_ALL=C sort \
 | if [[ $flag_count == true ]]; then uniq -c | sort -rn | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq | sort;fi > "$salida_vocab"
