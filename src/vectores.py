@@ -17,19 +17,26 @@ def lector_par(archivo_pares):
 	while True:	# lo que se busca es que la lectura tenga sentido
 		lista_valores=archivo_pares.readline().strip().split()
 		if not lista_valores: return False, False, False	# Si ya se acabó el archivo, regresa puro falso para terminar el loop
-		if len(lista_valores) != 3 : continue	# hay entradas erroneas, esto es necesario
+		if len(lista_valores) != 3: continue	# hay entradas erroneas, esto es necesario
+		break
 	freq=int(lista_valores[0])
 	palabra=lista_valores[1]
 	funcional=lista_valores[2]
 	return freq,palabra,funcional
 
-def main(args):
+def main():
 	
 	freq1,palabra1,funcional1=lector_par(archivo_pares1)	# Primera lectura
 	freq2,palabra2,funcional2=lector_par(archivo_pares2)
 	
 	for palabra_vocabulario in archivo_vocabulario:	# Recorrido para armar el vector de cada una de las palabras del vocabulario
+		
+		palabra_vocabulario=palabra_vocabulario.strip().split() # Esta parte es para limpiar cualquier palabra que venga con ruido
+		if not palabra_vocabulario: continue
+		palabra_vocabulario=palabra_vocabulario[0]
+		
 		if palabra_vocabulario in lista_funcionales: continue
+		
 		vector=np.zeros(dimension_funcionales)
 		
 		while freq1 or palabra1 or funcional1:	# Recorrido para el primer archivo
@@ -62,6 +69,7 @@ if __name__ == '__main__':
 		sys.exit(1)
 	
 	# DEFINICIÓN DE VARIABLES GENERALES
+	args=sys.argv
 	
 	min_apariciones=1	# Parametros para ignorar pares con pocas apariciones
 	min_suma=1			# Parámetro para ignorar palabras con pocas apariciones totales
@@ -87,4 +95,4 @@ if __name__ == '__main__':
 	
 	# LLAMADA A MAIN
 	
-	sys.exit(main(sys.argv))
+	sys.exit(main())
