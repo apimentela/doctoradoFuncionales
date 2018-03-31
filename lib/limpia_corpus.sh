@@ -117,7 +117,7 @@ export salida
 function main() {
 ##	Esta es la función principal del programa
 #	utiliza las banderas de las opciones para hacer el procedimiento de cada una de las limpiezas.
-	cat "$1" \
+	cat "$1" | iconv -f utf-8 -t utf-8 -c \
 	| if [[ $flag_wiki == true ]]; then sed -e 's|^</*doc.*$||g'; else cat; fi \
 	| if [[ $flag_parentesis == false ]]; then sed -e 's|([^)]*)||g'; else cat; fi \
 	| if [[ $flag_punct == false ]]; then sed -e 's|[[:punct:]]||g'; else cat; fi \

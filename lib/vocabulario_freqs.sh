@@ -57,6 +57,7 @@ salida_freqs="${salida}_freqs"
 salida_vocab="${salida}_vocab"
 
 # AQUI COMIENZA EL PROGRAMA
-
-cat $entrada | tr [:space:] "\n" | tr -s [:space:] | LC_ALL=C sort \
-| if [[ $flag_count == true ]]; then uniq -c | sort -rn | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq | sort;fi > "$salida_vocab"
+export LC_ALL=C 
+# tr [:space:] "\n" NO FUNCIONA PORQUE HAY ESPACIOS RAROS QUE NO SON ESPACIOS Y NO SON DETECTADOS TAMPOCO
+cat $entrada | perl -C -pe "s/\s/\n/g" | tr -s [:space:] | sort \
+| if [[ $flag_count == true ]]; then uniq -c | sort -rn | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq ;fi > "$salida_vocab"

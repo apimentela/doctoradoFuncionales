@@ -146,23 +146,30 @@ fi
 #	el primer archivo es para la palabra funcional que aparece antes de
 #	el segundo archivo es para la palabra que aparece después de
 #	HAY QUE RECORDAR QUE ESTO ES PARA LA EXPRESIÓN QUE TOMA LAS PALABRA FUNCIONALES EN MEDIO
+#~ function vocabulario {
+	#~ # Esta funcion solo vuelve a ordenar el vocabulario, para que quede igual que los pares
+	#~ sort "$ruta/out/${salida}_vocab" > "$ruta/out/${salida}_vocabulario"
+#~ }
+export -f vocabulario
 function pares1 {
+export LC_ALL=C
 awk -F "," '{
 	if ($1 != ""){
 		n=split($2,mid, " ");
-		printf("%s %s\n",$1,mid[1]);
+		printf("%s %s\n",mid[1],$1);	# Aqui se busca al final la palabra (que es la primera de las que se encontraron entre palabras funcionales, SE MUESTRA SEGUNDA PORQUE ES MEJOR PARA ORDENARLA SIN RUIDO, ESTO ES IMPORTANTE), como primer dato, la palabra funcional de la izquierda (la pre)
 		}
-	}' "$ruta/out/${salida}_contextos" | sort | uniq -c > "$ruta/out/${salida}_pares1"
+	}' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
 }
 export -f pares1
 function pares2 {
+export LC_ALL=C
 awk -F "," '{
 	if ($3 != ""){
 		n=split($2,mid, " ");
-		printf("%s %s\n",$3,mid[n]);
+		printf("%s %s\n",mid[n],$3);	# Aqui se busca al final la palabra (que es última de las que se encontraron entre palabras funcionales) , como primer dato la palabra funcional de la derecha (la post)
 		}
-	}' "$ruta/out/${salida}_contextos" | sort | uniq -c > "$ruta/out/${salida}_pares2"
+	}' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c > "$ruta/out/${salida}_pares2"
 }
 export -f pares2
 
-parallel ::: pares1 pares2
+parallel ::: pares1 pares2 #vocabulario

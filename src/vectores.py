@@ -14,14 +14,18 @@ import numpy as np
 import csv
 
 def lector_par(archivo_pares):
+	indice_freq=0
+	indice_funcional=1
+	indice_palabra=2
 	while True:	# lo que se busca es que la lectura tenga sentido
 		lista_valores=archivo_pares.readline().strip().split()
 		if not lista_valores: return False, False, False	# Si ya se acabó el archivo, regresa puro falso para terminar el loop
 		if len(lista_valores) != 3: continue	# hay entradas erroneas, esto es necesario
+		if lista_valores[indice_palabra].strip() in lista_funcionales: continue	# NO SE DEBEN COMPARAR FUNCIONALES PORQUE LAS DEL VOCABULARIO TAMPOCO SERAN TOMADAS EN CUENTA
 		break
-	freq=int(lista_valores[0])
-	palabra=lista_valores[1]
-	funcional=lista_valores[2]
+	freq=int(lista_valores[indice_freq])
+	palabra=lista_valores[indice_palabra].strip()
+	funcional=lista_valores[indice_funcional].strip()
 	return freq,palabra,funcional
 
 def main():
@@ -32,25 +36,26 @@ def main():
 	for palabra_vocabulario in archivo_vocabulario:	# Recorrido para armar el vector de cada una de las palabras del vocabulario
 		
 		palabra_vocabulario=palabra_vocabulario.strip().split() # Esta parte es para limpiar cualquier palabra que venga con ruido
-		if not palabra_vocabulario: continue
+		if not palabra_vocabulario or len(palabra_vocabulario) != 1: continue
 		palabra_vocabulario=palabra_vocabulario[0]
 		
 		if palabra_vocabulario in lista_funcionales: continue
 		
-		vector=np.zeros(dimension_funcionales)
+		vector=np.zeros(dimension_funcionales*2)
 		
 		while freq1 or palabra1 or funcional1:	# Recorrido para el primer archivo
-			if palabra1 > palabra_vocabulario:
+			print(palabra_vocabulario,palabra1)
+			if palabra1 != palabra_vocabulario:
 				break
-			if freq1 <= min_apariciones or palabra1 < palabra_vocabulario:	# si la frecuencia es menor al mínimo, o bien, la palabra que se tiene es menor que la que va en vocabulario (no puede ser mayor por la condición anterior) pasa a la siguiente palabra
+			if freq1 <= min_apariciones:	# si la frecuencia es menor al mínimo, pasa a la siguiente palabra
 				freq1,palabra1,funcional1=lector_par(archivo_pares1)
 				continue
 			vector[lista_funcionales.index(funcional1)]=freq1
 			freq1,palabra1,funcional1=lector_par(archivo_pares1)
 		while freq2 or palabra2 or funcional2:	# Recorrido para el segundo archivo
-			if palabra2 > palabra_vocabulario:
+			if palabra2 != palabra_vocabulario:
 				break
-			if freq2 <= min_apariciones or palabra2 < palabra_vocabulario:
+			if freq2 <= min_apariciones:
 				freq2,palabra2,funcional2=lector_par(archivo_pares2)
 				continue
 			vector[dimension_funcionales+lista_funcionales.index(funcional2)]=freq2	# La diferencia de ambos archivos esta aqui, ya que forma la segunda parte del vector
@@ -58,7 +63,7 @@ def main():
 	
 		if np.sum(vector) > min_suma :
 			vector_normalizado=vector/np.sum(vector)
-			escritor_archivo_salida.writerow([palabra_vocabulario]+[vector_normalizado])
+			escritor_archivo_salida.writerow([palabra_vocabulario]+vector_normalizado.tolist())
 	
 	return 0
 
@@ -88,7 +93,7 @@ if __name__ == '__main__':
 	
 	escritor_archivo_salida=csv.writer(archivo_salida,delimiter=" ")
 	
-	lista_funcionales=archivo_funcionales.readlines()	# La lista de palabras funcionales no es tan larga y si conviene tenerla en memoria
+	lista_funcionales=archivo_funcionales.read().splitlines()	# La lista de palabras funcionales no es tan larga y si conviene tenerla en memoria
 	archivo_funcionales.close()
 	
 	dimension_funcionales=len(lista_funcionales)
