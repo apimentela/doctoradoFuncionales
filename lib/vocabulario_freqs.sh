@@ -59,5 +59,6 @@ salida_vocab="${salida}_vocab"
 # AQUI COMIENZA EL PROGRAMA
 export LC_ALL=C 
 # tr [:space:] "\n" NO FUNCIONA PORQUE HAY ESPACIOS RAROS QUE NO SON ESPACIOS Y NO SON DETECTADOS TAMPOCO
-cat $entrada | perl -C -pe "s/\s/\n/g" | tr -s [:space:] | sort \
-| if [[ $flag_count == true ]]; then uniq -c | sort -rn | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq ;fi > "$salida_vocab"
+# grep -v $'[\xc2\x80-\xc2\xa0]' ESTA FUNCION LA PONGO PARA QUE SE ELIMINEN UNOS CARACTERES QUE NO PUEDO ELIMINAR CON NADA GENERAL....
+cat $entrada | perl -C -pe "s/\s/\n/g" | tr -s [:space:] tee "${salida}_full" | sort \
+| if [[ $flag_count == true ]]; then uniq -c | sort -rn | grep -v $'[\xc2\x80-\xc2\xa0]' | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq | grep -v $'[\xc2\x80-\xc2\xa0]';fi > "$salida_vocab"
