@@ -21,6 +21,11 @@ function usage {
     echo "	-r, --raw
 		Desactiva la cuenta de frecuencias"
 }
+function post_perl {
+	export LC_ALL=C sort
+	cat | tee "${salida}_full" \
+	| if [[ $flag_count == true ]]; then uniq -c | sort -rn | grep -v $'[\xc2\x80-\xc2\xa0]' | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq | grep -v $'[\xc2\x80-\xc2\xa0]';fi > "$salida_vocab"
+}
 
 # Transform long options to short ones
 for arg in "$@"; do
@@ -35,7 +40,7 @@ for arg in "$@"; do
 done
 
 # Default behavior
-flag_count=true
+export flag_count=true
 
 # Parse short options
 OPTIND=1
@@ -52,13 +57,11 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # Opción final de la salida
 : ${salida:="salida_vocabulario"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
-entrada=$@
-salida_freqs="${salida}_freqs"
-salida_vocab="${salida}_vocab"
+export entrada=$@
+export salida_freqs="${salida}_freqs"
+export salida_vocab="${salida}_vocab"
 
 # AQUI COMIENZA EL PROGRAMA
-export LC_ALL=C 
 # tr [:space:] "\n" NO FUNCIONA PORQUE HAY ESPACIOS RAROS QUE NO SON ESPACIOS Y NO SON DETECTADOS TAMPOCO
 # grep -v $'[\xc2\x80-\xc2\xa0]' ESTA FUNCION LA PONGO PARA QUE SE ELIMINEN UNOS CARACTERES QUE NO PUEDO ELIMINAR CON NADA GENERAL....
-cat $entrada | perl -C -pe "s/\s/\n/g" | tr -s [:space:] tee "${salida}_full" | sort \
-| if [[ $flag_count == true ]]; then uniq -c | sort -rn | grep -v $'[\xc2\x80-\xc2\xa0]' | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq | grep -v $'[\xc2\x80-\xc2\xa0]';fi > "$salida_vocab"
+cat $entrada | perl -C -pe "s/\s/\n/g" | tr -s [:space:] | post_perl
