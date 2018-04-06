@@ -22,8 +22,8 @@ function usage {
 		Desactiva la cuenta de frecuencias"
 }
 function post_perl {
-	export LC_ALL=C sort
-	cat | tee "${salida}_full" \
+	export LC_ALL=C
+	cat | sort | tee "${salida}_full" \
 	| if [[ $flag_count == true ]]; then uniq -c | sort -rn | grep -v $'[\xc2\x80-\xc2\xa0]' | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq | grep -v $'[\xc2\x80-\xc2\xa0]';fi > "$salida_vocab"
 }
 
