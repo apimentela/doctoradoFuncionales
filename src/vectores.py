@@ -30,21 +30,23 @@ def lector_par(archivo_pares):
 
 def main():
 	
+	palabra_anterior=""
+	
 	freq1,palabra1,funcional1=lector_par(archivo_pares1)	# Primera lectura
 	freq2,palabra2,funcional2=lector_par(archivo_pares2)
 	
 	for palabra_vocabulario in archivo_vocabulario:	# Recorrido para armar el vector de cada una de las palabras del vocabulario
 		
 		palabra_vocabulario=palabra_vocabulario.strip().split() # Esta parte es para limpiar cualquier palabra que venga con ruido
-		if not palabra_vocabulario or len(palabra_vocabulario) != 1: continue
+		if not palabra_vocabulario or len(palabra_vocabulario) != 1 or palabra_vocabulario == palabra_anterior: continue
 		palabra_vocabulario=palabra_vocabulario[0]
+		palabra_anterior=palabra_vocabulario
 		
 		if palabra_vocabulario in lista_funcionales: continue
 		
 		vector=np.zeros(dimension_funcionales*2)
 		
 		while freq1 or palabra1 or funcional1:	# Recorrido para el primer archivo
-			print(palabra_vocabulario,palabra1)
 			if palabra1 != palabra_vocabulario:
 				break
 			if freq1 <= min_apariciones:	# si la frecuencia es menor al mínimo, pasa a la siguiente palabra
