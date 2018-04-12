@@ -5,3 +5,11 @@ Ejemplo de uso:
 bash src/preprocesamiento.sh -S 50000 -s 50000 -h 50 esWiki corpus/wiki_00
 
 (hay que recordar correr "parallel --record-env" antes de la primera vez que se ejecuta)
+
+Para la limipieza de las novelas electronicas se están usando las siguientes opciones:
+--no-chapters-in-toc
+--enable-heuristics
+--unsmarten-punctuation
+--max-line-length=0
+--txt-output-formatting=plain
+--no-inline-fb2-toc *si es fb2
