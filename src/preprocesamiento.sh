@@ -16,6 +16,8 @@
 ##	DEPENDENCIAS
 #	- parallel
 
+#FIXME: Hay un error, esto no funciona si se le da como entrada un corpus ya dividido
+
 nombre_programa="$BASH_SOURCE"
 #export LC_ALL=C	# Esto es necesario para que el sort funcione bien con los caracteres raros
 

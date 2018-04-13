@@ -24,7 +24,7 @@ def lector_vectores():
 def main():
 	# #############################################################################
 	# Compute DBSCAN
-	db = DBSCAN(eps=0.2, min_samples=1000).fit(vectores)
+	db = DBSCAN(eps=0.5, min_samples=100).fit(vectores)
 	core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 	core_samples_mask[db.core_sample_indices_] = True
 	labels = db.labels_
@@ -47,11 +47,11 @@ def main():
 
 		class_member_mask = (labels == k)
 
-		xy = X[class_member_mask & core_samples_mask]
+		xy = vectores[class_member_mask & core_samples_mask]
 		plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
 				 markeredgecolor='k', markersize=14)
 
-		xy = X[class_member_mask & ~core_samples_mask]
+		xy = vectores[class_member_mask & ~core_samples_mask]
 		plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
 				 markeredgecolor='k', markersize=6)
 
@@ -63,7 +63,7 @@ def main():
 if __name__ == '__main__':
 	import sys
 	args=sys.argv
-	archivo_vectores= "../out/esWiki_vectores" #args[1]
+	archivo_vectores= args[1]
 	vectores=lector_vectores()
 	vectores = StandardScaler().fit_transform(vectores)
 	sys.exit(main())
