@@ -65,7 +65,9 @@ def main():
 	
 		if np.sum(vector) > min_suma :
 			vector_normalizado=vector/np.sum(vector)
-			escritor_archivo_salida.writerow([palabra_vocabulario]+vector_normalizado.tolist())
+			#~ escritor_archivo_salida.writerow([palabra_vocabulario]+vector_normalizado.tolist())
+			vector_completo=np.append(vector_normalizado,[np.sum(vector)])
+			escritor_archivo_salida.writerow([palabra_vocabulario]+vector_completo.tolist())
 	
 	return 0
 
