@@ -5,65 +5,65 @@
 #	Este programa es el encargado de obtener clusters a partir de los
 #	vectores. Recibe como parámetro el nombre del archivo con los vectores
 
-import numpy as np
-import matplotlib.pyplot as plt
+from __future__ import division
+from sklearn.cluster import KMeans
+from numbers import Number
+from pandas import DataFrame
+import sys, codecs, numpy
 
-from sklearn.cluster import DBSCAN
-from sklearn import metrics
-from sklearn.preprocessing import StandardScaler
+class autovivify_list(dict):
+  '''A pickleable version of collections.defaultdict'''
+  def __missing__(self, key):
+    '''Given a missing key, set initial value to an empty list'''
+    value = self[key] = []
+    return value
 
-def lector_vectores():
-	vectores=[]
-	with open(archivo_vectores,"r") as archivo:
-		for linea in archivo:
-			elementos=linea.split()
-			#~ vectores[elementos[0]]=elementos[1:]
-			vectores.append(elementos[1:])
-	return vectores
+  def __add__(self, x):
+    '''Override addition for numeric types when self is empty'''
+    if not self and isinstance(x, Number):
+      return x
+    raise ValueError
 
-def main():
-	# #############################################################################
-	# Compute DBSCAN
-	db = DBSCAN(eps=0.5, min_samples=100).fit(vectores)
-	core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
-	core_samples_mask[db.core_sample_indices_] = True
-	labels = db.labels_
-	
-	# Number of clusters in labels, ignoring noise if present.
-	n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
-	print('Estimated number of clusters: %d' % n_clusters_)
-	
-	# #############################################################################
-	# Plot result
+  def __sub__(self, x):
+    '''Also provide subtraction method'''
+    if not self and isinstance(x, Number):
+      return -1 * x
+    raise ValueError
 
-	# Black removed and is used for noise instead.
-	unique_labels = set(labels)
-	colors = [plt.cm.Spectral(each)
-			  for each in np.linspace(0, 1, len(unique_labels))]
-	for k, col in zip(unique_labels, colors):
-		if k == -1:
-			# Black used for noise.
-			col = [0, 0, 0, 1]
+def build_word_vector_matrix(vector_file, n_words=67207):
+  '''Return the vectors and labels for the first n_words in vector file'''
+  numpy_arrays = []
+  labels_array = []
+  with codecs.open(vector_file, 'r', 'utf-8') as f:
+    for c, r in enumerate(f):
+      sr = r.split()
+      labels_array.append(sr[0])
+      numpy_arrays.append( numpy.array([float(i) for i in sr[1:]]) )
 
-		class_member_mask = (labels == k)
+      if c == n_words:
+        return numpy.array( numpy_arrays ), labels_array
 
-		xy = vectores[class_member_mask & core_samples_mask]
-		plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-				 markeredgecolor='k', markersize=14)
+  return numpy.array( numpy_arrays ), labels_array
 
-		xy = vectores[class_member_mask & ~core_samples_mask]
-		plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-				 markeredgecolor='k', markersize=6)
+def find_word_clusters(labels_array, cluster_labels):
+  '''Return the set of words in each cluster'''
+  cluster_to_words = autovivify_list()
+  for c, i in enumerate(cluster_labels):
+    cluster_to_words[ i ].append( labels_array[c] )
+  return cluster_to_words
 
-	plt.title('Estimated number of clusters: %d' % n_clusters_)
-	plt.show()
-	
-	return 0
+if __name__ == "__main__":
+  input_vector_file = sys.argv[1] # Vector file input (e.g. glove.6B.300d.txt)
+  #n_words = int(sys.argv[2]) # Number of words to analyze 
+  n_clusters = int( sys.argv[3] ) # Number of clusters to make
+  df, labels_array = build_word_vector_matrix(input_vector_file)#, n_words)
+  kmeans_model = KMeans(init='k-means++', n_clusters=n_clusters, n_init=10)
+  kmeans_model.fit(df)
 
-if __name__ == '__main__':
-	import sys
-	args=sys.argv
-	archivo_vectores= args[1]
-	vectores=lector_vectores()
-	vectores = StandardScaler().fit_transform(vectores)
-	sys.exit(main())
+  cluster_labels  = kmeans_model.labels_
+  cluster_inertia   = kmeans_model.inertia_
+  cluster_to_words  = find_word_clusters(labels_array, cluster_labels)
+
+  for c in cluster_to_words:
+    print cluster_to_words[c]
+    print "\n"
