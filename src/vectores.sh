@@ -12,4 +12,6 @@ ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit # AQUI COMIENZA EL PROGRAMA
 ruta=$(realpath ..)
 
-python3 vectores.py "$ruta/out/${prefijo_archivo}_vocab" "$ruta/out/${prefijo_archivo}_funcs" "$ruta/out/${prefijo_archivo}_pares1" "$ruta/out/${prefijo_archivo}_pares2" "$ruta/out/${prefijo_archivo}_vectores"
+python3 vectores.py "$ruta/out/${prefijo_archivo}_vocab" "$ruta/out/${prefijo_archivo}_funcs" "$ruta/out/${prefijo_archivo}_pares1" "$ruta/out/${prefijo_archivo}_pares2" "$ruta/out/${prefijo_archivo}_vectores_temp"
+sort -nr -k 102 "$ruta/out/${prefijo_archivo}_vectores_temp" | awk '{$NF--; print}' > "$ruta/out/${prefijo_archivo}_vectores"	#FIXME: es mejor que el número entre como parámetro para el k del sort
+rm "$ruta/out/${prefijo_archivo}_vectores_temp"

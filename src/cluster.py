@@ -64,6 +64,11 @@ if __name__ == "__main__":
   cluster_inertia   = kmeans_model.inertia_
   cluster_to_words  = find_word_clusters(labels_array, cluster_labels)
 
-  for c in cluster_to_words:
-    print cluster_to_words[c]
-    print "\n"
+  with open ("../out/clusters_"+str(n_clusters),"w") as salida:
+	  for c in cluster_to_words:
+		  print >> salida, cluster_to_words[c]
+		  print >> salida, "\n"
+
+  #~ for c in cluster_to_words:
+    #~ print cluster_to_words[c]
+    #~ print "\n"
