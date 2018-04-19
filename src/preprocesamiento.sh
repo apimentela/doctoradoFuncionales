@@ -152,7 +152,10 @@ fi
 	#~ # Esta funcion solo vuelve a ordenar el vocabulario, para que quede igual que los pares
 	#~ sort "$ruta/out/${salida}_vocab" > "$ruta/out/${salida}_vocabulario"
 #~ }
-export -f vocabulario
+#~ export -f vocabulario
+
+#FIXME: Esto ya no es preprocesamiento
+
 function pares1 {
 export LC_ALL=C
 awk -F "," '{

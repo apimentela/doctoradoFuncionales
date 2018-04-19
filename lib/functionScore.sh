@@ -56,4 +56,4 @@ entrada="$1"
 
 # AQUI COMIENZA EL PROGRAMA
 
-awk -v n=$n -v p=$p '{printf "%f %s\n", ($1*n)/(length($2)*p+1),$2}' "${entrada}" | sort -rn > "${salida}"
+awk -v n=$n -v d=$d '{printf "%f %s\n", ($1*n)/(length($2)*d),$2}' "${entrada}" | sort -rn > "${salida}"
