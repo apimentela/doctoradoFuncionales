@@ -47,6 +47,7 @@ def main():
 		vector=np.zeros(dimension_funcionales*2)
 		
 		while freq1 or palabra1 or funcional1:	# Recorrido para el primer archivo
+			print(palabra_vocabulario,palabra1)
 			if palabra1 != palabra_vocabulario:
 				break
 			if freq1 <= min_apariciones:	# si la frecuencia es menor al mínimo, pasa a la siguiente palabra

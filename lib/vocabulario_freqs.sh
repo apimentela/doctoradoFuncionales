@@ -24,7 +24,8 @@ function usage {
 function post_perl {
 	export LC_ALL=C
 	cat | sort \
-	| if [[ $flag_count == true ]]; then uniq -c | sort -rn | grep -v $'[\xc2\x80-\xc2\xa0]' | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq | grep -v $'[\xc2\x80-\xc2\xa0]';fi > "$salida_vocab"
+	| if [[ $flag_count == true ]]; then uniq -c | sort -rn | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq ;fi > "$salida_vocab"
+	#~ | if [[ $flag_count == true ]]; then uniq -c | sort -rn | grep -v $'[\xc2\x80-\xc2\xa0]' | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort; else uniq | grep -v $'[\xc2\x80-\xc2\xa0]';fi > "$salida_vocab"
 }
 
 # Transform long options to short ones

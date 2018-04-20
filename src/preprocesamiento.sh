@@ -164,6 +164,7 @@ awk -F "," '{
 		printf("%s %s\n",mid[1],$1);	# Aqui se busca al final la palabra (que es la primera de las que se encontraron entre palabras funcionales, SE MUESTRA SEGUNDA PORQUE ES MEJOR PARA ORDENARLA SIN RUIDO, ESTO ES IMPORTANTE), como primer dato, la palabra funcional de la izquierda (la pre)
 		}
 	}' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
+	#~ }' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
 }
 export -f pares1
 function pares2 {
@@ -174,6 +175,7 @@ awk -F "," '{
 		printf("%s %s\n",mid[n],$3);	# Aqui se busca al final la palabra (que es última de las que se encontraron entre palabras funcionales) , como primer dato la palabra funcional de la derecha (la post)
 		}
 	}' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares2"
+	#~ }' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares2"
 }
 export -f pares2
 
