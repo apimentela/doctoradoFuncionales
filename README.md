@@ -2,7 +2,9 @@
 
 Ejemplo de uso:
 
-bash src/preprocesamiento.sh -S 50000 -s 50000 -h 50 esWiki corpus/wiki_00
+bash src/preprocesamiento.sh -s 50000 esWiki corpus/wiki_00
+bash src/functionScore.sh -k 50 esWiki 
+bash src/vectores.sh -sp esWiki 
 
 (hay que recordar correr "parallel --record-env" antes de la primera vez que se ejecuta)
 

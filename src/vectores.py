@@ -77,8 +77,8 @@ def main():
 
 if __name__ == '__main__':
 	import sys
-	if len(sys.argv) != 6:
-		print ("ERROR: en el numero de archivos de entrada, deben ser 5")
+	if len(sys.argv) != 6 or len(sys.argv) != 7:
+		print ("ERROR: en el numero de archivos de entrada, deben ser 5 o 6")
 		sys.exit(1)
 	
 	# DEFINICIÓN DE VARIABLES GENERALES

@@ -7,8 +7,10 @@
 #	Este programa también llama al programa de python que arma los vectores de
 #	las palabras una vez que se ha llevado a cabo el preprocesamiento
 #	se recibe como entrada el prefijo del archivo a procesar
+#	La salida de la lista de contextos funcionales se encontrará en ../out/SUFIJO_SALIDA_contextos
 ##	DEPENDENCIAS
 #	- parallel
+#	- contextos_funcs.pl
 
 nombre_programa="$BASH_SOURCE"
 
@@ -19,30 +21,32 @@ function usage {
     echo "Uso: $nombre_programa [OPCIÓN]... SUFIJO_IO"
     echo "	-s
 		Establece si se trata de un archivo dividido o no, por defecto
-		esta opción está desactivada"
+		esta opción está desactivada, esta opción solo tiene efecto cuando
+		se va a hacer el preprocesamiento para hacer la lectura de la carpeta
+		en lugar del archivo único"
 	echo "	-k DIM
 		Establece el número de dimensiones que se espera obtener del vector
 		OJO: este número debe ser igual o menor al que se tenga de palabras
 		funcionales. Este número indica cuántas palabras funcionales se van
 		a usar, por lo que el número de dimensiones será del doble"
-	echo "	-e REMPLAZO
-		Recibe como parámetro la etiqueta con la que se van a reemplazar
-		todos los números, por defecto esta opción está activada
-		con la etiqueta DIGITO. Es útil para filtrarse y quitarse de la lista
-		de palabras funcionales"
+	echo "	-p
+		Establece si es necesario hacer el preprocesamiento de vectores,
+		esto se refiere a los contextos de los que finalmente se obtendran
+		dichos vectores, en caso de duda activar esta opción, por defecto
+		se encuentra desactivada"
 }
 # Default behavior
-flag_splitted=false
-etiqueta_DIGITO="DIGITO"
+export flag_splitted=false
+export flag_pre=false
 
 # Parse short options
 OPTIND=1
-while getopts "sk:e:" opt
+while getopts "sk:p" opt
 do
   case "$opt" in
 	"s") flag_splitted=true;;
 	"k") dimension="$OPTARG";;
-	"e") etiqueta_DIGITO="$OPTARG" ;;
+	"p") flag_pre=true ;;
 	":") echo "La opción -$OPTARG necesita un argumento";;
 	"?") echo "Opción desconocida: -$OPTARG" >&2 ; usage ; exit 1;;
   esac
@@ -52,12 +56,48 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 #~ dir_io=$(realpath "$1")
 #~ dir_io="${dir_salida%/*}"
 #~ prefijo_archivo="${1##*/}"
-prefijo_archivo="${1##*/}"
+export prefijo_archivo="${1}"
+export salida="$prefijo_archivo"
 
-ruta=$(realpath "$BASH_SOURCE")
-cd "${ruta%/*}" || exit # AQUI COMIENZA EL PROGRAMA
+export ruta=$(realpath "$BASH_SOURCE")
+cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 
+function prevectores {
+	if [[ $flag_splitted == true ]]; then parallel --linebuffer perl -C contextos_funcs.pl ::: "$ruta/out/${salida}_funcs" ::: "$ruta/corpus/split_out"/* > "$ruta/out/${salida}_contextos"
+	else perl -C contextos_funcs.pl "$ruta/out/${salida}_funcs" "$ruta/corpus/${salida}_out" > "$ruta/out/${salida}_contextos"
+	fi
+	parallel ::: pares1 pares2
+}
+function pares1 {
+export LC_ALL=C
+awk -F "," '{
+	if ($1 != ""){
+		n=split($2,mid, " ");
+		printf("%s %s\n",mid[1],$1);	# Aqui se busca al final la palabra (que es la primera de las que se encontraron entre palabras funcionales, SE MUESTRA SEGUNDA PORQUE ES MEJOR PARA ORDENARLA SIN RUIDO, ESTO ES IMPORTANTE), como primer dato, la palabra funcional de la izquierda (la pre)
+		}
+	}' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x93]' > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
+	#~ }' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
+}
+export -f pares1
+function pares2 {
+export LC_ALL=C
+awk -F "," '{
+	if ($3 != ""){
+		n=split($2,mid, " ");
+		printf("%s %s\n",mid[n],$3);	# Aqui se busca al final la palabra (que es última de las que se encontraron entre palabras funcionales) , como primer dato la palabra funcional de la derecha (la post)
+		}
+	}' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x93]'  > "$ruta/out/${salida}_pares2"
+	#~ }' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares2"
+}
+export -f pares2
+
+
+# AQUI COMIENZA EL PROGRAMA
+
+if [[ $flag_pre == true ]]; then prevectores; fi
+
+if [ -z "$dimension" ]; then dimension=$(wc -l "$ruta/out/${prefijo_archivo}_funcs"); fi	 # si no se especifica una dimension, podemos usar la longitud de las palabras funcionales
 python3 vectores.py "$ruta/out/${prefijo_archivo}_vocab" "$ruta/out/${prefijo_archivo}_funcs" "$ruta/out/${prefijo_archivo}_pares1" "$ruta/out/${prefijo_archivo}_pares2" "$ruta/out/${prefijo_archivo}_vectores_temp" "$dimension"
 dimension_sort=$(( dimension * 2 + 2 ))	# El vector es del doble de las palabras funcionales a usar, la suma de otros dos es 1 para la palabra y otro para la suma del total de apariciones que es la que usa el sort
 sort -nr -k "$dimension_sort" "$ruta/out/${prefijo_archivo}_vectores_temp" | awk '{$NF--; print}' > "$ruta/out/${prefijo_archivo}_vectores"
