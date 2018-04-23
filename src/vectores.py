@@ -9,6 +9,9 @@
 #	funcionales, como tercer parámetro necesita la lista de pares PRE,
 #	como cuarto parámetro recibe la lista de pares POST y por último
 #	recibe el archivo de salida en el que se van a guardar los vectores en texto
+#	recibe un último parámetro opcional para determinar el número de
+#	dimensiones del vector, este número no puede ser mayor que las palbras
+#	en el archivo de palabras funcionales. El vector resultante será del doble.
 
 import numpy as np
 import csv
@@ -47,7 +50,7 @@ def main():
 		vector=np.zeros(dimension_funcionales*2)
 		
 		while freq1 or palabra1 or funcional1:	# Recorrido para el primer archivo
-			print(palabra_vocabulario,palabra1)
+			#~ print(palabra_vocabulario,palabra1)	# DEBUG
 			if palabra1 != palabra_vocabulario:
 				break
 			if freq1 <= min_apariciones:	# si la frecuencia es menor al mínimo, pasa a la siguiente palabra
@@ -81,8 +84,8 @@ if __name__ == '__main__':
 	# DEFINICIÓN DE VARIABLES GENERALES
 	args=sys.argv
 	
-	min_apariciones=1	# Parametros para ignorar pares con pocas apariciones
-	min_suma=1			# Parámetro para ignorar palabras con pocas apariciones totales
+	min_apariciones=1	# Parametros para ignorar pares con pocas apariciones	#TODO: dar opción de entrada
+	min_suma=1			# Parámetro para ignorar palabras con pocas apariciones totales	#TODO: dar opción de entrada
 	
 	nombre_archivo_vocabulario=args[1]
 	nombre_archivo_funcionales=args[2]
@@ -90,6 +93,9 @@ if __name__ == '__main__':
 	nombre_archivo_pares2=args[4]
 	nombre_archivo_salida=args[5]
 	
+	if len(args) > 6 : num_dimensiones=args[6]	#TODO: dar opción de entrada
+	else: num_dimensiones=0
+		
 	archivo_vocabulario=open(nombre_archivo_vocabulario,"r")
 	archivo_funcionales=open(nombre_archivo_funcionales,"r")
 	archivo_pares1=open(nombre_archivo_pares1,"r")
@@ -100,6 +106,8 @@ if __name__ == '__main__':
 	
 	lista_funcionales=archivo_funcionales.read().splitlines()	# La lista de palabras funcionales no es tan larga y si conviene tenerla en memoria
 	archivo_funcionales.close()
+	if not num_dimensiones: num_dimensiones=len(lista_funcionales)
+	lista_funcionales=lista_funcionales[:num_dimensiones]
 	
 	dimension_funcionales=len(lista_funcionales)
 	
