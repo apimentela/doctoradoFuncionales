@@ -77,7 +77,7 @@ def main():
 
 if __name__ == '__main__':
 	import sys
-	if len(sys.argv) != 6 or len(sys.argv) != 7:
+	if len(sys.argv) != 6 and len(sys.argv) != 7:
 		print ("ERROR: en el numero de archivos de entrada, deben ser 5 o 6")
 		sys.exit(1)
 	
@@ -93,7 +93,7 @@ if __name__ == '__main__':
 	nombre_archivo_pares2=args[4]
 	nombre_archivo_salida=args[5]
 	
-	if len(args) > 6 : num_dimensiones=args[6]	#TODO: dar opción de entrada
+	if len(args) > 6 : num_dimensiones=int(args[6])	#TODO: dar opción de entrada
 	else: num_dimensiones=0
 		
 	archivo_vocabulario=open(nombre_archivo_vocabulario,"r")

@@ -97,8 +97,8 @@ export -f pares2
 
 if [[ $flag_pre == true ]]; then prevectores; fi
 
-if [ -z "$dimension" ]; then dimension=$(wc -l "$ruta/out/${prefijo_archivo}_funcs"); fi	 # si no se especifica una dimension, podemos usar la longitud de las palabras funcionales
+if [ -z "$dimension" ]; then dimension=$(cat "$ruta/out/${prefijo_archivo}_funcs" | wc -l); fi	 # si no se especifica una dimension, podemos usar la longitud de las palabras funcionales
 python3 vectores.py "$ruta/out/${prefijo_archivo}_vocab" "$ruta/out/${prefijo_archivo}_funcs" "$ruta/out/${prefijo_archivo}_pares1" "$ruta/out/${prefijo_archivo}_pares2" "$ruta/out/${prefijo_archivo}_vectores_temp" "$dimension"
 dimension_sort=$(( dimension * 2 + 2 ))	# El vector es del doble de las palabras funcionales a usar, la suma de otros dos es 1 para la palabra y otro para la suma del total de apariciones que es la que usa el sort
-sort -nr -k "$dimension_sort" "$ruta/out/${prefijo_archivo}_vectores_temp" | awk '{$NF--; print}' > "$ruta/out/${prefijo_archivo}_vectores"
+sort -nr -k "$dimension_sort" "$ruta/out/${prefijo_archivo}_vectores_temp" | awk '{NF--; print}' > "$ruta/out/${prefijo_archivo}_vectores"
 rm "$ruta/out/${prefijo_archivo}_vectores_temp"
