@@ -66,7 +66,8 @@ if __name__ == "__main__":
 
   with open ("../out/clusters_"+str(n_clusters),"w") as salida:
 	  for c in cluster_to_words:
-		  print >> salida, cluster_to_words[c]
+		  for w in cluster_to_words[c]:
+			print >> salida, " " + w.encode("utf-8") + " ," ,
 		  print >> salida, "\n"
 
   #~ for c in cluster_to_words:
