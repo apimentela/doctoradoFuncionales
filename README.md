@@ -4,7 +4,9 @@ Ejemplo de uso:
 
 bash src/preprocesamiento.sh -s 50000 esWiki corpus/wiki_00
 bash src/functionScore.sh -k 50 esWiki 
-bash src/vectores.sh -sp esWiki 
+bash src/vectores.sh -sp esWiki
+
+parallel "bash src/ventanas_funcionales.sh corpus/novelas_limpias.txt" :::: out/novelas_funcs
 
 (hay que recordar correr "parallel --record-env" antes de la primera vez que se ejecuta)
 
