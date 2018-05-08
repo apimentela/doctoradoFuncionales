@@ -42,5 +42,5 @@ cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 
 if [[ $flag_splitted == true ]]; then parallel --linebuffer perl -C multi_funcs.pl ::: "$ruta/out/${prefijo_archivo}_funcs" ::: "$ruta/corpus/split_out"/* 
-else perl -C contextos_funcs.pl "$ruta/out/${prefijo_archivo}_funcs" "$ruta/corpus/${prefijo_archivo}_out" 
-fi | sort | uniq -c | sort -rn > "$ruta/out/ventanas_funcs/$palabra_multifuncs"
+else perl -C multi_funcs.pl "$ruta/out/${prefijo_archivo}_funcs" "$ruta/corpus/${prefijo_archivo}_out" 
+fi | sort | uniq -c | sort -rn > "$ruta/out/${prefijo_archivo}_multifuncs"
