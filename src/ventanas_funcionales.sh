@@ -10,13 +10,21 @@
 #	- parallel
 
 nombre_programa="$BASH_SOURCE"
-archivo_entrada="$1"
-export palabra_funcional="$2"	# Es necesario exportarla para usarla en perl
+export archivo_entrada="$1"
+export archivo_palabras_funcionales="$2"
+#~ palabra_funcional="$3"
 
-ruta=$(realpath "$BASH_SOURCE")
+export ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 
 if [[ ! -d "$ruta/out/ventanas_funcs" ]]; then mkdir "$ruta/out/ventanas_funcs"; fi
 
-perl -C -ne 'use utf8;/(\w+ '"$palabra_funcional"' \w+)/; print "$1\n"' "$ruta/$archivo_entrada" | sort | uniq -c | sort -rn > "$ruta/out/ventanas_funcs/$palabra_funcional"
+function main {
+	palabra_funcional="$1"
+	perl -C -ne 'use utf8;/(\w+ '"$palabra_funcional"' \w+)/; print "$1\n"' "$ruta/$archivo_entrada" | sort | uniq -c | sort -rn | parallel "python3 ventanas_funcionales.py $ruta/archivo_palabras_funcionales" > "$ruta/out/ventanas_funcs/$palabra_funcional"
+	#~ perl -C -ne 'use utf8;/(\w+ '"$palabra_funcional"' \w+)/; print "$1\n"' "$ruta/$archivo_entrada" | parallel echo  #"python3 ventanas_funcionales.py $ruta/archivo_palabras_funcionales" #> "$ruta/out/ventanas_funcs/$palabra_funcional"
+}
+export -f main
+
+parallel main :::: "$ruta/$archivo_palabras_funcionales"
