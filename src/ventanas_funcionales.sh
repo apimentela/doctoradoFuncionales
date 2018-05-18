@@ -22,8 +22,10 @@ if [[ ! -d "$ruta/out/ventanas_funcs" ]]; then mkdir "$ruta/out/ventanas_funcs";
 
 function main {
 	palabra_funcional="$1"
-	perl -C -ne 'use utf8;/(\w+ '"$palabra_funcional"' \w+)/; print "$1\n"' "$ruta/$archivo_entrada" | sort | uniq -c | sort -rn | parallel "python3 ventanas_funcionales.py $ruta/archivo_palabras_funcionales" > "$ruta/out/ventanas_funcs/$palabra_funcional"
-	#~ perl -C -ne 'use utf8;/(\w+ '"$palabra_funcional"' \w+)/; print "$1\n"' "$ruta/$archivo_entrada" | parallel echo  #"python3 ventanas_funcionales.py $ruta/archivo_palabras_funcionales" #> "$ruta/out/ventanas_funcs/$palabra_funcional"
+	while read ventana; do
+		python3 ventanas_funcionales.py "$ruta/$archivo_palabras_funcionales" "$ventana"
+	done < <(perl -C -ne 'use utf8;/(\w+ '"$palabra_funcional"' \w+)/; print "$1\n"' "$ruta/$archivo_entrada" | sort | uniq -c | sort -rn) \
+	> "$ruta/out/ventanas_funcs/$palabra_funcional"
 }
 export -f main
 

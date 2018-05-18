@@ -20,7 +20,7 @@ def main():
 
 if __name__ == '__main__':
 	import sys
-	if len(sys.argv) != 2:
+	if len(sys.argv) != 3:
 		print ("ERROR: en el numero de archivos de entrada, deben ser 2")
 		sys.exit(1)
 	
