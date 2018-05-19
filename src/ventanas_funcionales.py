@@ -10,7 +10,7 @@
 def main():
 	
 	ventana_dividida=ventana_funcional.strip().split()
-	ventana_unida=" ".join(ventana_dividia[1:])
+	ventana_unida=" ".join(ventana_dividida[1:])
 	for funcional in lista_funcionales:
 		if ventana_unida.startswith(funcional) or ventana_unida.endswith(funcional):
 			return 0
@@ -35,8 +35,6 @@ if __name__ == '__main__':
 	lista_funcionales=archivo_funcionales.read().splitlines()	# La lista de palabras funcionales no es tan larga y si conviene tenerla en memoria
 	archivo_funcionales.close()
 	
-	print(nombre_archivo_funcionales)
-	print(ventana_funcional)
 	# LLAMADA A MAIN
 	
 	sys.exit(main())
