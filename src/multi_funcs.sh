@@ -43,6 +43,6 @@ ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 
-if [[ $flag_splitted == true ]]; then parallel --linebuffer perl -C multi_funcs.pl ::: "$ruta/out/${prefijo_archivo}_funcs1" ::: "$ruta/corpus/split_out"/* 
+if [[ $flag_splitted == true ]]; then parallel --linebuffer perl -C multi_funcs.pl ::: "$ruta/out/${prefijo_archivo}_funcs1" ::: "$ruta/corpus/split_${prefijo_archivo}_out"/* 
 else perl -C multi_funcs.pl "$ruta/out/${prefijo_archivo}_funcs1" "$ruta/corpus/${prefijo_archivo}_out" 
 fi | sort | uniq -c | sort -rn > "$ruta/out/${prefijo_archivo}_multifuncs"
