@@ -9,16 +9,23 @@
 ##	DEPENDENCIAS
 #	- parallel
 
+bash src/ventanas_funcionales.sh corpus/novelas_out out/novelas_funcs
+
 nombre_programa="$BASH_SOURCE"
-export archivo_entrada="$1"
-export archivo_palabras_funcionales="$2"
-#~ palabra_funcional="$3"
+
+#TODO: Lo de los archivos divididos
+#FIXME: LO DE LOS ARCHIVOS DIVIDIDOS!!
+export prefijo="$1"
+
+export archivo_entrada="corpus/${prefijo}_out"
+export archivo_palabras_funcionales="out/${prefijo}_funcs"
 
 export ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 
 if [[ ! -d "$ruta/out/ventanas_funcs" ]]; then mkdir "$ruta/out/ventanas_funcs"; fi
+if [[ -f "$ruta/out/${prefijo}_multifuncs_freqs" ]]; then rm "$ruta/out/${prefijo}_multifuncs_freqs"; fi
 
 function main {
 	palabra_funcional="$1"
@@ -26,6 +33,7 @@ function main {
 		python3 ventanas_funcionales.py "$ruta/$archivo_palabras_funcionales" "$ventana"
 	done < <(perl -C -ne 'use utf8;/(\w+ '"$palabra_funcional"' \w+)/; print "$1\n"' "$ruta/$archivo_entrada" | sort | uniq -c | sort -rn) \
 	> "$ruta/out/ventanas_funcs/$palabra_funcional"
+	wc -l "$ruta/out/ventanas_funcs/$palabra_funcional" >> "$ruta/out/${prefijo}_multifuncs_freqs"
 }
 export -f main
 

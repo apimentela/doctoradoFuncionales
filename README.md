@@ -9,7 +9,7 @@ bash src/vectores.sh -sp esWiki
 
 bash src/clusters.sh esWiki	# Esto arma muchos clusters a diferentes niveles
 
-bash src/ventanas_funcionales.sh corpus/novelas_out out/novelas_funcs
+bash src/ventanas_funcionales.sh novelas
 bash src/ventanas2graphs.sh
 
 (hay que recordar correr "parallel --record-env" antes de la primera vez que se ejecuta)
