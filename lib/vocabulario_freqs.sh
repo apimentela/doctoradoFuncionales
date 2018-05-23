@@ -4,6 +4,8 @@
 #	Este programa tiene el propósito de obtener el vocabulario de un corpus
 #	y opcionalmente de encontrar la frecuencia de cada una de las palabras del vocabulario
 #	de manera estándar hace ambas cosas
+##	DEPENDENCIAS
+#	- parallel
 
 nombre_programa="$BASH_SOURCE"
 
@@ -58,13 +60,25 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # Opción final de la salida
 : ${salida:="salida_vocabulario"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
-export entrada=$@
+entrada=$@
 export salida_freqs="${salida}_freqs"
 export salida_vocab="${salida}_vocab"
 
 export procesadores=$(nproc)
 
+
 # AQUI COMIENZA EL PROGRAMA
 # tr [:space:] "\n" NO FUNCIONA PORQUE HAY ESPACIOS RAROS QUE NO SON ESPACIOS Y NO SON DETECTADOS TAMPOCO
 # grep -v $'[\xc2\x80-\xc2\xa0]' ESTA FUNCION LA PONGO PARA QUE SE ELIMINEN UNOS CARACTERES QUE NO PUEDO ELIMINAR CON NADA GENERAL....
-cat $entrada | perl -C -pe "s/\s/\n/g" | tr -s [:space:] | post_perl
+
+function main() {
+##	Esta es la función principal del programa
+#	si es que se detectan muchos archivos de entrada para paralelización
+	entrada="$1"
+	cat "$entrada" | perl -C -pe "s/\s/\n/g" | tr -s [:space:]
+}
+export -f main
+
+if [ "$#" -gt 1 ]; then parallel main ::: $entrada
+else cat $entrada | perl -C -pe "s/\s/\n/g" | tr -s [:space:]
+fi | post_perl
