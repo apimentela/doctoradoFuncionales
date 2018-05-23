@@ -93,21 +93,21 @@ if [[ ! -d "$ruta/corpus" ]]; then mkdir "$ruta/corpus"; fi
 if [[ ! -d "$ruta/out" ]]; then mkdir "$ruta/out"; fi
 
 if [[ $flag_split == true ]]; then
-	if [[ ! -d "$ruta/corpus/split_${entrada_name}" ]]; then
-		mkdir -p "$ruta/corpus/split_${entrada_name}"
-		if [ "$#" -gt 1 ]; then cp -t "$ruta/corpus/split_${entrada_name}/" $entrada
-		else split -l "$split_LINES" "$entrada1" "$ruta/corpus/split_${entrada_name}/${entrada_name}_"
+	if [[ ! -d "$ruta/corpus/split_${salida}" ]]; then
+		mkdir -p "$ruta/corpus/split_${salida}"
+		if [ "$#" -gt 1 ]; then cp -t "$ruta/corpus/split_${salida}/" $entrada
+		else split -l "$split_LINES" "$entrada1" "$ruta/corpus/split_${salida}/${salida}_"
 		fi
 	else
 		echo "Se encontró un corpus ya dividido"
 	fi
-	entrada="$ruta/corpus/split_${entrada_name}/*"
+	entrada="$ruta/corpus/split_${salida}/*"
 fi
 
 if [[ $flag_split == true ]]; then
-	if [[ ! -d "$ruta/corpus/split_${entrada_name}_out" ]]; then mkdir -p "$ruta/corpus/split_${entrada_name}_out"; else echo "Se encontró un corpus ya limpiado y dividido"; flag_cleaned=true ; fi
-	if [[ $flag_cleaned == false ]]; then bash ../lib/limpia_corpus.sh -s "$split_LINES" -wo "$ruta/corpus/split_${entrada_name}_out/$salida" $entrada; fi
-	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}" "$ruta/corpus/split_${entrada_name}_out"/*
+	if [[ ! -d "$ruta/corpus/split_${salida}_out" ]]; then mkdir -p "$ruta/corpus/split_${salida}_out"; else echo "Se encontró un corpus ya limpiado y dividido"; flag_cleaned=true ; fi
+	if [[ $flag_cleaned == false ]]; then bash ../lib/limpia_corpus.sh -s "$split_LINES" -wo "$ruta/corpus/split_${salida}_out/$salida" $entrada; fi
+	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}" "$ruta/corpus/split_${salida}_out"/*
 else
 	
 	if [[ ! -f "$ruta/corpus/${salida}_out" ]]; then bash ../lib/limpia_corpus.sh -wo "$ruta/corpus/${salida}_out" $entrada; else echo "Se encontró un corpus ya limpiado"; fi
