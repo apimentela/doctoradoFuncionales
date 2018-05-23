@@ -78,11 +78,11 @@ awk -F "," '{
 		printf("%s,%s\n",$2,$1);	# Ahora probamos sin dividir nada, la expresion funcional completa
 		}
 	}' "$ruta/out/${salida}_contextos" \
-| sort --field-separator="," -k 2 | uniq -c | grep -v $'[\xc2\x93]' \
+| sort -S1G --parallel="$procesadores" --field-separator="," -k 2 | uniq -c | grep -v $'[\xc2\x93]' \
 | awk '{
 	$1=$1",";print;	# para que quede separado también el número por coma
 	}' > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
-	#~ }' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
+	#~ }' "$ruta/out/${salida}_contextos" | sort -S1G --parallel="$procesadores" -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
 }
 export -f pares1
 function pares2 {
@@ -94,11 +94,11 @@ awk -F "," '{
 		printf("%s,%s\n",$2,$3);	# Ahora probamos sin dividir nada, la expresion funcional completa
 		}
 	}' "$ruta/out/${salida}_contextos" \
-| sort --field-separator="," -k 2 | uniq -c | grep -v $'[\xc2\x93]' \
+| sort -S1G --parallel="$procesadores" --field-separator="," -k 2 | uniq -c | grep -v $'[\xc2\x93]' \
 | awk '{
 	$1=$1",";print;	# para que quede separado también el número por coma
 	}' > "$ruta/out/${salida}_pares2"
-	#~ }' "$ruta/out/${salida}_contextos" | sort -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares2"
+	#~ }' "$ruta/out/${salida}_contextos" | sort -S1G --parallel="$procesadores" -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares2"
 }
 export -f pares2
 
@@ -106,9 +106,10 @@ export -f pares2
 # AQUI COMIENZA EL PROGRAMA
 
 if [[ $flag_pre == true ]]; then prevectores; fi
+export procesadores=$(nproc)
 
 if [ -z "$dimension" ]; then dimension=$(cat "$ruta/out/${prefijo_archivo}_funcs" | wc -l); fi	 # si no se especifica una dimension, podemos usar la longitud de las palabras funcionales
 python3 vectores.py "$ruta/out/${prefijo_archivo}_vocab" "$ruta/out/${prefijo_archivo}_funcs" "$ruta/out/${prefijo_archivo}_pares1" "$ruta/out/${prefijo_archivo}_pares2" "$ruta/out/${prefijo_archivo}_vectores_temp" "$dimension"
 dimension_sort=$(( dimension * 2 + 2 ))	# El vector es del doble de las palabras funcionales a usar, la suma de otros dos es 1 para la palabra y otro para la suma del total de apariciones que es la que usa el sort
-sort -nr -k "$dimension_sort" "$ruta/out/${prefijo_archivo}_vectores_temp" | awk '{NF--; print}' > "$ruta/out/${prefijo_archivo}_vectores"
+sort -S1G --parallel="$procesadores" -nr -k "$dimension_sort" "$ruta/out/${prefijo_archivo}_vectores_temp" | awk '{NF--; print}' > "$ruta/out/${prefijo_archivo}_vectores"
 rm "$ruta/out/${prefijo_archivo}_vectores_temp"

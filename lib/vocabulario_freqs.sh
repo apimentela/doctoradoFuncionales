@@ -23,9 +23,9 @@ function usage {
 }
 function post_perl {
 	export LC_ALL=C
-	cat | sort -S1G \
-	| if [[ $flag_count == true ]]; then uniq -c | sort -rn -S1G | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort -S1G ; else uniq ;fi | grep -v $'[\xc2\x93]' > "$salida_vocab"
-	#~ | if [[ $flag_count == true ]]; then uniq -c | sort -rn | grep -v $'[\xc2\x80-\xc2\xa0]' | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort -S1G ; else uniq | grep -v $'[\xc2\x80-\xc2\xa0]';fi > "$salida_vocab"
+	cat | sort -S1G --parallel="$procesadores" \
+	| if [[ $flag_count == true ]]; then uniq -c | sort -rn -S1G --parallel="$procesadores" | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort -S1G --parallel="$procesadores" ; else uniq ;fi | grep -v $'[\xc2\x93]' > "$salida_vocab"
+	#~ | if [[ $flag_count == true ]]; then uniq -c | sort -rn -S1G --parallel="$procesadores" | grep -v $'[\xc2\x80-\xc2\xa0]' | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort -S1G --parallel="$procesadores" ; else uniq | grep -v $'[\xc2\x80-\xc2\xa0]';fi > "$salida_vocab"
 }
 
 # Transform long options to short ones
@@ -61,6 +61,8 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 export entrada=$@
 export salida_freqs="${salida}_freqs"
 export salida_vocab="${salida}_vocab"
+
+export procesadores=$(nproc)
 
 # AQUI COMIENZA EL PROGRAMA
 # tr [:space:] "\n" NO FUNCIONA PORQUE HAY ESPACIOS RAROS QUE NO SON ESPACIOS Y NO SON DETECTADOS TAMPOCO

@@ -56,4 +56,5 @@ entrada="$1"
 
 # AQUI COMIENZA EL PROGRAMA
 
-awk -v n=$n -v d=$d '{printf "%f %s\n", ($1*n)/(length($2)*d),$2}' "${entrada}" | sort -rn > "${salida}"
+procesadores=$(nproc)
+awk -v n=$n -v d=$d '{printf "%f %s\n", ($1*n)/(length($2)*d),$2}' "${entrada}" | sort -rn -S1G --parallel="$procesadores" > "${salida}"
