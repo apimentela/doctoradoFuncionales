@@ -64,13 +64,13 @@ cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 
 function prevectores {
-	export procesadores	# doble llamada de función
 	if [[ $flag_splitted == true ]]; then parallel --linebuffer perl -C contextos_funcs.pl ::: "$ruta/out/${salida}_funcs" ::: "$ruta/corpus/split_${prefijo_archivo}_out"/* > "$ruta/out/${salida}_contextos"
 	else perl -C contextos_funcs.pl "$ruta/out/${salida}_funcs" "$ruta/corpus/${salida}_out" > "$ruta/out/${salida}_contextos"
 	fi
 	parallel ::: pares1 pares2
 }
 function pares1 {
+procesadores=$(nproc)
 export LC_ALL=C
 awk -F ":" '{
 	if ($1 != ""){
@@ -87,6 +87,7 @@ awk -F ":" '{
 }
 export -f pares1
 function pares2 {
+procesadores=$(nproc)
 export LC_ALL=C
 awk -F ":" '{
 	if ($3 != ""){
