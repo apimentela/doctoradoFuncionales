@@ -69,6 +69,7 @@ function prevectores {
 	fi
 	parallel ::: pares1 pares2
 }
+
 function pares1 {
 procesadores=$(nproc)
 export LC_ALL=C

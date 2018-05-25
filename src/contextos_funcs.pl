@@ -27,6 +27,7 @@ my @coincidencias;
 while(<INPUT>){
 	while ($_ =~ /$expresion_palabras/g){
 		chomp(my $salida = "$1:$2:$3");
+		$salida =~ s/: | :/:/g;
 		print "$salida\n";	
 	}	
 }

@@ -9,7 +9,7 @@
 
 def main():
 	
-	ventana_dividida=ventana_funcional.strip().split()
+	ventana_dividida=ventana_funcional.strip().split(":")
 	ventana_unida=" ".join(ventana_dividida[1:])
 	for funcional in lista_funcionales:
 		if ventana_unida.startswith(funcional) or ventana_unida.endswith(funcional):
