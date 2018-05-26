@@ -6,7 +6,6 @@
 #	La salida de la lista de palabras funcionales se encontrará en ../out/SUFIJO_SALIDA_funcs
 #	La salida de la lista de scores funcionales se encontrará en ../out/SUFIJO_SALIDA_scores
 ##	DEPENDENCIAS
-#	- parallel
 #	../lib/functionScore.sh
 
 nombre_programa="$BASH_SOURCE"

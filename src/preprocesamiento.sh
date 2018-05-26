@@ -10,7 +10,8 @@
 #	Si se dividen se sacan los corpus limpios a ../corpus/split_out/SUFIJO_SALIDA_*
 #	Si no se divide, se saca el corpus limpio a ../corpus/SUFIJO_SALIDA_out
 ##	DEPENDENCIAS
-#	- parallel
+#	- ../lib/limpia_corpus.sh
+#	- ../lib/vocabulario_freqs.sh
 
 nombre_programa="$BASH_SOURCE"
 #export LC_ALL=C	# Esto es necesario para que el sort funcione bien con los caracteres raros

@@ -45,6 +45,6 @@ ruta=$(realpath ..)
 
 export procesadores=$(nproc)
 
-if [[ $flag_splitted == true ]]; then parallel --linebuffer perl -C multi_funcs.pl ::: "$ruta/out/${prefijo_archivo}_funcs1" ::: "$ruta/corpus/split_${prefijo_archivo}_out"/* 
+if [[ $flag_splitted == true ]]; then parallel perl -C multi_funcs.pl ::: "$ruta/out/${prefijo_archivo}_funcs1" ::: "$ruta/corpus/split_${prefijo_archivo}_out"/* 
 else perl -C multi_funcs.pl "$ruta/out/${prefijo_archivo}_funcs1" "$ruta/corpus/${prefijo_archivo}_out" 
 fi | sort -S1G --parallel="$procesadores" | uniq -c | sort -S1G --parallel="$procesadores" -rn > "$ruta/out/${prefijo_archivo}_multifuncs"

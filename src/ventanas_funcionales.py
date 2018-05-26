@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
+# DEPRECATED
+#
 # ventanas_funcionales.py
 #	Este programa se encarga de recibir una coincidencia de la ventana
 #	funcional de programa de terminal. Además, recibe el archivo que tiene la lista de palabras
