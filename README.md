@@ -12,6 +12,8 @@ bash src/functionScore.sh -k 50 esWiki # FIXME: en este paso, la lista de palabr
 
 bash src/multi_funcs.sh -s esWiki	# FIXME: esta función utiliza el archivo de funcs1 que se hace a mano luego del paso anterior y escribe a las palabras funcionales, el filtro, por ahora TAMBIEN se hace a mano, y no debería, hay que arreglar ambas cosas.
 
+bash src/ventanas_funcionales.sh -s esWiki
+
 bash src/vectores.sh -sp esWiki	# OJO,FIXME,TODO: esta función necesita el archivo funcs ya con las palabras funcionales, pero OJO, es necesario que esa lista esté ordenada en orden inverso, para que no haya problemas cuando se hagan las búsquedas y se encuentre la opción más larga en lugar de la más corta.
 
 
@@ -19,8 +21,6 @@ bash src/vectores.sh -sp esWiki	# OJO,FIXME,TODO: esta función necesita el arch
 bash src/clusters.sh esWiki	# Esto arma muchos clusters a diferentes niveles
 
 
-
-bash src/ventanas_funcionales.sh novelas
 
 bash src/ventanas2graphs.sh
 

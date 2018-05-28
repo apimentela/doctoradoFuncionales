@@ -17,7 +17,7 @@ $palabras_funcionales =~ s/\n/|/g;
 
 #~ $funcionales = '(?: ?\b(?:' . $palabras_funcionales . ')\b ?)';	# Esto seguramente tendrá el mismo problema de no detectar comas por la \b
 $funcionales = '(?: (?:' . $palabras_funcionales . ') )';
-$expresion_palabras = '(\S*)(' . $funcionales . ')(?=(\S*))';	# Esta expresión devuelve contextos de palabras funcionales rodeados de una palabra no funcional. No se si sea mejor que busque todas las palabras no funcionales juntas, quizá no haga falta, y no se si la siguiente expresión sea más productiva de cualquier forma.
+$expresion_palabras = '(\S+)(' . $funcionales . ')(?=(\S+))';	# Esta expresión devuelve contextos de palabras funcionales rodeados de una palabra no funcional. No se si sea mejor que busque todas las palabras no funcionales juntas, quizá no haga falta, y no se si la siguiente expresión sea más productiva de cualquier forma.
 
 #~ $expresion_palabras = '(' . $unaOmas_funcionales . ')( .+? )(?=(' . $unaOmas_funcionales . '))'; # Esta expresión regresa todos los contextos de palabras no funcionales rodeados de todoas las palabras funcionales juntas que encuentra al rededor
 #$expresion_palabras = '((?: ?\b(?:' . $palabras_funcionales . ')\b ?))( .+? )(?=((?: ?\b(?:' . $palabras_funcionales . ')\b ?)))'; # ERROR. Esta expresión toma solo UNA palabra funciona, quiza sea suficiente para las primeras pruebas # ERROR; esto no funcionó, regresa dentro de los contextos palabras funcionales.
@@ -27,7 +27,7 @@ my @coincidencias;
 while(<INPUT>){
 	while ($_ =~ /$expresion_palabras/g){
 		my $salida = "$1\t$2\t$3";
-		$salida =~ s/: | :/:/g;
+		$salida =~ s/\t | \t/\t/g;
 		print "$salida\n";	
 	}	
 }

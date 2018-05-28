@@ -44,26 +44,38 @@ export ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 
-if [[ ! -d "$ruta/out/ventanas_funcs" ]]; then mkdir "$ruta/out/ventanas_funcs"; fi
-if [[ -f "$ruta/out/${prefijo}_multifuncs_freqs" ]]; then rm "$ruta/out/${prefijo}_multifuncs_freqs"; fi
+if [[ ! -d "$ruta/out/${prefijo}_ventanas_funcs" ]]; then mkdir "$ruta/out/${prefijo}_ventanas_funcs"; fi
+if [[ -f "$ruta/out/${prefijo}_multifuncs_freqs_temp" ]]; then rm "$ruta/out/${prefijo}_multifuncs_freqs_temp"; fi
+
+export expresion="("$(cat "$ruta/$archivo_palabras_funcionales" | tr -s "\n" | perl -pe 'chomp if eof'| tr '\n' '|')")"	#TODO: Aquí se pone un seguro (tr -s "\n") para no tomar en cuenta líneas vacías, esto no debería ser necesario si la creación lista de palabras funcionales tiene lo mismo, hay que checar eso
 
 function por_palabra {
 	procesadores=$(nproc)
 	palabra_funcional="$1"
-	grep "\t${palabra_funcional}\t" "$ruta/out/${prefijo}_contextos" \
-	| grep -Pv "^${expresion}\t" \
-	| grep -Pv "\t${expresion}$" \
-	| sort -S1G --parallel="$procesadores" | uniq -c | sort -S1G --parallel="$procesadores" -rn) \
-	> "$ruta/out/ventanas_funcs/$palabra_funcional"
-	wc -l "$ruta/out/ventanas_funcs/$palabra_funcional" >> "$ruta/out/${prefijo}_multifuncs_freqs"
+	grep -P "\t${palabra_funcional}\t" "$ruta/out/${prefijo}_contextos" \
+	| sort -S1G --parallel="$procesadores" | uniq -c | sort -S1G --parallel="$procesadores" -rn \
+	> "$ruta/out/${prefijo}_ventanas_funcs/$palabra_funcional"
+	frecuencia=$(cat "$ruta/out/${prefijo}_ventanas_funcs/$palabra_funcional" | wc -l)
+	if [[ "$frecuencia" == "0" ]]; then rm "$ruta/out/${prefijo}_ventanas_funcs/$palabra_funcional"
+	else echo -e "${frecuencia}\t${palabra_funcional}"	>> "$ruta/out/${prefijo}_multifuncs_freqs_temp"
+	fi
 }
 export -f por_palabra
 
-if [[ $flag_splitted == true ]]; then parallel --linebuffer perl -C contextos_funcs.pl ::: "$ruta/out/${prefijo}_funcs" ::: "$ruta/corpus/split_${prefijo}_out"/*
-else perl -C contextos_funcs.pl "$ruta/out/${prefijo}_funcs" "$ruta/corpus/${prefijo}_out"
+function contextos {
+	ruta_funcs="$1"
+	ruta_corpus="$2"
+	perl -C contextos_funcs.pl "$ruta_funcs" "$ruta_corpus" \
+	| grep -Pv "^${expresion}\t" \
+	| grep -Pv "\t${expresion}$"
+}
+export -f contextos
+
+if [[ $flag_splitted == true ]]; then parallel --linebuffer contextos ::: "$ruta/out/${prefijo}_funcs" ::: "$ruta/corpus/split_${prefijo}_out"/*
+else contextos "$ruta/out/${prefijo}_funcs" "$ruta/corpus/${prefijo}_out"
 fi \
 > "$ruta/out/${prefijo}_contextos"
 
-export expresion="("$(cat "$ruta/$archivo_palabras_funcionales" | tr -s "\n" | perl -pe 'chomp if eof'| tr '\n' '|')")"	#TODO: Aquí se pone un seguro (tr -s "\n") para no tomar en cuenta líneas vacías, esto no debería ser necesario si la creación lista de palabras funcionales tiene lo mismo, hay que checar eso
-
 parallel por_palabra :::: "$ruta/$archivo_palabras_funcionales"
+sort -rn "$ruta/out/${prefijo}_multifuncs_freqs_temp" > "$ruta/out/${prefijo}_multifuncs_freqs"
+rm "$ruta/out/${prefijo}_multifuncs_freqs_temp"
