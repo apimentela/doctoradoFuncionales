@@ -23,7 +23,7 @@ def lector_par(archivo_pares):
 	while True:	# lo que se busca es que la lectura tenga sentido
 		valores=archivo_pares.readline()
 		if not valores: return False, False, False	# Si ya se acabó el archivo, regresa puro falso para terminar el loop
-		lista_valores=valores.strip().split(":")
+		lista_valores=valores.strip().split("\t")
 		if len(lista_valores) != 3: continue	# hay entradas erroneas, esto es necesario
 		if lista_valores[indice_palabra].strip() in lista_funcionales: continue	# NO SE DEBEN COMPARAR FUNCIONALES PORQUE LAS DEL VOCABULARIO TAMPOCO SERAN TOMADAS EN CUENTA
 		break

@@ -26,7 +26,7 @@ open(INPUT,"<$archivo_contenido") or die "No se pudo abrir el archivo, $!";
 my @coincidencias;
 while(<INPUT>){
 	while ($_ =~ /$expresion_palabras/g){
-		my $salida = "$1:$2:$3";
+		my $salida = "$1\t$2\t$3";
 		$salida =~ s/: | :/:/g;
 		print "$salida\n";	
 	}	

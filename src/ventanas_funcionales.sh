@@ -50,9 +50,9 @@ if [[ -f "$ruta/out/${prefijo}_multifuncs_freqs" ]]; then rm "$ruta/out/${prefij
 function por_palabra {
 	procesadores=$(nproc)
 	palabra_funcional="$1"
-	grep ":${palabra_funcional}:" "$ruta/out/${prefijo}_contextos" \
-	| grep -Pv "^${expresion}:" \
-	| grep -Pv ":${expresion}$" \
+	grep "\t${palabra_funcional}\t" "$ruta/out/${prefijo}_contextos" \
+	| grep -Pv "^${expresion}\t" \
+	| grep -Pv "\t${expresion}$" \
 	| sort -S1G --parallel="$procesadores" | uniq -c | sort -S1G --parallel="$procesadores" -rn) \
 	> "$ruta/out/ventanas_funcs/$palabra_funcional"
 	wc -l "$ruta/out/ventanas_funcs/$palabra_funcional" >> "$ruta/out/${prefijo}_multifuncs_freqs"
