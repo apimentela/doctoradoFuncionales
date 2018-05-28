@@ -70,34 +70,32 @@ function prevectores {
 function pares1 {
 procesadores=$(nproc)
 export LC_ALL=C
-awk -F "\t" '{
+awk -F $'\t' '{
 	if ($1 != ""){
 		#~ n=split($2,mid, " ");
 		#~ printf("%s\t%s\n",mid[1],$1);	# Aqui se busca al final la palabra (que es la primera de las que se encontraron entre palabras funcionales, SE MUESTRA SEGUNDA PORQUE ES MEJOR PARA ORDENARLA SIN RUIDO, ESTO ES IMPORTANTE), como primer dato, la palabra funcional de la izquierda (la pre)
 		printf("%s\t%s\n",$2,$1);	# Ahora probamos sin dividir nada, la expresion funcional completa
 		}
 	}' "$ruta/out/${salida}_contextos" \
-| sort -S1G --parallel="$procesadores" --field-separator="\t" -k 2 | uniq -c | grep -v $'[\xc2\x93]' \
-| awk '{
-	$1=$1"\t";print;	# para que quede separado también el número por dos puntos
-	}' > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
+| sort -S1G --parallel="$procesadores" --field-separator=$'\t' -k 2 | uniq -c | grep -v $'[\xc2\x93]' \
+| perl -C -pe 's/^ +(\S+) +/$1\t/' \
+> "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE, el paso de perl es # para que quede separado también el número por punto y coma
 	#~ }' "$ruta/out/${salida}_contextos" | sort -S1G --parallel="$procesadores" -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares1" # La opción -k es para ordenar según la segunda columna, IMPORTANTE
 }
 export -f pares1
 function pares2 {
 procesadores=$(nproc)
 export LC_ALL=C
-awk -F "\t" '{
+awk -F $'\t' '{
 	if ($3 != ""){
 		#~ n=split($2,mid, " ");
 		#~ printf("%s\t%s\n",mid[n],$3);	# Aqui se busca al final la palabra (que es última de las que se encontraron entre palabras funcionales) , como primer dato la palabra funcional de la derecha (la post)
 		printf("%s\t%s\n",$2,$3);	# Ahora probamos sin dividir nada, la expresion funcional completa
 		}
 	}' "$ruta/out/${salida}_contextos" \
-| sort -S1G --parallel="$procesadores" --field-separator="\t" -k 2 | uniq -c | grep -v $'[\xc2\x93]' \
-| awk '{
-	$1=$1"\t";print;	# para que quede separado también el número por punto y coma
-	}' > "$ruta/out/${salida}_pares2"
+| sort -S1G --parallel="$procesadores" --field-separator=$'\t' -k 2 | uniq -c | grep -v $'[\xc2\x93]' \
+| perl -C -pe 's/^ +(\S+) +/$1\t/' \
+> "$ruta/out/${salida}_pares2"	# La opción -k es para ordenar según la segunda columna, IMPORTANTE, el paso de perl es # para que quede separado también el número por punto y coma
 	#~ }' "$ruta/out/${salida}_contextos" | sort -S1G --parallel="$procesadores" -k 2 | uniq -c | grep -v $'[\xc2\x80-\xc2\xa0]' > "$ruta/out/${salida}_pares2"
 }
 export -f pares2
