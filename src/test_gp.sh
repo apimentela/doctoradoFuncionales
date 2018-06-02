@@ -8,6 +8,7 @@
 
 nombre_programa="$BASH_SOURCE"
 
+export prefijo="$1"
 export ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
@@ -18,4 +19,4 @@ set encoding utf8
 plot \\
 EOF
 
-for i in out/ventanas_funcs_graphs_data/*; do echo "'$i' w l, \\" >> test.gp ; done
+for i in "out/${prefijo}_ventanas_funcs_graphs_data/"*; do echo "'$i' w l, \\" >> test.gp ; done
