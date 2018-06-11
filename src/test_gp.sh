@@ -19,4 +19,6 @@ set encoding utf8
 plot \\
 EOF
 
-for i in "out/${prefijo}_ventanas_funcs_graphs_data/"*; do echo "'$i' w l, \\" >> test.gp ; done
+#for i in "$ruta/out/${prefijo}_ventanas_funcs_graphs_data/"*; do echo "'$i' w l, \\" >> test.gp ; done
+
+for i in "$ruta/out/${prefijo}_ventanas_funcs_graphs_data/a" "$ruta/out/${prefijo}_ventanas_funcs_graphs_data/a las" ; do echo "'$i' w l, \\" >> test.gp ; done
