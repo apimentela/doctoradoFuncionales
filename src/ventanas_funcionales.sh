@@ -66,7 +66,7 @@ export -f por_palabra
 function inicio_por_palabra {
 	procesadores=$(nproc)
 	palabra_funcional="$1"
-	grep -P "${palabra_funcional}\t" "$ruta/out/${prefijo}_inicios" \
+	grep -P "^${palabra_funcional}\t" "$ruta/out/${prefijo}_inicios" \
 	| sort -S1G --parallel="$procesadores" | uniq -c | sort -S1G --parallel="$procesadores" -rn \
 	> "$ruta/out/${prefijo}_inicios_funcs/$palabra_funcional"
 	frecuencia=$(cat "$ruta/out/${prefijo}_inicios_funcs/$palabra_funcional" | wc -l)
