@@ -29,7 +29,10 @@ function usage {
     echo "	-b, --brackets,--parentesis, --parenthesis
 		Desactiva la eliminación de los objetos entre parentesis" 
 	echo "	-p, --punct, --punctuation, --puntuacion
-		Desactiva la eliminación de los signos de puntuación" 
+		Desactiva la eliminación de los signos de puntuación"
+	echo "	-f, --punct2func
+		Utiliza signos de puntuacion (comas y puntos y comas) como palabras funcionales.
+		Esta opción tiene precedencia sobre -p."
 	echo "	-M, --mayus
 		Desactiva la transformación a minúsculas" 
 	echo "	-m, --minus
@@ -61,6 +64,7 @@ for arg in "$@"; do
 	"--punct") set -- "$@" "-p" ;;
 	"--punctuation") set -- "$@" "-p" ;;
 	"--puntuacion") set -- "$@" "-p" ;;
+	"--punct2func") set -- "$@" "-f" ;;
 	"--mayus") set -- "$@" "-M" ;;
 	"--minus") set -- "$@" "-m" ;;
 	"--help") set -- "$@" "-h" ;;
@@ -78,6 +82,7 @@ done
 export flag_wiki=false
 export flag_parentesis=false
 export flag_punct=false
+export flag_punct2func=false
 export flag_mayus=false
 export flag_minus=true
 export flag_num=false
@@ -88,13 +93,14 @@ export split_LINES=50000
 
 # Parse short options
 OPTIND=1
-while getopts "o:wpbs:Mmhnd:e" opt
+while getopts "o:wpbs:Mmhnd:ef" opt
 do
   case "$opt" in
 	"o") salida="$OPTARG" ;;
 	"w") flag_wiki=true ;;
 	"b") flag_parentesis=true ;;
 	"p") flag_punct=true ;;
+	"f") flag_punct2func=true ;;
 	"M") flag_mayus=true ; flag_minus=false ;;
 	"m") flag_minus=true ; flag_mayus=false ;;
 	"h") usage; exit 0 ;;
@@ -122,8 +128,10 @@ function main() {
 	| if [[ $flag_parentesis == false ]]; then sed -e 's|([^)]*)||g'; else cat; fi \
 	| if [[ $flag_minus == true ]]; then perl -C -ne 'print lc'; else cat; fi \
 	| if [[ $flag_num == false ]]; then perl -C -pe 's/\S*\d\S*/'"$etiqueta_DIGITO"'/g'; else cat; fi \
-	| if [[ $flag_punct == false ]]; then perl -C -pe 's/(?<=\S)\.(?=\S+)/\a/g' | tr -d '\f' | tr -d '\a' | tr -d '\v' | tr '.' '\n' | tr ';' '\v' | tr ',' '\f' | sed -e 's/[[:punct:]]/ /g' | tr '\f' ',' | tr '\a' '.' | tr '\v' ';' | sed -e 's/,/ , /g' | sed -e 's/;/ ; /g' | sed -e 's/^ *//g' ; else cat; fi
-#then sed -e 's|[[:punct:]]||g'; else cat; fi # ESTA INSTRUCCION ESTABA ORIGINALMENTE PARA QUITAR TODA LA PUNTUACION, PERO SERÍA INTERESANTE ANALIZAR LAS COMAS
+	| if [[ $flag_punct2func == true ]]; then perl -C -pe 's/(?<=\S)\.(?=\S+)/\a/g' | tr -d '\f' | tr -d '\a' | tr -d '\v' | tr '.' '\n' | tr ';' '\v' | tr ',' '\f' | sed -e 's/[[:punct:]]/ /g' | tr '\f' ',' | tr '\a' '.' | tr '\v' ';' | sed -e 's/,/ , /g' | sed -e 's/;/ ; /g' | sed -e 's/^ *//g'
+		else if [[ $flag_punct == false ]]; then sed -e 's|[[:punct:]]||g'; else cat; fi
+	fi
+
 }
 export -f main
 

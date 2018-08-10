@@ -1,0 +1,4 @@
+http://noisy-text.github.io/2018/
+https://tac.nist.gov/2018/
+http://alt.qcri.org/semeval2019/
+http://lml.bas.bg/ranlp2019/firstAnn.php
