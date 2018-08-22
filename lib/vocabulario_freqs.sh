@@ -24,6 +24,7 @@ function usage {
 		Desactiva la cuenta de frecuencias"
 }
 function post_perl {
+	export procesadores=$(nproc)
 	export LC_ALL=C
 	cat | sort -S1G --parallel="$procesadores" \
 	| if [[ $flag_count == true ]]; then uniq -c | sort -rn -S1G --parallel="$procesadores" | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort -S1G --parallel="$procesadores" ; else uniq ;fi | grep -v $'[\xc2\x93]' > "$salida_vocab"
@@ -63,9 +64,6 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 entrada=$@
 export salida_freqs="${salida}_freqs"
 export salida_vocab="${salida}_vocab"
-
-export procesadores=$(nproc)
-
 
 # AQUI COMIENZA EL PROGRAMA
 # tr [:space:] "\n" NO FUNCIONA PORQUE HAY ESPACIOS RAROS QUE NO SON ESPACIOS Y NO SON DETECTADOS TAMPOCO
