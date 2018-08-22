@@ -49,13 +49,13 @@ for arg in "$@"; do
 done
 
 # Default behavior
-export flag_split=true
-export split_LINES=50000
-export etiqueta_DIGITO="DIGITO"
-export out="../out" #TODO: dar opcion
-export corpus="../corpus" #TODO: dar opcion
-export split="split" #TODO: dar opcion
-export split_out="split_out" #TODO: dar opcion
+flag_split=true
+split_LINES=50000
+etiqueta_DIGITO="DIGITO"
+out="../out" #TODO: dar opcion
+corpus="../corpus" #TODO: dar opcion
+split="split" #TODO: dar opcion
+split_out="split_out" #TODO: dar opcion
 
 # Parse short options
 OPTIND=1
@@ -71,22 +71,22 @@ do
 done
 shift $(expr $OPTIND - 1) # remove options from positional parameters
 
-export dir_salida=$(realpath "$1")
+dir_salida=$(realpath "$1")
 	dir_salida="${dir_salida%/*}"
-export salida="${1##*/}"
+salida="${1##*/}"
 shift
-export dir_entrada=$(realpath "$1")
+dir_entrada=$(realpath "$1")
 	dir_entrada="${dir_entrada%/*}"
-export entrada_name="${1##*/}"
-export entrada1="$dir_entrada/${1##*/}"
+entrada_name="${1##*/}"
+entrada1="$dir_entrada/${1##*/}"
 for arg in "$@"; do
 	shift
 	set -- "$@" "$dir_entrada/${arg##*/}"
 done
-export entrada=$@
-export flag_cleaned=false
+entrada=$@
+flag_cleaned=false
 
-export ruta=$(realpath "$BASH_SOURCE")
+ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit # AQUI COMIENZA EL PROGRAMA
 ruta=$(realpath ..)
 
