@@ -57,11 +57,15 @@ function main() {
 ##	Esta es la función principal del programa
 #	utiliza las banderas de las opciones para hacer el procedimiento de cada una de las limpiezas.
 	entrada="$*"
-	salida="${entrada##/*}"	#FIXME: por ahora, las salidas van en la carpeta en la que se corre el programa
-	hxprune -c toc -x "$entrada" | hxselect p | xml2asc | tr -d "\r" | tr "\n" " " | tr -s "[:space:]" | sed 's|</p><p>|</p>\n<p>|g' | grep -v "</a>" | while read linea; do
+	
+	salida="${entrada##*/}"	#FIXME: por ahora, las salidas van en la carpeta en la que se corre el programa
+	salida="${salida%.*}"
+	salida="${salida}.txt"
+	
+	hxprune -c toc -x "$entrada" | hxselect p | xml2asc | tr -d "\r" | tr "\n" " " | tr -s "[:space:]" | sed 's|</p><p|</p>\n<p|g' | grep -v "</a>" | while read linea; do
 	echo "$linea" | html2text | tr "\n" " "; echo
 	done > "$salida"
 }
 export -f main
 
-parallel --linebuffer main ::: $@
+parallel --linebuffer main ::: "$@"
