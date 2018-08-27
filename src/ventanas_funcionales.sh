@@ -24,7 +24,7 @@ function usage {
 		en lugar del archivo único"
 }
 # Default behavior
-export flag_splitted=false
+flag_splitted=false
 
 # Parse short options
 OPTIND=1
@@ -38,7 +38,7 @@ done
 shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 export prefijo="$1"
-export archivo_palabras_funcionales="out/${prefijo}_funcs"
+archivo_palabras_funcionales="out/${prefijo}_funcs"
 
 export ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit

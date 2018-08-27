@@ -8,8 +8,8 @@
 
 nombre_programa="$BASH_SOURCE"
 
-export prefijo="$1"
-export ruta=$(realpath "$BASH_SOURCE")
+prefijo="$1"
+ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 

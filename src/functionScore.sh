@@ -43,10 +43,10 @@ for arg in "$@"; do
 done
 
 # Default behavior
-export n=1
-export d=1
-export etiqueta_DIGITO="DIGITO"
-export dim_funcs=50
+n=1
+d=1
+etiqueta_DIGITO="DIGITO"
+dim_funcs=50
 
 # Parse short options
 OPTIND=1

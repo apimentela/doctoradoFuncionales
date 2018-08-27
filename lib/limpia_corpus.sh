@@ -83,13 +83,13 @@ export flag_wiki=false
 export flag_parentesis=false
 export flag_punct=false
 export flag_punct2func=false
-export flag_mayus=false
+flag_mayus=false
 export flag_minus=true
 export flag_num=false
 export etiqueta_DIGITO="DIGITO"
-export flag_empty=false
-export flag_split=false
-export split_LINES=50000
+flag_empty=false
+flag_split=false
+split_LINES=50000
 
 # Parse short options
 OPTIND=1
@@ -116,7 +116,7 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # Opción final de la salida
 : ${salida:="salida_limpia_corpus"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
-export salida
+salida
 
 # AQUI COMIENZA EL PROGRAMA
 

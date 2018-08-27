@@ -23,7 +23,7 @@ function usage {
 		en lugar del archivo único"
 }
 # Default behavior
-export flag_splitted=false
+flag_splitted=false
 
 # Parse short options
 OPTIND=1
@@ -37,13 +37,13 @@ do
 done
 shift $(expr $OPTIND - 1) # remove options from positional parameters
 
-export prefijo_archivo="$1"
+prefijo_archivo="$1"
 
 ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 
-export procesadores=$(nproc)
+procesadores=$(nproc)
 
 if [[ $flag_splitted == true ]]; then parallel perl -C multi_funcs.pl ::: "$ruta/out/${prefijo_archivo}_funcs1" ::: "$ruta/corpus/split_${prefijo_archivo}_out"/* 
 else perl -C multi_funcs.pl "$ruta/out/${prefijo_archivo}_funcs1" "$ruta/corpus/${prefijo_archivo}_out" 

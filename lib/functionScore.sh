@@ -33,8 +33,8 @@ for arg in "$@"; do
 done
 
 # Default behavior
-export n=1
-export d=1
+n=1
+d=1
 
 # Parse short options
 OPTIND=1

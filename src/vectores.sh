@@ -36,8 +36,8 @@ function usage {
 		se encuentra desactivada"
 }
 # Default behavior
-export flag_splitted=false
-export flag_pre=false
+flag_splitted=false
+flag_pre=false
 
 # Parse short options
 OPTIND=1
@@ -56,7 +56,7 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 #~ dir_io=$(realpath "$1")
 #~ dir_io="${dir_salida%/*}"
 #~ prefijo_archivo="${1##*/}"
-export prefijo_archivo="${1}"
+prefijo_archivo="${1}"
 export salida="$prefijo_archivo"
 
 export ruta=$(realpath "$BASH_SOURCE")
@@ -104,7 +104,7 @@ export -f pares2
 # AQUI COMIENZA EL PROGRAMA
 
 if [[ $flag_pre == true ]]; then prevectores; fi
-export procesadores=$(nproc)
+procesadores=$(nproc)
 
 if [ -z "$dimension" ]; then dimension=$(cat "$ruta/out/${prefijo_archivo}_funcs" | wc -l); fi	 # si no se especifica una dimension, podemos usar la longitud de las palabras funcionales
 python3 vectores.py "$ruta/out/${prefijo_archivo}_vocab" "$ruta/out/${prefijo_archivo}_funcs" "$ruta/out/${prefijo_archivo}_pares1" "$ruta/out/${prefijo_archivo}_pares2" "$ruta/out/${prefijo_archivo}_vectores_temp" "$dimension"
