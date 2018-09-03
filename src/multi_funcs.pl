@@ -28,8 +28,9 @@ while(<INPUT>){
 		chomp(my $salida = "$1");
 		$salida =~ s/^\s+|\s+$//g;	# trim both ends
 		my $num;
-		$num++ while $salida =~ /\S+/g;
-		print "$num $salida\n";	
+		#~ $num++ while $salida =~ /\S+/g;
+		#~ print "$num $salida\n";
+		print "$salida\n"; #TODO: por ahora estoy desactivando la cuenta de palabras, voy a tomar en cuenta todas, esto puede ser temporal, o darlo como opción tal vez
 	}	
 }
 close INPUT;

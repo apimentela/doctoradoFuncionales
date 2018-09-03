@@ -35,12 +35,16 @@ function usage {
 		todos los números, por defecto esta opción está activada
 		con la etiqueta DIGITO. Es útil para filtrarse y quitarse de la lista
 		de palabras funcionales"
+	echo "	-f, --punct2func
+		Utiliza signos de puntuacion (comas y puntos y comas) como palabras funcionales.
+		Esta opción tiene precedencia sobre -p."
 }
 
 # Transform long options to short ones
 for arg in "$@"; do
   shift
   case "$arg" in
+	"--punct2func") set -- "$@" "-f" ;;
 	"--splitlines") set -- "$@" "-s" ;; #FIXME: esta opción recibe un parámetro, hay que convertirla para que acepte el símbolo =
 	"--etiqueta") set -- "$@" "-e" ;; #FIXME: esta opción recibe un parámetro, hay que convertirla para que acepte el símbolo =
 	"--"*) echo "Opción desconocida: $arg" >&2 ; usage ; exit 1;; #TODO: Hay que ver si esto funciona, sobre todo al usar tan solo -- que es para terminar opciones
@@ -49,6 +53,7 @@ for arg in "$@"; do
 done
 
 # Default behavior
+punct2func=""
 flag_split=true
 split_LINES=50000
 etiqueta_DIGITO="DIGITO"
@@ -65,6 +70,7 @@ do
 	"s") split_LINES="$OPTARG"; flag_split=true;;
 	"j") flag_split=false;;
 	"e") etiqueta_DIGITO="$OPTARG" ;;
+	"f") punct2func="-f"
 	":") if [[ $OPTARG != "s" ]]; then echo "La opción -$OPTARG necesita un argumento"; else flag_split=true; fi;;
 	"?") echo "Opción desconocida: -$OPTARG" >&2 ; usage ; exit 1;;
   esac
@@ -105,12 +111,13 @@ if [[ $flag_split == true ]]; then
 	entrada="$ruta/corpus/split_${salida}/*"
 fi
 
+
 if [[ $flag_split == true ]]; then
 	if [[ ! -d "$ruta/corpus/split_${salida}_out" ]]; then mkdir -p "$ruta/corpus/split_${salida}_out"; else echo "Se encontró un corpus ya limpiado y dividido"; flag_cleaned=true ; fi
-	if [[ $flag_cleaned == false ]]; then bash ../lib/limpia_corpus.sh -s "$split_LINES" -wo "$ruta/corpus/split_${salida}_out/$salida" $entrada; fi
+	if [[ $flag_cleaned == false ]]; then bash ../lib/limpia_corpus.sh "$punct2func" -s "$split_LINES" -wo "$ruta/corpus/split_${salida}_out/$salida" $entrada; fi
 	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}" "$ruta/corpus/split_${salida}_out"/*
 else
 	
-	if [[ ! -f "$ruta/corpus/${salida}_out" ]]; then bash ../lib/limpia_corpus.sh -wo "$ruta/corpus/${salida}_out" $entrada; else echo "Se encontró un corpus ya limpiado"; fi
+	if [[ ! -f "$ruta/corpus/${salida}_out" ]]; then bash ../lib/limpia_corpus.sh "$punct2func" -wo "$ruta/corpus/${salida}_out" $entrada; else echo "Se encontró un corpus ya limpiado"; fi
 	bash ../lib/vocabulario_freqs.sh -o "$ruta/out/${salida}" "$ruta/corpus/${salida}_out"
 fi
