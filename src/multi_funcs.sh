@@ -21,16 +21,22 @@ function usage {
 		esta opción está desactivada, esta opción solo tiene efecto cuando
 		se va a hacer el preprocesamiento para hacer la lectura de la carpeta
 		en lugar del archivo único"
+	echo "	-m NUM
+		Establece el número mínimo de apariciones que tiene que tener un
+		conjunto de palabras funcionales para entrar en la lista, por defecto
+		está ilimitado"
 }
 # Default behavior
 flag_splitted=false
+flag_min_apariciones=false
 
 # Parse short options
 OPTIND=1
-while getopts "s" opt
+while getopts "sm:" opt
 do
   case "$opt" in
 	"s") flag_splitted=true;;
+	"m") flag_min_apariciones=true; min_apariciones="$OPTARG";;
 	":") echo "La opción -$OPTARG necesita un argumento";;
 	"?") echo "Opción desconocida: -$OPTARG" >&2 ; usage ; exit 1;;
   esac
@@ -47,6 +53,8 @@ procesadores=$(nproc)
 
 if [[ $flag_splitted == true ]]; then parallel perl -C multi_funcs.pl ::: "$ruta/out/${prefijo_archivo}_funcs1" ::: "$ruta/corpus/split_${prefijo_archivo}_out"/* 
 else perl -C multi_funcs.pl "$ruta/out/${prefijo_archivo}_funcs1" "$ruta/corpus/${prefijo_archivo}_out" 
-fi | sort -S1G --parallel="$procesadores" | uniq -c | sort -S1G --parallel="$procesadores" -rn > "$ruta/out/${prefijo_archivo}_multifuncs"
+fi | sort -S1G --parallel="$procesadores" | uniq -c | sort -S1G --parallel="$procesadores" -rn |
+if [[ $flag_min_apariciones == true ]]; then awk ' $1 >= '"$min_apariciones"' '
+fi | awk '{$1="";print}' | sed 's/^ *//' > "$ruta/out/${prefijo_archivo}_multifuncs"
 #uniq > "$ruta/out/${prefijo_archivo}_multifuncs"
 #OJO: esto último es un cambio para que no importe la frecuencia en la que aparecen las combinaciones, puede ser solo algo temporal
