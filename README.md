@@ -6,11 +6,11 @@ Ejemplo de uso:
 
 
 
-bash src/preprocesamiento.sh -s 50000 esWiki corpus/wiki_00
+bash src/preprocesamiento.sh -fs 50000 esWiki corpus/wiki_00
 
 bash src/functionScore.sh -k 50 esWiki # FIXME: en este paso, la lista de palabras funcionales en realidad las estoy sacando a mano, hay que tener cuidado con eso, y recordar que lo que estoy usando es el orden, primero de la magnitud de frecuencia, luego de la longitud de la palabra, y por último, de la frecuencia.
 
-bash src/multi_funcs.sh -s esWiki	# FIXME: esta función utiliza el archivo de funcs1 que se hace a mano luego del paso anterior y escribe a las palabras funcionales, el filtro, por ahora TAMBIEN se hace a mano, y no debería, hay que arreglar ambas cosas.
+bash src/multi_funcs.sh -sm 1000 esWiki	# FIXME: esta función utiliza el archivo de funcs1 que se hace a mano luego del paso anterior y escribe a las palabras funcionales, el filtro, por ahora TAMBIEN se hace a mano, y no debería, hay que arreglar ambas cosas.
 
 bash src/ventanas_funcionales.sh -s esWiki
 

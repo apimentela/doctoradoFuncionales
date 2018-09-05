@@ -64,13 +64,13 @@ split_out="split_out" #TODO: dar opcion
 
 # Parse short options
 OPTIND=1
-while getopts "s:je:" opt
+while getopts "fs:je:" opt
 do
   case "$opt" in
 	"s") split_LINES="$OPTARG"; flag_split=true;;
 	"j") flag_split=false;;
 	"e") etiqueta_DIGITO="$OPTARG" ;;
-	"f") punct2func="-f"
+	"f") punct2func="-f" ;;
 	":") if [[ $OPTARG != "s" ]]; then echo "La opción -$OPTARG necesita un argumento"; else flag_split=true; fi;;
 	"?") echo "Opción desconocida: -$OPTARG" >&2 ; usage ; exit 1;;
   esac

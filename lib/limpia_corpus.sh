@@ -116,7 +116,6 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # Opción final de la salida
 : ${salida:="salida_limpia_corpus"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
-salida
 
 # AQUI COMIENZA EL PROGRAMA
 
