@@ -45,8 +45,6 @@ export ruta=$(realpath "$BASH_SOURCE")
 cd "${ruta%/*}" || exit
 ruta=$(realpath ..)
 
-export expresion="("$(cat "$ruta/$archivo_palabras_funcionales" | tr -s "\n" | perl -pe 'chomp if eof'| tr '\n' '|')")"	#TODO: Aquí se pone un seguro (tr -s "\n") para no tomar en cuenta líneas vacías, esto no debería ser necesario si la creación lista de palabras funcionales tiene lo mismo, hay que checar eso
-
 function contextos {
 	ruta_funcs="$1"
 	ruta_corpus="$2"
@@ -54,10 +52,14 @@ function contextos {
 }
 export -f contextos
 
+function a_BD {
+	read palabra1 palabra2 rel1 rel2 rel3 <<< "$1"	# La entrada se lee y entra como una oración junta en un solo parámetro, aquí se separa
+	relacion_funcional="$rel1 $rel2 $rel3"
+	mongo --eval 'db.relacionesFuncionales.update({palabra1:"'"$palabra1"'",palabra2:"'"$palabra2"'",relacion:"'"$relacion_funcional"'"},{$inc:{frecuencia:1}},{upsert:true})' "$prefijo"
+}
+export -f a_BD
+
 if [[ $flag_splitted == true ]]; then parallel --linebuffer contextos ::: "$ruta/out/${prefijo}_multifuncs" ::: "$ruta/corpus/split_${prefijo}_out"/*
 else contextos "$ruta/out/${prefijo}_multifuncs" "$ruta/corpus/${prefijo}_out"
-fi
-#> "$ruta/out/${prefijo}_triple_funcs"
-
-#~ sort -rn "$ruta/out/${prefijo}_multifuncs_freqs_temp" > "$ruta/out/${prefijo}_multifuncs_freqs"
-#~ rm "$ruta/out/${prefijo}_multifuncs_freqs_temp"
+fi \
+| parallel a_BD :::: -	# Se usa - para leer del stdin

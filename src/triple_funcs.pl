@@ -37,7 +37,9 @@ while(<INPUT>){
 			($cuatro = $4) =~ s/ /_/g; # esto es para sustituir y asignar el resultado en una sola línea
 			($cinco = $5) =~ s/ /_/g; # esto es para sustituir y asignar el resultado en una sola línea
 			my $salida = "$dos $cuatro $uno $tres $cinco";
-			print "$salida\n"
+			my $cuenta;
+			$cuenta++ while $salida =~ /\S+/g;
+			print "$salida\n" if $cuenta == 5;
 		}
 	}	
 }
