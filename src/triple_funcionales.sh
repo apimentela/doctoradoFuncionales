@@ -56,7 +56,7 @@ function instrucciones_mongo {
 	read frecuencia palabra1 palabra2 rel1 rel2 rel3 <<< "$1"	# La entrada se lee y entra como una oración junta en un solo parámetro, aquí se separa
 	relacion_funcional="$rel1 $rel2 $rel3"
 	#~ mongo --eval 'db.relacionesFuncionales.update({palabra1:"'"$palabra1"'",palabra2:"'"$palabra2"'",relacion:"'"$relacion_funcional"'"},{$inc:{frecuencia:1}},{upsert:true})' "$prefijo"
-	echo 'db.relacionesFuncionales.insert({palabra1:"'"$palabra1"'",palabra2:"'"$palabra2"'",relacion:"'"$relacion_funcional"'",frecuencia:"'"$frecuencia"'"})'
+	echo 'db.relacionesFuncionales.insert({palabra1:"'"$palabra1"'",palabra2:"'"$palabra2"'",relacion:"'"$relacion_funcional"'",frecuencia:'"$frecuencia"'})'
 }
 export -f instrucciones_mongo
 

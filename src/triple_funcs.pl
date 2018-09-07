@@ -21,7 +21,7 @@ $funcionales = '(?:^|$|' . $palabras_funcionales . ')';
 
 #~ print "$funcionales";
 
-$ventanas_funcionales = '(?:^|\s)(' . $funcionales .') (\S+) (?=(' . $funcionales .') (\S+) (' . $funcionales .'))' ;	# Esta expresión devuelve contextos de dos palabras envueltas en tres palabras funcionales.
+$ventanas_funcionales = '(?:^|\s)(' . $funcionales .') (\w+) (?=(' . $funcionales .') (\w+) (' . $funcionales .')(?:^|\s))' ;	# Esta expresión devuelve contextos de dos palabras envueltas en tres palabras funcionales.
 
 #~ $expresion_palabras = '(' . $unaOmas_funcionales . ')( .+? )(?=(' . $unaOmas_funcionales . '))'; # Esta expresión regresa todos los contextos de palabras no funcionales rodeados de todoas las palabras funcionales juntas que encuentra al rededor
 #$expresion_palabras = '((?: ?\b(?:' . $palabras_funcionales . ')\b ?))( .+? )(?=((?: ?\b(?:' . $palabras_funcionales . ')\b ?)))'; # ERROR. Esta expresión toma solo UNA palabra funciona, quiza sea suficiente para las primeras pruebas # ERROR; esto no funcionó, regresa dentro de los contextos palabras funcionales.
