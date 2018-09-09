@@ -56,7 +56,7 @@ function instrucciones_mongo {
 	read frecuencia palabra1 palabra2 rel1 rel2 rel3 <<< "$1"	# La entrada se lee y entra como una oración junta en un solo parámetro, aquí se separa
 	relacion_funcional="$rel1 $rel2 $rel3"
 	#~ mongo --eval 'db.relacionesFuncionales.update({palabra1:"'"$palabra1"'",palabra2:"'"$palabra2"'",relacion:"'"$relacion_funcional"'"},{$inc:{frecuencia:1}},{upsert:true})' "$prefijo"
-	echo 'db.relacionesFuncionales.insert({palabra1:"'"$palabra1"'",palabra2:"'"$palabra2"'",relacion:"'"$relacion_funcional"'",frecuencia:'"$frecuencia"'})'
+	echo 'db.relacionesFuncionales.insert({palabra1:"'"$palabra1"'",palabra2:"'"$palabra2"'",r1:"'"$rel1"'",r2:"'"$rel2"'",r3:"'"$rel3"'",frecuencia:'"$frecuencia"'})'
 }
 export -f instrucciones_mongo
 
@@ -70,4 +70,4 @@ if [[ $flag_splitted == true ]]; then parallel --linebuffer contextos ::: "$ruta
 else contextos "$ruta/out/${prefijo}_multifuncs" "$ruta/corpus/${prefijo}_out"
 fi \
 | agrupador | parallel instrucciones_mongo :::: - > "$ruta/out/${prefijo}_mongo.js"	# Se usa - para leer del stdin
-mongo "${prefijo}" < "$ruta/out/${prefijo}_mongo.js"
+mongo "${prefijo}_sep" < "$ruta/out/${prefijo}_mongo.js"
