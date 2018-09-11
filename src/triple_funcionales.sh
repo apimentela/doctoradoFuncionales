@@ -70,4 +70,4 @@ if [[ $flag_splitted == true ]]; then parallel --linebuffer contextos ::: "$ruta
 else contextos "$ruta/out/${prefijo}_multifuncs" "$ruta/corpus/${prefijo}_out"
 fi \
 | agrupador | parallel instrucciones_mongo :::: - > "$ruta/out/${prefijo}_mongo.js"	# Se usa - para leer del stdin
-mongo "${prefijo}_sep" < "$ruta/out/${prefijo}_mongo.js"
+mongo "${prefijo}" < "$ruta/out/${prefijo}_mongo.js"

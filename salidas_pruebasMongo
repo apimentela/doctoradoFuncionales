@@ -1,0 +1,1509 @@
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"cartas"}},{$sort:{frecuencia:-1}}])
+{ "_id" : ObjectId("5b95691f430a3abf84171a33"), "palabra1" : "través", "palabra2" : "cartas", "r1" : "a", "r2" : "de", "r3" : "y", "frecuencia" : 16 }
+{ "_id" : ObjectId("5b956465430a3abf84d608cf"), "palabra1" : "juego", "palabra2" : "cartas", "r1" : "un", "r2" : "de", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b956810430a3abf84092c4a"), "palabra1" : "serie", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b956810430a3abf84092c4f"), "palabra1" : "serie", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "que", "frecuencia" : 14 }
+{ "_id" : ObjectId("5b956465430a3abf84d608cc"), "palabra1" : "juego", "palabra2" : "cartas", "r1" : "un", "r2" : "de", "r3" : "con", "frecuencia" : 12 }
+{ "_id" : ObjectId("5b956465430a3abf84d608d9"), "palabra1" : "juego", "palabra2" : "cartas", "r1" : "un", "r2" : "de", "r3" : "que", "frecuencia" : 11 }
+{ "_id" : ObjectId("5b9565c6430a3abf84e8780c"), "palabra1" : "número", "palabra2" : "cartas", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 11 }
+{ "_id" : ObjectId("5b9567b7430a3abf84040613"), "palabra1" : "reversión", "palabra2" : "cartas", "r1" : "de", "r2" : "en", "r3" : "de", "frecuencia" : 11 }
+{ "_id" : ObjectId("5b956810430a3abf84092c45"), "palabra1" : "serie", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "a", "frecuencia" : 10 }
+{ "_id" : ObjectId("5b95643d430a3abf84d3b7ff"), "palabra1" : "intercambio", "palabra2" : "cartas", "r1" : "un", "r2" : "de", "r3" : "entre", "frecuencia" : 8 }
+{ "_id" : ObjectId("5b956050430a3abf849c8e50"), "palabra1" : "colección", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b956465430a3abf84d608ba"), "palabra1" : "juego", "palabra2" : "cartas", "r1" : "del", "r2" : "de", "r3" : "de", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b956465430a3abf84d608d3"), "palabra1" : "juego", "palabra2" : "cartas", "r1" : "un", "r2" : "de", "r3" : "en", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b956465430a3abf84d608d7"), "palabra1" : "juego", "palabra2" : "cartas", "r1" : "un", "r2" : "de", "r3" : "para", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9568e7430a3abf8413f29b"), "palabra1" : "tipo", "palabra2" : "cartas", "r1" : "este", "r2" : "de", "r3" : "se", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b95691f430a3abf84171a26"), "palabra1" : "través", "palabra2" : "cartas", "r1" : "a", "r2" : "de", "r3" : "a", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b955e2a430a3abf847f53f1"), "palabra1" : "DIGITO", "palabra2" : "cartas", "r1" : "en", "r2" : "las", "r3" : "de", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b95609c430a3abf84a0f14c"), "palabra1" : "conjunto", "palabra2" : "cartas", "r1" : "un", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b956466430a3abf84d61ffc"), "palabra1" : "juegos", "palabra2" : "cartas", "r1" : "los", "r2" : "de", "r3" : "en", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9567f2430a3abf840776d8"), "palabra1" : "sección", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "al", "frecuencia" : 6 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"cartas"}},{$group:{_id:{r1:"$r1",r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "una", "r2" : "de", "r3" : "de" }, "sum" : 33 }
+{ "_id" : { "r1" : "el", "r2" : "de", "r3" : "de" }, "sum" : 31 }
+{ "_id" : { "r1" : "que", "r2" : "las", "r3" : "de" }, "sum" : 30 }
+{ "_id" : { "r1" : "a", "r2" : "las", "r3" : "de" }, "sum" : 29 }
+{ "_id" : { "r1" : "un", "r2" : "de", "r3" : "de" }, "sum" : 25 }
+{ "_id" : { "r1" : "un", "r2" : "de", "r3" : "que" }, "sum" : 23 }
+{ "_id" : { "r1" : "un", "r2" : "de", "r3" : "con" }, "sum" : 22 }
+{ "_id" : { "r1" : "una", "r2" : "de", "r3" : "que" }, "sum" : 21 }
+{ "_id" : { "r1" : "y", "r2" : "las", "r3" : "de" }, "sum" : 19 }
+{ "_id" : { "r1" : "se", "r2" : "las", "r3" : "de" }, "sum" : 19 }
+{ "_id" : { "r1" : "a", "r2" : "de", "r3" : "y" }, "sum" : 18 }
+{ "_id" : { "r1" : "la", "r2" : "de", "r3" : "de" }, "sum" : 16 }
+{ "_id" : { "r1" : "el", "r2" : "de", "r3" : "que" }, "sum" : 15 }
+{ "_id" : { "r1" : "el", "r2" : "de", "r3" : "y" }, "sum" : 14 }
+{ "_id" : { "r1" : "una", "r2" : "de", "r3" : "a" }, "sum" : 14 }
+{ "_id" : { "r1" : "una", "r2" : "de", "r3" : "en" }, "sum" : 14 }
+{ "_id" : { "r1" : "la", "r2" : "de", "r3" : "y" }, "sum" : 14 }
+{ "_id" : { "r1" : "un", "r2" : "de", "r3" : "en" }, "sum" : 14 }
+{ "_id" : { "r1" : "de", "r2" : "y", "r3" : "de" }, "sum" : 14 }
+{ "_id" : { "r1" : "de", "r2" : "las", "r3" : "de" }, "sum" : 14 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"cartas",r1:"una",r2:"de",r3:"de"}},{$sort:{frecuencia:-1}}])
+{ "_id" : ObjectId("5b956810430a3abf84092c4a"), "palabra1" : "serie", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b956050430a3abf849c8e50"), "palabra1" : "colección", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bfb3"), "palabra1" : "docena", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955f6d430a3abf8490bae8"), "palabra1" : "baraja", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9562dd430a3abf84c0a640"), "palabra1" : "explosión", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95648b430a3abf84d7d6ef"), "palabra1" : "lectura", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564a6430a3abf84d976c2"), "palabra1" : "lista", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564d3430a3abf84dc0549"), "palabra1" : "línea", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956556430a3abf84e3aba4"), "palabra1" : "muestra", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956627430a3abf84ee1ff5"), "palabra1" : "partida", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95666f430a3abf84f24ebc"), "palabra1" : "pila", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95675d430a3abf84fef017"), "palabra1" : "recopilación", "palabra2" : "cartas", "r1" : "una", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"rápido"}},{$group:{_id:{r1:"$r1",r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "el", "r2" : "de", "r3" : "que" }, "sum" : 20 }
+{ "_id" : { "r1" : "por", "r2" : "tan", "r3" : "y" }, "sum" : 15 }
+{ "_id" : { "r1" : "se", "r2" : "tan", "r3" : "que" }, "sum" : 14 }
+{ "_id" : { "r1" : "por", "r2" : "tan", "r3" : "a" }, "sum" : 7 }
+{ "_id" : { "r1" : "el", "r2" : "de", "r3" : "y" }, "sum" : 6 }
+{ "_id" : { "r1" : "y", "r2" : "demasiado", "r3" : "para" }, "sum" : 5 }
+{ "_id" : { "r1" : "que", "r2" : "tan", "r3" : "que" }, "sum" : 5 }
+{ "_id" : { "r1" : "el", "r2" : "tan", "r3" : "de" }, "sum" : 5 }
+{ "_id" : { "r1" : "me", "r2" : "lo", "r3" : "que" }, "sum" : 5 }
+{ "_id" : { "r1" : "de", "r2" : "y", "r3" : "de" }, "sum" : 5 }
+{ "_id" : { "r1" : "se", "r2" : "demasiado", "r3" : "y" }, "sum" : 5 }
+{ "_id" : { "r1" : "que", "r2" : "lo", "r3" : "que" }, "sum" : 4 }
+{ "_id" : { "r1" : "por", "r2" : "tan", "r3" : "la" }, "sum" : 4 }
+{ "_id" : { "r1" : "un", "r2" : "tan", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r1" : "un", "r2" : "tan", "r3" : "que" }, "sum" : 4 }
+{ "_id" : { "r1" : "la", "r2" : "de", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r1" : "para", "r2" : "un", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r1" : "para", "r2" : "y", "r3" : "para" }, "sum" : 4 }
+{ "_id" : { "r1" : "lo", "r2" : "tan", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r1" : "el", "r2" : "tan", "r3" : "y" }, "sum" : 3 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.find({palabra2:"rápido",r1:"el",r2:"de",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9a"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 20 }
+
+> db.relacionesFuncionales.find({palabra1:"doble",r1:"el",r2:"de",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba26"), "palabra1" : "doble", "palabra2" : "grande", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 24 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9a"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 20 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8aa"), "palabra1" : "doble", "palabra2" : "ancha", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 19 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba6b"), "palabra1" : "doble", "palabra2" : "larga", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 19 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba72"), "palabra1" : "doble", "palabra2" : "largo", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 18 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba76"), "palabra1" : "doble", "palabra2" : "largos", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 11 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bc52"), "palabra1" : "doble", "palabra2" : "votos", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 10 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba0a"), "palabra1" : "doble", "palabra2" : "fuerte", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba6c"), "palabra1" : "doble", "palabra2" : "largas", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bbf4"), "palabra1" : "doble", "palabra2" : "tiempo", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba29"), "palabra1" : "doble", "palabra2" : "grandes", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba85"), "palabra1" : "doble", "palabra2" : "longitud", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba95"), "palabra1" : "doble", "palabra2" : "masa", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bbb6"), "palabra1" : "doble", "palabra2" : "soldados", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bbd7"), "palabra1" : "doble", "palabra2" : "tamaño", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bc2b"), "palabra1" : "doble", "palabra2" : "veces", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8b6"), "palabra1" : "doble", "palabra2" : "ancho", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8c8"), "palabra1" : "doble", "palabra2" : "artículos", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8fc"), "palabra1" : "doble", "palabra2" : "capacidad", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba06"), "palabra1" : "doble", "palabra2" : "frecuencia", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 5 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.find({palabra2:"rápido",r1:"el",r2:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9a"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 20 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9c"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9b"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "si", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955f24430a3abf848c75c9"), "palabra1" : "artículo", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "se", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb98"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb99"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956259430a3abf84b925d5"), "palabra1" : "equipo", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956288430a3abf84bbdd5d"), "palabra1" : "escándalo", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564c1430a3abf84db01cd"), "palabra1" : "logo", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956551430a3abf84e361f7"), "palabra1" : "movimiento", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "a", "frecuencia" : 1 }
+
+
+> db.relacionesFuncionales.find({palabra1:"doble",r1:"el",r2:"de",r3:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9c"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bbd8"), "palabra1" : "doble", "palabra2" : "tamaño", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bbf5"), "palabra1" : "doble", "palabra2" : "tiempo", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b895"), "palabra1" : "doble", "palabra2" : "alcance", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b9ed"), "palabra1" : "doble", "palabra2" : "expuesto", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba73"), "palabra1" : "doble", "palabra2" : "largo", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bc09"), "palabra1" : "doble", "palabra2" : "trabajo", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b88e"), "palabra1" : "doble", "palabra2" : "adn", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8a5"), "palabra1" : "doble", "palabra2" : "ambio", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8ab"), "palabra1" : "doble", "palabra2" : "ancha", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8cb"), "palabra1" : "doble", "palabra2" : "autonomía", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8e3"), "palabra1" : "doble", "palabra2" : "bush", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8eb"), "palabra1" : "doble", "palabra2" : "camas", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8fd"), "palabra1" : "doble", "palabra2" : "capacidad", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b96a"), "palabra1" : "doble", "palabra2" : "daño", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b98f"), "palabra1" : "doble", "palabra2" : "distancia", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b9e4"), "palabra1" : "doble", "palabra2" : "estúpido", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b9ff"), "palabra1" : "doble", "palabra2" : "fotogramas", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba0f"), "palabra1" : "doble", "palabra2" : "fuerza", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba15"), "palabra1" : "doble", "palabra2" : "genes", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"rápido"}},{$group:{_id:{r1:"$r1",r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "mas", "r2" : "y", "r3" : "que" }, "sum" : 10 }
+{ "_id" : { "r1" : "tan", "r2" : "y", "r3" : "que" }, "sum" : 8 }
+{ "_id" : { "r1" : "tan", "r2" : "que", "r3" : "que" }, "sum" : 6 }
+{ "_id" : { "r1" : "lo", "r2" : "que", "r3" : "el" }, "sum" : 4 }
+{ "_id" : { "r1" : "lo", "r2" : "que", "r3" : "en" }, "sum" : 4 }
+{ "_id" : { "r1" : "y", "r2" : "de", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r1" : "tan", "r2" : "y", "r3" : "a" }, "sum" : 4 }
+{ "_id" : { "r1" : "mas", "r2" : "que", "r3" : "y" }, "sum" : 3 }
+{ "_id" : { "r1" : "el", "r2" : "de", "r3" : "y" }, "sum" : 3 }
+{ "_id" : { "r1" : "mas", "r2" : "que", "r3" : "a" }, "sum" : 3 }
+{ "_id" : { "r1" : "lo", "r2" : "que", "r3" : "la" }, "sum" : 3 }
+{ "_id" : { "r1" : "tan", "r2" : "que", "r3" : "a" }, "sum" : 3 }
+{ "_id" : { "r1" : "tan", "r2" : "que", "r3" : "no" }, "sum" : 3 }
+{ "_id" : { "r1" : "y", "r2" : "para", "r3" : "el" }, "sum" : 3 }
+{ "_id" : { "r1" : "tan", "r2" : "que", "r3" : "el" }, "sum" : 3 }
+{ "_id" : { "r1" : "y", "r2" : "para", "r3" : "a" }, "sum" : 3 }
+{ "_id" : { "r1" : "y", "r2" : "de", "r3" : "que" }, "sum" : 3 }
+{ "_id" : { "r1" : "demasiado", "r2" : "al", "r3" : "tras" }, "sum" : 2 }
+{ "_id" : { "r1" : "qué", "r2" : "se", "r3" : "el" }, "sum" : 2 }
+{ "_id" : { "r1" : "tan", "r2" : "para", "r3" : "estas" }, "sum" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"rápido",r1:"mas",r2:"y",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567d4430a3abf8405be1d"), "palabra1" : "rápido", "palabra2" : "fácil", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bd93"), "palabra1" : "rápido", "palabra2" : "aconsejable", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdc3"), "palabra1" : "rápido", "palabra2" : "como", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdf5"), "palabra1" : "rápido", "palabra2" : "eficaz", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"rápido",r2:"y",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567d4430a3abf8405be1d"), "palabra1" : "rápido", "palabra2" : "fácil", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdef"), "palabra1" : "rápido", "palabra2" : "devastador", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be6e"), "palabra1" : "rápido", "palabra2" : "profundo", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bd93"), "palabra1" : "rápido", "palabra2" : "aconsejable", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdc3"), "palabra1" : "rápido", "palabra2" : "como", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdd1"), "palabra1" : "rápido", "palabra2" : "contundente", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdf4"), "palabra1" : "rápido", "palabra2" : "efectivo", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdf5"), "palabra1" : "rápido", "palabra2" : "eficaz", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be68"), "palabra1" : "rápido", "palabra2" : "preciso", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be8c"), "palabra1" : "rápido", "palabra2" : "semirápido", "r1" : "el", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bea7"), "palabra1" : "rápido", "palabra2" : "veo", "r1" : "y", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405beb0"), "palabra1" : "rápido", "palabra2" : "vivaz", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+
+
+> db.relacionesFuncionales.find({palabra2:"fácil",r1:"mas",r2:"y",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567d4430a3abf8405be1d"), "palabra1" : "rápido", "palabra2" : "fácil", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b955f6d430a3abf8490bd32"), "palabra1" : "barato", "palabra2" : "fácil", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 2 }
+
+> db.relacionesFuncionales.find({palabra2:"fácil",r2:"y",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567d4430a3abf8405be1d"), "palabra1" : "rápido", "palabra2" : "fácil", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b955f6d430a3abf8490bd32"), "palabra1" : "barato", "palabra2" : "fácil", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955f90430a3abf8492cb92"), "palabra1" : "bonito", "palabra2" : "fácil", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956712430a3abf84fa95c5"), "palabra1" : "práctico", "palabra2" : "fácil", "r1" : "lo", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+
+
+> db.relacionesFuncionales.find({palabra2:"devastador",r2:"y",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdef"), "palabra1" : "rápido", "palabra2" : "devastador", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 2 }
+
+> db.relacionesFuncionales.find({palabra2:"profundo",r2:"y",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567d4430a3abf8405be6e"), "palabra1" : "rápido", "palabra2" : "profundo", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955ee3430a3abf8488b617"), "palabra1" : "ancho", "palabra2" : "profundo", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9562c8430a3abf84bf7071"), "palabra1" : "evidente", "palabra2" : "profundo", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9562e2430a3abf84c0fef1"), "palabra1" : "extenso", "palabra2" : "profundo", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95642d430a3abf84d2c556"), "palabra1" : "inmenso", "palabra2" : "profundo", "r1" : "lo", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+
+
+> db.relacionesFuncionales.find({palabra1:"rápido",r2:"que",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567d4430a3abf8405be58"), "palabra1" : "rápido", "palabra2" : "parece", "r1" : "tan", "r2" : "que", "r3" : "que", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be59"), "palabra1" : "rápido", "palabra2" : "parezca", "r1" : "tan", "r2" : "que", "r3" : "que", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdd6"), "palabra1" : "rápido", "palabra2" : "creo", "r1" : "tan", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdd7"), "palabra1" : "rápido", "palabra2" : "creí", "r1" : "tan", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be29"), "palabra1" : "rápido", "palabra2" : "imagino", "r1" : "y", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be70"), "palabra1" : "rápido", "palabra2" : "provocaba", "r1" : "demasiado", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be7b"), "palabra1" : "rápido", "palabra2" : "quieres", "r1" : "lo", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be89"), "palabra1" : "rápido", "palabra2" : "salió", "r1" : "qué", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra2:"parece",r2:"que",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9565db430a3abf84e9af62"), "palabra1" : "occitano", "palabra2" : "parece", "r1" : "el", "r2" : "que", "r3" : "que", "frecuencia" : 18 }
+{ "_id" : ObjectId("5b956271430a3abf84ba8cee"), "palabra1" : "es", "palabra2" : "parece", "r1" : "pero", "r2" : "que", "r3" : "que", "frecuencia" : 16 }
+{ "_id" : ObjectId("5b956271430a3abf84ba8cfe"), "palabra1" : "es", "palabra2" : "parece", "r1" : "y", "r2" : "que", "r3" : "que", "frecuencia" : 12 }
+{ "_id" : ObjectId("5b9564e4430a3abf84dd0959"), "palabra1" : "manera", "palabra2" : "parece", "r1" : "de", "r2" : "que", "r3" : "que", "frecuencia" : 12 }
+{ "_id" : ObjectId("5b95631e430a3abf84c4744e"), "palabra1" : "forma", "palabra2" : "parece", "r1" : "de", "r2" : "que", "r3" : "que", "frecuencia" : 9 }
+{ "_id" : ObjectId("5b955e8f430a3abf8483d164"), "palabra1" : "aclarado", "palabra2" : "parece", "r1" : "poco", "r2" : "que", "r3" : "que", "frecuencia" : 8 }
+{ "_id" : ObjectId("5b9569c9430a3abf8420d3b2"), "palabra1" : "ya", "palabra2" : "parece", "r1" : "mi", "r2" : "que", "r3" : "que", "frecuencia" : 8 }
+{ "_id" : ObjectId("5b9569e3430a3abf84225e49"), "palabra1" : "único", "palabra2" : "parece", "r1" : "lo", "r2" : "que", "r3" : "que", "frecuencia" : 8 }
+{ "_id" : ObjectId("5b95653c430a3abf84e22f86"), "palabra1" : "modo", "palabra2" : "parece", "r1" : "de", "r2" : "que", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9569c9430a3abf8420d3cc"), "palabra1" : "ya", "palabra2" : "parece", "r1" : "y", "r2" : "que", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9567f0430a3abf8407541b"), "palabra1" : "sea", "palabra2" : "parece", "r1" : "o", "r2" : "que", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b956125430a3abf84a8dedc"), "palabra1" : "dado", "palabra2" : "parece", "r1" : "y", "r2" : "que", "r3" : "que", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b9568b5430a3abf8412a93c"), "palabra1" : "texto", "palabra2" : "parece", "r1" : "un", "r2" : "que", "r3" : "que", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b955ebc430a3abf848671ae"), "palabra1" : "ahora", "palabra2" : "parece", "r1" : "y", "r2" : "que", "r3" : "que", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95610c430a3abf84a77120"), "palabra1" : "cuenta", "palabra2" : "parece", "r1" : "en", "r2" : "que", "r3" : "que", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95671f430a3abf84fb573e"), "palabra1" : "puesto", "palabra2" : "parece", "r1" : "y", "r2" : "que", "r3" : "que", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b956953430a3abf8419fcfe"), "palabra1" : "usuario", "palabra2" : "parece", "r1" : "un", "r2" : "que", "r3" : "que", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95612c430a3abf84a94722"), "palabra1" : "dato", "palabra2" : "parece", "r1" : "ese", "r2" : "que", "r3" : "que", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b956271430a3abf84ba8cf7"), "palabra1" : "es", "palabra2" : "parece", "r1" : "que", "r2" : "que", "r3" : "que", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95664b430a3abf84f02e91"), "palabra1" : "pequeñas", "palabra2" : "parece", "r1" : "tan", "r2" : "que", "r3" : "que", "frecuencia" : 3 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"rápido"}},{$group:{_id:{r1:"$r1",r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "el", "r2" : "de", "r3" : "que" }, "sum" : 20 }
+{ "_id" : { "r1" : "por", "r2" : "tan", "r3" : "y" }, "sum" : 15 }
+{ "_id" : { "r1" : "se", "r2" : "tan", "r3" : "que" }, "sum" : 14 }
+{ "_id" : { "r1" : "por", "r2" : "tan", "r3" : "a" }, "sum" : 7 }
+{ "_id" : { "r1" : "el", "r2" : "de", "r3" : "y" }, "sum" : 6 }
+{ "_id" : { "r1" : "y", "r2" : "demasiado", "r3" : "para" }, "sum" : 5 }
+{ "_id" : { "r1" : "que", "r2" : "tan", "r3" : "que" }, "sum" : 5 }
+{ "_id" : { "r1" : "el", "r2" : "tan", "r3" : "de" }, "sum" : 5 }
+{ "_id" : { "r1" : "me", "r2" : "lo", "r3" : "que" }, "sum" : 5 }
+{ "_id" : { "r1" : "de", "r2" : "y", "r3" : "de" }, "sum" : 5 }
+{ "_id" : { "r1" : "se", "r2" : "demasiado", "r3" : "y" }, "sum" : 5 }
+{ "_id" : { "r1" : "que", "r2" : "lo", "r3" : "que" }, "sum" : 4 }
+{ "_id" : { "r1" : "por", "r2" : "tan", "r3" : "la" }, "sum" : 4 }
+{ "_id" : { "r1" : "un", "r2" : "tan", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r1" : "un", "r2" : "tan", "r3" : "que" }, "sum" : 4 }
+{ "_id" : { "r1" : "la", "r2" : "de", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r1" : "para", "r2" : "un", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r1" : "para", "r2" : "y", "r3" : "para" }, "sum" : 4 }
+{ "_id" : { "r1" : "lo", "r2" : "tan", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r1" : "el", "r2" : "tan", "r3" : "y" }, "sum" : 3 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"rápido",r1:"el",r2:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9a"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 20 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9c"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9b"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "si", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955f24430a3abf848c75c9"), "palabra1" : "artículo", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "se", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb98"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb99"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956259430a3abf84b925d5"), "palabra1" : "equipo", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956288430a3abf84bbdd5d"), "palabra1" : "escándalo", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564c1430a3abf84db01cd"), "palabra1" : "logo", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956551430a3abf84e361f7"), "palabra1" : "movimiento", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "a", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"doble",r1:"el",r2:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba26"), "palabra1" : "doble", "palabra2" : "grande", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 24 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb9a"), "palabra1" : "doble", "palabra2" : "rápido", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 20 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8aa"), "palabra1" : "doble", "palabra2" : "ancha", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 19 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba6b"), "palabra1" : "doble", "palabra2" : "larga", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 19 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba72"), "palabra1" : "doble", "palabra2" : "largo", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 18 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba76"), "palabra1" : "doble", "palabra2" : "largos", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 11 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bc52"), "palabra1" : "doble", "palabra2" : "votos", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 10 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb36"), "palabra1" : "doble", "palabra2" : "probabilidades", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 8 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba0a"), "palabra1" : "doble", "palabra2" : "fuerte", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba6c"), "palabra1" : "doble", "palabra2" : "largas", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bb8a"), "palabra1" : "doble", "palabra2" : "riesgo", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bbf4"), "palabra1" : "doble", "palabra2" : "tiempo", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba29"), "palabra1" : "doble", "palabra2" : "grandes", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba85"), "palabra1" : "doble", "palabra2" : "longitud", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1ba95"), "palabra1" : "doble", "palabra2" : "masa", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bbb6"), "palabra1" : "doble", "palabra2" : "soldados", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bbd7"), "palabra1" : "doble", "palabra2" : "tamaño", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c2430a3abf84b1bc2b"), "palabra1" : "doble", "palabra2" : "veces", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8b6"), "palabra1" : "doble", "palabra2" : "ancho", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b9561c1430a3abf84b1b8c8"), "palabra1" : "doble", "palabra2" : "artículos", "r1" : "el", "r2" : "de", "r3" : "que", "frecuencia" : 5 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"rápido",r1:"por",r2:"tan"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9560bf430a3abf84a3001c"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9567a4430a3abf8402e9f9"), "palabra1" : "responder", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "a", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b955e9b430a3abf848484ec"), "palabra1" : "actuar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955e9c430a3abf84849130"), "palabra1" : "acudir", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "al", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9567a4430a3abf8402e9fb"), "palabra1" : "responder", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95680e430a3abf84090b4b"), "palabra1" : "ser", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955e9b430a3abf848484eb"), "palabra1" : "actuar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955f3d430a3abf848de9a9"), "palabra1" : "atender", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955f3d430a3abf848de9aa"), "palabra1" : "atender", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "mi", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955f5d430a3abf848fc813"), "palabra1" : "añadir", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "las", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955f5d430a3abf848fc814"), "palabra1" : "añadir", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "los", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955f8a430a3abf8492732e"), "palabra1" : "bloquear", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30019"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a3001a"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "pero", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a3001b"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "sobre", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30094"), "palabra1" : "contestarme", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560dc430a3abf84a4a8a7"), "palabra1" : "corregir", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "los", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956118430a3abf84a81d6b"), "palabra1" : "cumplir", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "la", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956348430a3abf84c6f243"), "palabra1" : "fusionar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "los", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9563a5430a3abf84caf9eb"), "palabra1" : "hablar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "e", "frecuencia" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"contestar",r1:"por",r2:"tan"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9560bf430a3abf84a3001c"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a3002d"), "palabra1" : "contestar", "palabra2" : "tarde", "r1" : "por", "r2" : "tan", "r3" : "pero", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30017"), "palabra1" : "contestar", "palabra2" : "rápidamente", "r1" : "por", "r2" : "tan", "r3" : "mi", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30008"), "palabra1" : "contestar", "palabra2" : "rapido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30016"), "palabra1" : "contestar", "palabra2" : "rápidamente", "r1" : "por", "r2" : "tan", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30018"), "palabra1" : "contestar", "palabra2" : "rápidamente", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30019"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a3001a"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "pero", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a3001b"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "sobre", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a3002c"), "palabra1" : "contestar", "palabra2" : "tarde", "r1" : "por", "r2" : "tan", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a3002e"), "palabra1" : "contestar", "palabra2" : "tarde", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"contestar",r1:"por",r3:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9560bf430a3abf84a3001c"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a2ffc0"), "palabra1" : "contestar", "palabra2" : "mensaje", "r1" : "por", "r2" : "mi", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a2ffca"), "palabra1" : "contestar", "palabra2" : "nota", "r1" : "por", "r2" : "mi", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a2ffd7"), "palabra1" : "contestar", "palabra2" : "petición", "r1" : "por", "r2" : "mi", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30008"), "palabra1" : "contestar", "palabra2" : "rapido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30018"), "palabra1" : "contestar", "palabra2" : "rápidamente", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a3002e"), "palabra1" : "contestar", "palabra2" : "tarde", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"rápido"}},{$group:{_id:{r1:"$r1",r2:"$r2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "por", "r2" : "tan" }, "sum" : 43 }
+{ "_id" : { "r1" : "el", "r2" : "de" }, "sum" : 33 }
+{ "_id" : { "r1" : "se", "r2" : "tan" }, "sum" : 20 }
+{ "_id" : { "r1" : "se", "r2" : "demasiado" }, "sum" : 14 }
+{ "_id" : { "r1" : "no", "r2" : "tan" }, "sum" : 13 }
+{ "_id" : { "r1" : "el", "r2" : "tan" }, "sum" : 12 }
+{ "_id" : { "r1" : "un", "r2" : "tan" }, "sum" : 11 }
+{ "_id" : { "r1" : "que", "r2" : "tan" }, "sum" : 10 }
+{ "_id" : { "r1" : "que", "r2" : "demasiado" }, "sum" : 10 }
+{ "_id" : { "r1" : "para", "r2" : "tan" }, "sum" : 7 }
+{ "_id" : { "r1" : "a", "r2" : "tan" }, "sum" : 7 }
+{ "_id" : { "r1" : "de", "r2" : "tan" }, "sum" : 7 }
+{ "_id" : { "r1" : "de", "r2" : "y" }, "sum" : 7 }
+{ "_id" : { "r1" : "lo", "r2" : "tan" }, "sum" : 7 }
+{ "_id" : { "r1" : "todo", "r2" : "tan" }, "sum" : 6 }
+{ "_id" : { "r1" : "y", "r2" : "demasiado" }, "sum" : 6 }
+{ "_id" : { "r1" : "el", "r2" : "mas" }, "sum" : 6 }
+{ "_id" : { "r1" : "un", "r2" : "demasiado" }, "sum" : 6 }
+{ "_id" : { "r1" : "me", "r2" : "lo" }, "sum" : 6 }
+{ "_id" : { "r1" : "para", "r2" : "mas" }, "sum" : 5 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"rápido"}},{$group:{_id:{r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r2" : "y", "r3" : "que" }, "sum" : 20 }
+{ "_id" : { "r2" : "que", "r3" : "que" }, "sum" : 10 }
+{ "_id" : { "r2" : "que", "r3" : "a" }, "sum" : 10 }
+{ "_id" : { "r2" : "que", "r3" : "el" }, "sum" : 9 }
+{ "_id" : { "r2" : "de", "r3" : "y" }, "sum" : 7 }
+{ "_id" : { "r2" : "el", "r3" : "de" }, "sum" : 6 }
+{ "_id" : { "r2" : "y", "r3" : "a" }, "sum" : 6 }
+{ "_id" : { "r2" : "que", "r3" : "la" }, "sum" : 6 }
+{ "_id" : { "r2" : "que", "r3" : "en" }, "sum" : 6 }
+{ "_id" : { "r2" : "para", "r3" : "a" }, "sum" : 6 }
+{ "_id" : { "r2" : "para", "r3" : "la" }, "sum" : 5 }
+{ "_id" : { "r2" : "por", "r3" : "de" }, "sum" : 4 }
+{ "_id" : { "r2" : "para", "r3" : "un" }, "sum" : 4 }
+{ "_id" : { "r2" : "se", "r3" : "con" }, "sum" : 4 }
+{ "_id" : { "r2" : "y", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r2" : "en", "r3" : "de" }, "sum" : 4 }
+{ "_id" : { "r2" : "se", "r3" : "el" }, "sum" : 3 }
+{ "_id" : { "r2" : "para", "r3" : "estas" }, "sum" : 3 }
+{ "_id" : { "r2" : "que", "r3" : "esto" }, "sum" : 3 }
+{ "_id" : { "r2" : "se", "r3" : "la" }, "sum" : 3 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.find({palabra1:"rápido",r2:"y",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567d4430a3abf8405be1d"), "palabra1" : "rápido", "palabra2" : "fácil", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdef"), "palabra1" : "rápido", "palabra2" : "devastador", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be6e"), "palabra1" : "rápido", "palabra2" : "profundo", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bd93"), "palabra1" : "rápido", "palabra2" : "aconsejable", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdc3"), "palabra1" : "rápido", "palabra2" : "como", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdd1"), "palabra1" : "rápido", "palabra2" : "contundente", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdf4"), "palabra1" : "rápido", "palabra2" : "efectivo", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bdf5"), "palabra1" : "rápido", "palabra2" : "eficaz", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be68"), "palabra1" : "rápido", "palabra2" : "preciso", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405be8c"), "palabra1" : "rápido", "palabra2" : "semirápido", "r1" : "el", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405bea7"), "palabra1" : "rápido", "palabra2" : "veo", "r1" : "y", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9567d4430a3abf8405beb0"), "palabra1" : "rápido", "palabra2" : "vivaz", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra2:"fácil",r2:"y",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567d4430a3abf8405be1d"), "palabra1" : "rápido", "palabra2" : "fácil", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b955f6d430a3abf8490bd32"), "palabra1" : "barato", "palabra2" : "fácil", "r1" : "mas", "r2" : "y", "r3" : "que", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955f90430a3abf8492cb92"), "palabra1" : "bonito", "palabra2" : "fácil", "r1" : "tan", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956712430a3abf84fa95c5"), "palabra1" : "práctico", "palabra2" : "fácil", "r1" : "lo", "r2" : "y", "r3" : "que", "frecuencia" : 1 }
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"apresurado"}},{$group:{_id:{r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r2" : "que", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r2" : "y", "r3" : "de" }, "sum" : 2 }
+{ "_id" : { "r2" : "en", "r3" : "la" }, "sum" : 1 }
+{ "_id" : { "r2" : "por", "r3" : "una" }, "sum" : 1 }
+{ "_id" : { "r2" : "el", "r3" : "sobre" }, "sum" : 1 }
+{ "_id" : { "r2" : "el", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "a", "r3" : "y" }, "sum" : 1 }
+{ "_id" : { "r2" : "en", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "para", "r3" : "y" }, "sum" : 1 }
+{ "_id" : { "r2" : "se", "r3" : "o" }, "sum" : 1 }
+{ "_id" : { "r2" : "e", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "te", "r3" : "de" }, "sum" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"apresurado",r2:"que",r3:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955f02430a3abf848a7b52"), "palabra1" : "apresurado", "palabra2" : "estés", "r1" : "por", "r2" : "que", "r3" : "y", "frecuencia" : 4 }
+
+> db.relacionesFuncionales.find({palabra2:"estés",r2:"que",r3:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955f02430a3abf848a7b52"), "palabra1" : "apresurado", "palabra2" : "estés", "r1" : "por", "r2" : "que", "r3" : "y", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b956735430a3abf84fc9fd7"), "palabra1" : "quiera", "palabra2" : "estés", "r1" : "donde", "r2" : "que", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b9567ef430a3abf84074af0"), "palabra1" : "sea", "palabra2" : "estés", "r1" : "donde", "r2" : "que", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b956195430a3abf84af6509"), "palabra1" : "digo", "palabra2" : "estés", "r1" : "te", "r2" : "que", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95629b430a3abf84bcf180"), "palabra1" : "espero", "palabra2" : "estés", "r1" : "que", "r2" : "que", "r3" : "y", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"apresurado"}},{$group:{_id:{r1:"$r1",r2:"$r2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "no", "r2" : "tan" }, "sum" : 1 }
+{ "_id" : { "r1" : "te", "r2" : "algo" }, "sum" : 1 }
+{ "_id" : { "r1" : "me", "r2" : "tan" }, "sum" : 1 }
+{ "_id" : { "r1" : "que", "r2" : "algo" }, "sum" : 1 }
+{ "_id" : { "r1" : "hasta", "r2" : "y" }, "sum" : 1 }
+{ "_id" : { "r1" : "un", "r2" : "demasiado" }, "sum" : 1 }
+{ "_id" : { "r1" : "nada", "r2" : "ni" }, "sum" : 1 }
+{ "_id" : { "r1" : "que", "r2" : "demasiado" }, "sum" : 1 }
+{ "_id" : { "r1" : "que", "r2" : "tan" }, "sum" : 1 }
+{ "_id" : { "r1" : "un", "r2" : "tan" }, "sum" : 1 }
+
+> db.relacionesFuncionales.find({palabra2:"apresurado",r1:"no",r2:"tan"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b956809430a3abf8408caa7"), "palabra1" : "ser", "palabra2" : "apresurado", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"ser",r1:"no",r2:"tan"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b95680d430a3abf840901c3"), "palabra1" : "ser", "palabra2" : "popular", "r1" : "no", "r2" : "tan", "r3" : "en", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b956809430a3abf8408caa0"), "palabra1" : "ser", "palabra2" : "apreciado", "r1" : "no", "r2" : "tan", "r3" : "pues", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95680a430a3abf8408d70a"), "palabra1" : "ser", "palabra2" : "confiable", "r1" : "no", "r2" : "tan", "r3" : "la", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95680a430a3abf8408d8ce"), "palabra1" : "ser", "palabra2" : "correctos", "r1" : "no", "r2" : "tan", "r3" : "o", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95680c430a3abf8408edb6"), "palabra1" : "ser", "palabra2" : "imaginario", "r1" : "no", "r2" : "tan", "r3" : "en", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95680d430a3abf8408fb96"), "palabra1" : "ser", "palabra2" : "obligatorio", "r1" : "no", "r2" : "tan", "r3" : "entre", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95680d430a3abf8408fbd1"), "palabra1" : "ser", "palabra2" : "obvio", "r1" : "no", "r2" : "tan", "r3" : "para", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956809430a3abf8408c808"), "palabra1" : "ser", "palabra2" : "afines", "r1" : "no", "r2" : "tan", "r3" : "entre", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408c83f"), "palabra1" : "ser", "palabra2" : "agresivo", "r1" : "no", "r2" : "tan", "r3" : "ni", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408c92f"), "palabra1" : "ser", "palabra2" : "ambiciosos", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408c94c"), "palabra1" : "ser", "palabra2" : "amenazante", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408c954"), "palabra1" : "ser", "palabra2" : "amigable", "r1" : "no", "r2" : "tan", "r3" : "al", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408ca15"), "palabra1" : "ser", "palabra2" : "antiguo", "r1" : "no", "r2" : "tan", "r3" : "este", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408ca49"), "palabra1" : "ser", "palabra2" : "apasionado", "r1" : "no", "r2" : "tan", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408caa7"), "palabra1" : "ser", "palabra2" : "apresurado", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408ccab"), "palabra1" : "ser", "palabra2" : "atropellado", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680a430a3abf8408cedd"), "palabra1" : "ser", "palabra2" : "biográfico", "r1" : "no", "r2" : "tan", "r3" : "algo", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680a430a3abf8408d299"), "palabra1" : "ser", "palabra2" : "categóricos", "r1" : "no", "r2" : "tan", "r3" : "con", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680a430a3abf8408d431"), "palabra1" : "ser", "palabra2" : "clara", "r1" : "no", "r2" : "tan", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680a430a3abf8408d515"), "palabra1" : "ser", "palabra2" : "colgado", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"ser",r1:"no",r2:"tan",r3:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b956809430a3abf8408c92f"), "palabra1" : "ser", "palabra2" : "ambiciosos", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408c94c"), "palabra1" : "ser", "palabra2" : "amenazante", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408caa7"), "palabra1" : "ser", "palabra2" : "apresurado", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956809430a3abf8408ccab"), "palabra1" : "ser", "palabra2" : "atropellado", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680a430a3abf8408d515"), "palabra1" : "ser", "palabra2" : "colgado", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680a430a3abf8408d9b7"), "palabra1" : "ser", "palabra2" : "críptico", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680b430a3abf8408dfcc"), "palabra1" : "ser", "palabra2" : "elementales", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680b430a3abf8408dfe7"), "palabra1" : "ser", "palabra2" : "elevadas", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680b430a3abf8408e76c"), "palabra1" : "ser", "palabra2" : "fina", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680b430a3abf8408e9db"), "palabra1" : "ser", "palabra2" : "genuina", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680b430a3abf8408ea7f"), "palabra1" : "ser", "palabra2" : "grave", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680c430a3abf8408f74a"), "palabra1" : "ser", "palabra2" : "minuciosos", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680d430a3abf8408fbd2"), "palabra1" : "ser", "palabra2" : "obvio", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680d430a3abf84090152"), "palabra1" : "ser", "palabra2" : "pobre", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680d430a3abf84090168"), "palabra1" : "ser", "palabra2" : "poderoso", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680d430a3abf84090234"), "palabra1" : "ser", "palabra2" : "potentes", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680d430a3abf84090255"), "palabra1" : "ser", "palabra2" : "precisos", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680d430a3abf84090443"), "palabra1" : "ser", "palabra2" : "productiva", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680d430a3abf84090704"), "palabra1" : "ser", "palabra2" : "quisquillosos", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95680e430a3abf84090ae7"), "palabra1" : "ser", "palabra2" : "riguroso", "r1" : "no", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.find({palabra1:"contestar",r1:"por",r2:"tan",r3:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9560bf430a3abf84a3001c"), "palabra1" : "contestar", "palabra2" : "rápido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30008"), "palabra1" : "contestar", "palabra2" : "rapido", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a30018"), "palabra1" : "contestar", "palabra2" : "rápidamente", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9560bf430a3abf84a3002e"), "palabra1" : "contestar", "palabra2" : "tarde", "r1" : "por", "r2" : "tan", "r3" : "y", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"desvanece"}},{$group:{_id:{r1:"$r1",r2:"$r2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "la", "r2" : "se" }, "sum" : 35 }
+{ "_id" : { "r1" : "el", "r2" : "se" }, "sum" : 12 }
+{ "_id" : { "r1" : "lo", "r2" : "se" }, "sum" : 5 }
+{ "_id" : { "r1" : "este", "r2" : "se" }, "sum" : 4 }
+{ "_id" : { "r1" : "de", "r2" : "se" }, "sum" : 4 }
+{ "_id" : { "r1" : "del", "r2" : "se" }, "sum" : 3 }
+{ "_id" : { "r1" : "un", "r2" : "se" }, "sum" : 3 }
+{ "_id" : { "r1" : "esta", "r2" : "se" }, "sum" : 2 }
+{ "_id" : { "r1" : "una", "r2" : "que" }, "sum" : 2 }
+{ "_id" : { "r1" : "y", "r2" : "se" }, "sum" : 2 }
+{ "_id" : { "r1" : "mi", "r2" : "se" }, "sum" : 1 }
+{ "_id" : { "r1" : "que", "r2" : "se" }, "sum" : 1 }
+{ "_id" : { "r1" : "el", "r2" : "que" }, "sum" : 1 }
+{ "_id" : { "r1" : "las", "r2" : "se" }, "sum" : 1 }
+{ "_id" : { "r1" : "a", "r2" : "se" }, "sum" : 1 }
+{ "_id" : { "r1" : "por", "r2" : "se" }, "sum" : 1 }
+{ "_id" : { "r1" : "al", "r2" : "de" }, "sum" : 1 }
+{ "_id" : { "r1" : "o", "r2" : "se" }, "sum" : 1 }
+{ "_id" : { "r1" : "esa", "r2" : "se" }, "sum" : 1 }
+{ "_id" : { "r1" : "si", "r2" : "se" }, "sum" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"desvanece",r1:"la",r2:"se"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955fcb430a3abf84963c49"), "palabra1" : "canción", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b956611430a3abf84ecd4e9"), "palabra1" : "pantalla", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "a", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95600c430a3abf849a00f3"), "palabra1" : "certeza", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9561d0430a3abf84b28d13"), "palabra1" : "duplicidad", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95627b430a3abf84bb1e73"), "palabra1" : "escena", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "a", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9563fb430a3abf84cfd604"), "palabra1" : "imagen", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "a", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956586430a3abf84e565b7"), "palabra1" : "música", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956645430a3abf84efe1a7"), "palabra1" : "película", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "a", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fcb430a3abf84963c48"), "palabra1" : "canción", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fcb430a3abf84963c4a"), "palabra1" : "canción", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956023430a3abf849b583a"), "palabra1" : "ciudad", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956112430a3abf84a7cd01"), "palabra1" : "cueva", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956299430a3abf84bce11b"), "palabra1" : "esperanza", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95644e430a3abf84d4b155"), "palabra1" : "invisibilidad", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564aa430a3abf84d9b46a"), "palabra1" : "llama", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564cf430a3abf84dbc76f"), "palabra1" : "luna", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956513430a3abf84dfc0d0"), "palabra1" : "memoria", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956586430a3abf84e565b6"), "palabra1" : "música", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565a7430a3abf84e6f5ca"), "palabra1" : "noche", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565bd430a3abf84e7eae0"), "palabra1" : "noticia", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"canción",r1:"la",r2:"se",r3:"con"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955fcb430a3abf84963b2d"), "palabra1" : "canción", "palabra2" : "corresponde", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 19 }
+{ "_id" : ObjectId("5b955fcb430a3abf84963708"), "palabra1" : "canción", "palabra2" : "abre", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 13 }
+{ "_id" : ObjectId("5b955fcc430a3abf849645fc"), "palabra1" : "canción", "palabra2" : "relaciona", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 10 }
+{ "_id" : ObjectId("5b955fcb430a3abf849637a9"), "palabra1" : "canción", "palabra2" : "alzó", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b955fcc430a3abf8496403a"), "palabra1" : "canción", "palabra2" : "hizo", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b955fcc430a3abf849640c9"), "palabra1" : "canción", "palabra2" : "inicia", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b955fcc430a3abf849644c1"), "palabra1" : "canción", "palabra2" : "presenta", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b955fcb430a3abf8496385e"), "palabra1" : "canción", "palabra2" : "asocia", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b955fcb430a3abf84963c49"), "palabra1" : "canción", "palabra2" : "desvanece", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fcc430a3abf84964313"), "palabra1" : "canción", "palabra2" : "muestra", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fcc430a3abf849645a6"), "palabra1" : "canción", "palabra2" : "realizó", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fcc430a3abf84964824"), "palabra1" : "canción", "palabra2" : "termina", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fcc430a3abf84963dd6"), "palabra1" : "canción", "palabra2" : "escribe", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fcc430a3abf84963f53"), "palabra1" : "canción", "palabra2" : "funde", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fcc430a3abf84964161"), "palabra1" : "canción", "palabra2" : "juega", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fcc430a3abf8496487d"), "palabra1" : "canción", "palabra2" : "tocó", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fcc430a3abf84964934"), "palabra1" : "canción", "palabra2" : "utiliza", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fcb430a3abf849637a7"), "palabra1" : "canción", "palabra2" : "alza", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fcb430a3abf8496397c"), "palabra1" : "canción", "palabra2" : "canta", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fcb430a3abf84963a0d"), "palabra1" : "canción", "palabra2" : "cierra", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"canción",r1:"la",r2:"se"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955fcb430a3abf84963b1a"), "palabra1" : "canción", "palabra2" : "convirtió", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 390 }
+{ "_id" : ObjectId("5b955fcc430a3abf849644af"), "palabra1" : "canción", "palabra2" : "posicionó", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 63 }
+{ "_id" : ObjectId("5b955fcc430a3abf84963e58"), "palabra1" : "canción", "palabra2" : "estrenó", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 59 }
+{ "_id" : ObjectId("5b955fcc430a3abf849640a8"), "palabra1" : "canción", "palabra2" : "incluyó", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 49 }
+{ "_id" : ObjectId("5b955fcc430a3abf8496426a"), "palabra1" : "canción", "palabra2" : "mantuvo", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 46 }
+{ "_id" : ObjectId("5b955fcc430a3abf84963d5e"), "palabra1" : "canción", "palabra2" : "encuentra", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 43 }
+{ "_id" : ObjectId("5b955fcb430a3abf849638de"), "palabra1" : "canción", "palabra2" : "basa", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 41 }
+{ "_id" : ObjectId("5b955fcc430a3abf84964918"), "palabra1" : "canción", "palabra2" : "ubicó", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 41 }
+{ "_id" : ObjectId("5b955fcc430a3abf849645df"), "palabra1" : "canción", "palabra2" : "refiere", "r1" : "la", "r2" : "se", "r3" : "a", "frecuencia" : 37 }
+{ "_id" : ObjectId("5b955fcc430a3abf84963e57"), "palabra1" : "canción", "palabra2" : "estrenó", "r1" : "la", "r2" : "se", "r3" : "el", "frecuencia" : 33 }
+{ "_id" : ObjectId("5b955fcc430a3abf84963ef6"), "palabra1" : "canción", "palabra2" : "filtró", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 31 }
+{ "_id" : ObjectId("5b955fcb430a3abf849639bb"), "palabra1" : "canción", "palabra2" : "caracteriza", "r1" : "la", "r2" : "se", "r3" : "por", "frecuencia" : 29 }
+{ "_id" : ObjectId("5b955fcc430a3abf84963fa0"), "palabra1" : "canción", "palabra2" : "grabó", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 26 }
+{ "_id" : ObjectId("5b955fcb430a3abf84963a86"), "palabra1" : "canción", "palabra2" : "compone", "r1" : "la", "r2" : "se", "r3" : "de", "frecuencia" : 25 }
+{ "_id" : ObjectId("5b955fcc430a3abf84964098"), "palabra1" : "canción", "palabra2" : "incluiría", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 24 }
+{ "_id" : ObjectId("5b955fcc430a3abf84964947"), "palabra1" : "canción", "palabra2" : "utilizó", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 23 }
+{ "_id" : ObjectId("5b955fcc430a3abf84964198"), "palabra1" : "canción", "palabra2" : "lanzó", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 21 }
+{ "_id" : ObjectId("5b955fcc430a3abf84964544"), "palabra1" : "canción", "palabra2" : "publicó", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 20 }
+{ "_id" : ObjectId("5b955fcb430a3abf84963b2d"), "palabra1" : "canción", "palabra2" : "corresponde", "r1" : "la", "r2" : "se", "r3" : "con", "frecuencia" : 19 }
+{ "_id" : ObjectId("5b955fcb430a3abf84963a41"), "palabra1" : "canción", "palabra2" : "colocó", "r1" : "la", "r2" : "se", "r3" : "en", "frecuencia" : 18 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"desvanece"}},{$group:{_id:{r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r2" : "el", "r3" : "de" }, "sum" : 3 }
+{ "_id" : { "r2" : "la", "r3" : "de" }, "sum" : 3 }
+{ "_id" : { "r2" : "la", "r3" : "del" }, "sum" : 3 }
+{ "_id" : { "r2" : "y", "r3" : "las" }, "sum" : 3 }
+{ "_id" : { "r2" : "la", "r3" : "y" }, "sum" : 2 }
+{ "_id" : { "r2" : "y", "r3" : "en" }, "sum" : 2 }
+{ "_id" : { "r2" : "a", "r3" : "que" }, "sum" : 2 }
+{ "_id" : { "r2" : "al", "r3" : "con" }, "sum" : 2 }
+{ "_id" : { "r2" : "y", "r3" : "un" }, "sum" : 2 }
+{ "_id" : { "r2" : "y", "r3" : "de" }, "sum" : 2 }
+{ "_id" : { "r2" : "al", "r3" : "que" }, "sum" : 2 }
+{ "_id" : { "r2" : "mientras", "r3" : "se" }, "sum" : 1 }
+{ "_id" : { "r2" : "una", "r3" : "y" }, "sum" : 1 }
+{ "_id" : { "r2" : "hasta", "r3" : "el" }, "sum" : 1 }
+{ "_id" : { "r2" : "la", "r3" : "con" }, "sum" : 1 }
+{ "_id" : { "r2" : "a", "r3" : "del" }, "sum" : 1 }
+{ "_id" : { "r2" : "las", "r3" : "del" }, "sum" : 1 }
+{ "_id" : { "r2" : "el", "r3" : "en" }, "sum" : 1 }
+{ "_id" : { "r2" : "a", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "para", "r3" : "con" }, "sum" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"desvanece",r1:"el",r2:"de"}).sort({frecuencia:-1})
+
+> db.relacionesFuncionales.find({palabra1:"desvanece",r2:"el",r3:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b95617e430a3abf84ae0aec"), "palabra1" : "desvanece", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95617e430a3abf84ae0ae5"), "palabra1" : "desvanece", "palabra2" : "efecto", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"fin",r2:"el",r3:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b956307430a3abf84c32627"), "palabra1" : "fin", "palabra2" : "DIGITO", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 49 }
+{ "_id" : ObjectId("5b956308430a3abf84c32dfe"), "palabra1" : "fin", "palabra2" : "consejo", "r1" : "al", "r2" : "el", "r3" : "de", "frecuencia" : 23 }
+{ "_id" : ObjectId("5b956307430a3abf84c325dc"), "palabra1" : "fin", "palabra2" : "DIGITO", "r1" : "al", "r2" : "el", "r3" : "de", "frecuencia" : 12 }
+{ "_id" : ObjectId("5b956309430a3abf84c345a5"), "palabra1" : "fin", "palabra2" : "rodaje", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b956308430a3abf84c32e5f"), "palabra1" : "fin", "palabra2" : "contador", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b956309430a3abf84c3451f"), "palabra1" : "fin", "palabra2" : "resto", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b956308430a3abf84c32945"), "palabra1" : "fin", "palabra2" : "artículo", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956308430a3abf84c32b62"), "palabra1" : "fin", "palabra2" : "campeonato", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956308430a3abf84c32feb"), "palabra1" : "fin", "palabra2" : "cuerpo", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956308430a3abf84c33043"), "palabra1" : "fin", "palabra2" : "cálculo", "r1" : "al", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956308430a3abf84c33793"), "palabra1" : "fin", "palabra2" : "fin", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956309430a3abf84c33a48"), "palabra1" : "fin", "palabra2" : "informe", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956309430a3abf84c33d79"), "palabra1" : "fin", "palabra2" : "modo", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956309430a3abf84c33e68"), "palabra1" : "fin", "palabra2" : "número", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956309430a3abf84c34176"), "palabra1" : "fin", "palabra2" : "principio", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956309430a3abf84c3419e"), "palabra1" : "fin", "palabra2" : "proceso", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956309430a3abf84c342dc"), "palabra1" : "fin", "palabra2" : "rango", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95630a430a3abf84c348a2"), "palabra1" : "fin", "palabra2" : "sueño", "r1" : "por", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956307430a3abf84c327f6"), "palabra1" : "fin", "palabra2" : "alma", "r1" : "al", "r2" : "el", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956308430a3abf84c32935"), "palabra1" : "fin", "palabra2" : "articulo", "r1" : "en", "r2" : "el", "r3" : "de", "frecuencia" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"fin",r1:"se",r2:"el",r3:"de"}).sort({frecuencia:-1})
+
+> db.relacionesFuncionales.find({palabra2:"fin",r2:"el",r3:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b956000430a3abf84995251"), "palabra1" : "celebra", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 55 }
+{ "_id" : ObjectId("5b955e41430a3abf84805c4a"), "palabra1" : "DIGITO", "palabra2" : "fin", "r1" : "de", "r2" : "el", "r3" : "de", "frecuencia" : 38 }
+{ "_id" : ObjectId("5b956001430a3abf84995e95"), "palabra1" : "celebran", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 33 }
+{ "_id" : ObjectId("5b95626c430a3abf84ba3bd4"), "palabra1" : "es", "palabra2" : "fin", "r1" : "que", "r2" : "el", "r3" : "de", "frecuencia" : 29 }
+{ "_id" : ObjectId("5b9564f2430a3abf84dddaeb"), "palabra1" : "marca", "palabra2" : "fin", "r1" : "que", "r2" : "el", "r3" : "de", "frecuencia" : 26 }
+{ "_id" : ObjectId("5b9564f6430a3abf84de107f"), "palabra1" : "marcó", "palabra2" : "fin", "r1" : "que", "r2" : "el", "r3" : "de", "frecuencia" : 26 }
+{ "_id" : ObjectId("5b95686b430a3abf840e85ab"), "palabra1" : "supuso", "palabra2" : "fin", "r1" : "que", "r2" : "el", "r3" : "de", "frecuencia" : 25 }
+{ "_id" : ObjectId("5b956631430a3abf84eeb1ae"), "palabra1" : "pasar", "palabra2" : "fin", "r1" : "a", "r2" : "el", "r3" : "de", "frecuencia" : 24 }
+{ "_id" : ObjectId("5b95626c430a3abf84ba3ba3"), "palabra1" : "es", "palabra2" : "fin", "r1" : "cual", "r2" : "el", "r3" : "de", "frecuencia" : 22 }
+{ "_id" : ObjectId("5b956827430a3abf840a7e7b"), "palabra1" : "significó", "palabra2" : "fin", "r1" : "que", "r2" : "el", "r3" : "de", "frecuencia" : 22 }
+{ "_id" : ObjectId("5b9568c8430a3abf8413530f"), "palabra1" : "tiene", "palabra2" : "fin", "r1" : "que", "r2" : "el", "r3" : "de", "frecuencia" : 22 }
+{ "_id" : ObjectId("5b95626c430a3abf84ba3bc1"), "palabra1" : "es", "palabra2" : "fin", "r1" : "no", "r2" : "el", "r3" : "de", "frecuencia" : 20 }
+{ "_id" : ObjectId("5b9564f6430a3abf84de107a"), "palabra1" : "marcó", "palabra2" : "fin", "r1" : "esto", "r2" : "el", "r3" : "de", "frecuencia" : 20 }
+{ "_id" : ObjectId("5b955e8d430a3abf8483b605"), "palabra1" : "acerca", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 16 }
+{ "_id" : ObjectId("5b95626c430a3abf84ba3ba8"), "palabra1" : "es", "palabra2" : "fin", "r1" : "cuál", "r2" : "el", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b956631430a3abf84eeb1b4"), "palabra1" : "pasar", "palabra2" : "fin", "r1" : "para", "r2" : "el", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b955e8d430a3abf8483b949"), "palabra1" : "acercaba", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 14 }
+{ "_id" : ObjectId("5b956001430a3abf8499621b"), "palabra1" : "celebrar", "palabra2" : "fin", "r1" : "para", "r2" : "el", "r3" : "de", "frecuencia" : 14 }
+{ "_id" : ObjectId("5b95626c430a3abf84ba3bb6"), "palabra1" : "es", "palabra2" : "fin", "r1" : "este", "r2" : "el", "r3" : "de", "frecuencia" : 14 }
+{ "_id" : ObjectId("5b955e8e430a3abf8483bf9a"), "palabra1" : "acercarse", "palabra2" : "fin", "r1" : "al", "r2" : "el", "r3" : "de", "frecuencia" : 13 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"fin",r1:"se",r2:"el",r3:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b956000430a3abf84995251"), "palabra1" : "celebra", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 55 }
+{ "_id" : ObjectId("5b956001430a3abf84995e95"), "palabra1" : "celebran", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 33 }
+{ "_id" : ObjectId("5b955e8d430a3abf8483b605"), "palabra1" : "acerca", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 16 }
+{ "_id" : ObjectId("5b955e8d430a3abf8483b949"), "palabra1" : "acercaba", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 14 }
+{ "_id" : ObjectId("5b9566eb430a3abf84f8898f"), "palabra1" : "produjo", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 8 }
+{ "_id" : ObjectId("5b955ef1430a3abf84897d54"), "palabra1" : "anunció", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b9560ab430a3abf84a1d3b8"), "palabra1" : "considera", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b9566e3430a3abf84f84d48"), "palabra1" : "produce", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b956748430a3abf84fdbdae"), "palabra1" : "realiza", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b956138430a3abf84a9fd53"), "palabra1" : "declara", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b956321430a3abf84c4a5d2"), "palabra1" : "formaliza", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b956002430a3abf84996cab"), "palabra1" : "celebró", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b955e93430a3abf84840666"), "palabra1" : "acordó", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955ef0430a3abf84896e2a"), "palabra1" : "anuncia", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95674a430a3abf84fdd5a9"), "palabra1" : "realizan", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955e92430a3abf84840116"), "palabra1" : "acordaba", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956001430a3abf84995677"), "palabra1" : "celebraba", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956002430a3abf849967b5"), "palabra1" : "celebrará", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95617e430a3abf84ae0aec"), "palabra1" : "desvanece", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956312430a3abf84c3ca70"), "palabra1" : "firmó", "palabra2" : "fin", "r1" : "se", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"desvanecer"}},{$group:{_id:{r1:"$r1",r2:"$r2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "se", "r2" : "a" }, "sum" : 4 }
+{ "_id" : { "r1" : "el", "r2" : "para" }, "sum" : 1 }
+{ "_id" : { "r1" : "se", "r2" : "para" }, "sum" : 1 }
+{ "_id" : { "r1" : "a", "r2" : "de" }, "sum" : 1 }
+{ "_id" : { "r1" : "la", "r2" : "a" }, "sum" : 1 }
+{ "_id" : { "r1" : "esto", "r2" : "a" }, "sum" : 1 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"desvanecer"}},{$group:{_id:{r1:"$r1",r2:"$r2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "para", "r2" : "las" }, "sum" : 2 }
+{ "_id" : { "r1" : "para", "r2" : "el" }, "sum" : 1 }
+{ "_id" : { "r1" : "en", "r2" : "los" }, "sum" : 1 }
+{ "_id" : { "r1" : "de", "r2" : "la" }, "sum" : 1 }
+{ "_id" : { "r1" : "a", "r2" : "la" }, "sum" : 1 }
+{ "_id" : { "r1" : "para", "r2" : "los" }, "sum" : 1 }
+{ "_id" : { "r1" : "de", "r2" : "los" }, "sum" : 1 }
+{ "_id" : { "r1" : "para", "r2" : "de" }, "sum" : 1 }
+{ "_id" : { "r1" : "hasta", "r2" : "los" }, "sum" : 1 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"desvanecer"}},{$group:{_id:{r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r2" : "los", "r3" : "de" }, "sum" : 3 }
+{ "_id" : { "r2" : "el", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "las", "r3" : "del" }, "sum" : 1 }
+{ "_id" : { "r2" : "la", "r3" : "que" }, "sum" : 1 }
+{ "_id" : { "r2" : "la", "r3" : "a" }, "sum" : 1 }
+{ "_id" : { "r2" : "de", "r3" : "a" }, "sum" : 1 }
+{ "_id" : { "r2" : "las", "r3" : "que" }, "sum" : 1 }
+{ "_id" : { "r2" : "los", "r3" : "y" }, "sum" : 1 }
+
+> db.relacionesFuncionales.find({palabra2:"desvanecer",r1:"se",r2:"a"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b956206430a3abf84b5b4e7"), "palabra1" : "empezó", "palabra2" : "desvanecer", "r1" : "se", "r2" : "a", "r3" : "con", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956207430a3abf84b5c8e4"), "palabra1" : "empieza", "palabra2" : "desvanecer", "r1" : "se", "r2" : "a", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956207430a3abf84b5c8e5"), "palabra1" : "empieza", "palabra2" : "desvanecer", "r1" : "se", "r2" : "a", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9563ed430a3abf84cf16eb"), "palabra1" : "iba", "palabra2" : "desvanecer", "r1" : "se", "r2" : "a", "r3" : "para", "frecuencia" : 1 }
+> db.relacionesFuncionales.find({palabra1:"desvanecer",r2:"los",r3:"de"}).sort({frecuencia:-1})
+
+{ "_id" : ObjectId("5b95617e430a3abf84ae0b1d"), "palabra1" : "desvanecer", "palabra2" : "argumentos", "r1" : "de", "r2" : "los", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95617e430a3abf84ae0b1e"), "palabra1" : "desvanecer", "palabra2" : "ataques", "r1" : "para", "r2" : "los", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95617e430a3abf84ae0b22"), "palabra1" : "desvanecer", "palabra2" : "mitos", "r1" : "en", "r2" : "los", "r3" : "de", "frecuencia" : 1 }
+
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"tonto"}},{$group:{_id:{r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r2" : "que", "r3" : "que" }, "sum" : 6 }
+{ "_id" : { "r2" : "del", "r3" : "y" }, "sum" : 4 }
+{ "_id" : { "r2" : "que", "r3" : "en" }, "sum" : 4 }
+{ "_id" : { "r2" : "que", "r3" : "por" }, "sum" : 3 }
+{ "_id" : { "r2" : "en", "r3" : "de" }, "sum" : 3 }
+{ "_id" : { "r2" : "que", "r3" : "el" }, "sum" : 3 }
+{ "_id" : { "r2" : "y", "r3" : "con" }, "sum" : 3 }
+{ "_id" : { "r2" : "no", "r3" : "un" }, "sum" : 2 }
+{ "_id" : { "r2" : "del", "r3" : "de" }, "sum" : 2 }
+{ "_id" : { "r2" : "no", "r3" : "que" }, "sum" : 2 }
+{ "_id" : { "r2" : "se", "r3" : "a" }, "sum" : 2 }
+{ "_id" : { "r2" : "y", "r3" : "un" }, "sum" : 2 }
+{ "_id" : { "r2" : "me", "r3" : "a" }, "sum" : 2 }
+{ "_id" : { "r2" : "de", "r3" : "y" }, "sum" : 2 }
+{ "_id" : { "r2" : "en", "r3" : "para" }, "sum" : 1 }
+{ "_id" : { "r2" : "en", "r3" : "el" }, "sum" : 1 }
+{ "_id" : { "r2" : "de", "r3" : "un" }, "sum" : 1 }
+{ "_id" : { "r2" : "pero", "r3" : "la" }, "sum" : 1 }
+{ "_id" : { "r2" : "y", "r3" : "a" }, "sum" : 1 }
+{ "_id" : { "r2" : "para", "r3" : "el" }, "sum" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"tonto"}},{$group:{_id:{r1:"$r1",r2:"$r2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "el", "r2" : "mas" }, "sum" : 10 }
+{ "_id" : { "r1" : "no", "r2" : "tan" }, "sum" : 6 }
+{ "_id" : { "r1" : "yo", "r2" : "un" }, "sum" : 6 }
+{ "_id" : { "r1" : "y", "r2" : "otro" }, "sum" : 6 }
+{ "_id" : { "r1" : "la", "r2" : "de" }, "sum" : 5 }
+{ "_id" : { "r1" : "que", "r2" : "el" }, "sum" : 4 }
+{ "_id" : { "r1" : "de", "r2" : "el" }, "sum" : 4 }
+{ "_id" : { "r1" : "a", "r2" : "el" }, "sum" : 4 }
+{ "_id" : { "r1" : "me", "r2" : "algo" }, "sum" : 4 }
+{ "_id" : { "r1" : "que", "r2" : "un" }, "sum" : 4 }
+{ "_id" : { "r1" : "me", "r2" : "por" }, "sum" : 3 }
+{ "_id" : { "r1" : "me", "r2" : "de" }, "sum" : 3 }
+{ "_id" : { "r1" : "o", "r2" : "un" }, "sum" : 3 }
+{ "_id" : { "r1" : "que", "r2" : "tan" }, "sum" : 3 }
+{ "_id" : { "r1" : "este", "r2" : "tan" }, "sum" : 3 }
+{ "_id" : { "r1" : "se", "r2" : "el" }, "sum" : 3 }
+{ "_id" : { "r1" : "la", "r2" : "el" }, "sum" : 3 }
+{ "_id" : { "r1" : "que", "r2" : "al" }, "sum" : 2 }
+{ "_id" : { "r1" : "no", "r2" : "un" }, "sum" : 2 }
+{ "_id" : { "r1" : "yo", "r2" : "el" }, "sum" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"tonto",r1:"el",r2:"mas"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955ee6430a3abf8488df00"), "palabra1" : "angel", "palabra2" : "tonto", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6dd1b"), "palabra1" : "niño", "palabra2" : "tonto", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9569d5430a3abf84218526"), "palabra1" : "ángel", "palabra2" : "tonto", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9568f9430a3abf8414da0f"), "palabra1" : "tonto", "palabra2" : "tonto", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"angel",r1:"el",r2:"mas"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955ee6430a3abf8488df00"), "palabra1" : "angel", "palabra2" : "tonto", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 5 }
+
+> db.relacionesFuncionales.find({palabra1:"niño",r1:"el",r2:"mas"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d5d4"), "palabra1" : "niño", "palabra2" : "astuto", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d8f1"), "palabra1" : "niño", "palabra2" : "guapo", "r1" : "el", "r2" : "mas", "r3" : "e", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d971"), "palabra1" : "niño", "palabra2" : "inteligente", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d996"), "palabra1" : "niño", "palabra2" : "joven", "r1" : "el", "r2" : "mas", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6dc1c"), "palabra1" : "niño", "palabra2" : "rico", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6dd1b"), "palabra1" : "niño", "palabra2" : "tonto", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d531"), "palabra1" : "niño", "palabra2" : "aburrido", "r1" : "el", "r2" : "mas", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d61b"), "palabra1" : "niño", "palabra2" : "bonito", "r1" : "el", "r2" : "mas", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d8de"), "palabra1" : "niño", "palabra2" : "gay", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d8ee"), "palabra1" : "niño", "palabra2" : "groso", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d8f0"), "palabra1" : "niño", "palabra2" : "guapo", "r1" : "el", "r2" : "mas", "r3" : "del", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d96f"), "palabra1" : "niño", "palabra2" : "inteligen", "r1" : "el", "r2" : "mas", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6d9c7"), "palabra1" : "niño", "palabra2" : "lindo", "r1" : "el", "r2" : "mas", "r3" : "de", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565a5430a3abf84e6da15"), "palabra1" : "niño", "palabra2" : "maravilloso", "r1" : "el", "r2" : "mas", "r3" : "que", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"tonto",r2:"que",r3:"que"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9568f9430a3abf8414d9cd"), "palabra1" : "tonto", "palabra2" : "cree", "r1" : "tan", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9568f9430a3abf8414d9cf"), "palabra1" : "tonto", "palabra2" : "decir", "r1" : "de", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9568f9430a3abf8414d9d0"), "palabra1" : "tonto", "palabra2" : "decirle", "r1" : "uno", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9568f9430a3abf8414d9d8"), "palabra1" : "tonto", "palabra2" : "encontré", "r1" : "mas", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9568f9430a3abf8414d9f0"), "palabra1" : "tonto", "palabra2" : "pensaba", "r1" : "un", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9568f9430a3abf8414d9f2"), "palabra1" : "tonto", "palabra2" : "pensé", "r1" : "que", "r2" : "que", "r3" : "que", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"estúpido"}},{$group:{_id:{r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r2" : "del", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "les", "r3" : "que" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "que" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "esto" }, "sum" : 1 }
+{ "_id" : { "r2" : "estos", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "e", "r3" : "que" }, "sum" : 1 }
+{ "_id" : { "r2" : "el", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "o" }, "sum" : 1 }
+{ "_id" : { "r2" : "por", "r3" : "lo" }, "sum" : 1 }
+{ "_id" : { "r2" : "para", "r3" : "en" }, "sum" : 1 }
+{ "_id" : { "r2" : "de", "r3" : "una" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "mi" }, "sum" : 1 }
+{ "_id" : { "r2" : "y", "r3" : "demasiado" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "sin" }, "sum" : 1 }
+{ "_id" : { "r2" : "a", "r3" : "la" }, "sum" : 1 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"estúpido"}},{$group:{_id:{r1:"$r1",r2:"$r2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "y", "r2" : "al" }, "sum" : 2 }
+{ "_id" : { "r1" : "usted", "r2" : "un" }, "sum" : 2 }
+{ "_id" : { "r1" : "al", "r2" : "por" }, "sum" : 2 }
+{ "_id" : { "r1" : "que", "r2" : "algo" }, "sum" : 2 }
+{ "_id" : { "r1" : "para", "r2" : "lo" }, "sum" : 1 }
+{ "_id" : { "r1" : "lo", "r2" : "demasiado" }, "sum" : 1 }
+{ "_id" : { "r1" : "me", "r2" : "de" }, "sum" : 1 }
+{ "_id" : { "r1" : "que", "r2" : "un" }, "sum" : 1 }
+{ "_id" : { "r1" : "un", "r2" : "y" }, "sum" : 1 }
+{ "_id" : { "r1" : "me", "r2" : "algo" }, "sum" : 1 }
+{ "_id" : { "r1" : "algo", "r2" : "o" }, "sum" : 1 }
+{ "_id" : { "r1" : "no", "r2" : "el" }, "sum" : 1 }
+{ "_id" : { "r1" : "no", "r2" : "nada" }, "sum" : 1 }
+{ "_id" : { "r1" : "yo", "r2" : "un" }, "sum" : 1 }
+{ "_id" : { "r1" : "al", "r2" : "del" }, "sum" : 1 }
+{ "_id" : { "r1" : "él", "r2" : "algo" }, "sum" : 1 }
+{ "_id" : { "r1" : "quién", "r2" : "el" }, "sum" : 1 }
+{ "_id" : { "r1" : "te", "r2" : "qué" }, "sum" : 1 }
+{ "_id" : { "r1" : "él", "r2" : "un" }, "sum" : 1 }
+{ "_id" : { "r1" : "y", "r2" : "demasiado" }, "sum" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"estúpido",r1:"y",r2:"al"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567e9430a3abf8406e8af"), "palabra1" : "sancionen", "palabra2" : "estúpido", "r1" : "y", "r2" : "al", "r3" : "que", "frecuencia" : 2 }
+
+> db.relacionesFuncionales.find({palabra2:"sancionen",r1:"y",r2:"al"}).sort({frecuencia:-1})
+
+> db.relacionesFuncionales.find({palabra1:"sancionen",r1:"y",r2:"al"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9567e9430a3abf8406e8af"), "palabra1" : "sancionen", "palabra2" : "estúpido", "r1" : "y", "r2" : "al", "r3" : "que", "frecuencia" : 2 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"estúpido"}},{$group:{_id:{r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r2" : "del", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "les", "r3" : "que" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "que" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "esto" }, "sum" : 1 }
+{ "_id" : { "r2" : "estos", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "e", "r3" : "que" }, "sum" : 1 }
+{ "_id" : { "r2" : "el", "r3" : "de" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "o" }, "sum" : 1 }
+{ "_id" : { "r2" : "por", "r3" : "lo" }, "sum" : 1 }
+{ "_id" : { "r2" : "para", "r3" : "en" }, "sum" : 1 }
+{ "_id" : { "r2" : "de", "r3" : "una" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "mi" }, "sum" : 1 }
+{ "_id" : { "r2" : "y", "r3" : "demasiado" }, "sum" : 1 }
+{ "_id" : { "r2" : "que", "r3" : "sin" }, "sum" : 1 }
+{ "_id" : { "r2" : "a", "r3" : "la" }, "sum" : 1 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"loco"}},{$group:{_id:{r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r2" : "y", "r3" : "a" }, "sum" : 6 }
+{ "_id" : { "r2" : "que", "r3" : "a" }, "sum" : 4 }
+{ "_id" : { "r2" : "que", "r3" : "en" }, "sum" : 4 }
+{ "_id" : { "r2" : "y", "r3" : "de" }, "sum" : 4 }
+{ "_id" : { "r2" : "todos", "r3" : "un" }, "sum" : 3 }
+{ "_id" : { "r2" : "el", "r3" : "de" }, "sum" : 3 }
+{ "_id" : { "r2" : "se", "r3" : "de" }, "sum" : 3 }
+{ "_id" : { "r2" : "se", "r3" : "con" }, "sum" : 3 }
+{ "_id" : { "r2" : "del", "r3" : "de" }, "sum" : 3 }
+{ "_id" : { "r2" : "en", "r3" : "de" }, "sum" : 3 }
+{ "_id" : { "r2" : "del", "r3" : "el" }, "sum" : 3 }
+{ "_id" : { "r2" : "de", "r3" : "y" }, "sum" : 3 }
+{ "_id" : { "r2" : "se", "r3" : "a" }, "sum" : 3 }
+{ "_id" : { "r2" : "que", "r3" : "que" }, "sum" : 3 }
+{ "_id" : { "r2" : "del", "r3" : "que" }, "sum" : 3 }
+{ "_id" : { "r2" : "de", "r3" : "de" }, "sum" : 3 }
+{ "_id" : { "r2" : "el", "r3" : "del" }, "sum" : 2 }
+{ "_id" : { "r2" : "a", "r3" : "de" }, "sum" : 2 }
+{ "_id" : { "r2" : "para", "r3" : "del" }, "sum" : 2 }
+{ "_id" : { "r2" : "para", "r3" : "de" }, "sum" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"loco"}},{$group:{_id:{r1:"$r1",r2:"$r2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "el", "r2" : "del" }, "sum" : 112 }
+{ "_id" : { "r1" : "la", "r2" : "el" }, "sum" : 59 }
+{ "_id" : { "r1" : "la", "r2" : "del" }, "sum" : 21 }
+{ "_id" : { "r1" : "que", "r2" : "un" }, "sum" : 8 }
+{ "_id" : { "r1" : "lo", "r2" : "de" }, "sum" : 7 }
+{ "_id" : { "r1" : "el", "r2" : "el" }, "sum" : 7 }
+{ "_id" : { "r1" : "de", "r2" : "el" }, "sum" : 7 }
+{ "_id" : { "r1" : "por", "r2" : "el" }, "sum" : 6 }
+{ "_id" : { "r1" : "y", "r2" : "el" }, "sum" : 5 }
+{ "_id" : { "r1" : "se", "r2" : "el" }, "sum" : 4 }
+{ "_id" : { "r1" : "no", "r2" : "un" }, "sum" : 3 }
+{ "_id" : { "r1" : "a", "r2" : "de" }, "sum" : 3 }
+{ "_id" : { "r1" : "me", "r2" : "de" }, "sum" : 2 }
+{ "_id" : { "r1" : "a", "r2" : "el" }, "sum" : 2 }
+{ "_id" : { "r1" : "por", "r2" : "a" }, "sum" : 2 }
+{ "_id" : { "r1" : "a", "r2" : "y" }, "sum" : 2 }
+{ "_id" : { "r1" : "del", "r2" : "del" }, "sum" : 2 }
+{ "_id" : { "r1" : "me", "r2" : "el" }, "sum" : 2 }
+{ "_id" : { "r1" : "a", "r2" : "algo" }, "sum" : 2 }
+{ "_id" : { "r1" : "las", "r2" : "de" }, "sum" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"loco",r1:"el",r2:"del"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955fd1430a3abf849693fb"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 60 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693fc"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "la", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693fa"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "el", "frecuencia" : 10 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969404"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "y", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969400"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "o", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693f5"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "a", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693f6"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "al", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969403"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "un", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693f7"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "bajo", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693f8"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "con", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693f9"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "e", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693fd"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "los", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693fe"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "no", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693ff"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "nos", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969401"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "por", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969402"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "todo", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564fd430a3abf84de8095"), "palabra1" : "mate", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"canto",r1:"el",r2:"del"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955fd1430a3abf849693fb"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 60 }
+{ "_id" : ObjectId("5b955fd1430a3abf8496929b"), "palabra1" : "canto", "palabra2" : "cisne", "r1" : "el", "r2" : "del", "r3" : "el", "frecuencia" : 24 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969298"), "palabra1" : "canto", "palabra2" : "cisne", "r1" : "el", "r2" : "del", "r3" : "de", "frecuencia" : 22 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693fc"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "la", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693fa"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "el", "frecuencia" : 10 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969404"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "y", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b955fd1430a3abf8496929e"), "palabra1" : "canto", "palabra2" : "cisne", "r1" : "el", "r2" : "del", "r3" : "y", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969378"), "palabra1" : "canto", "palabra2" : "gallo", "r1" : "el", "r2" : "del", "r3" : "la", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969299"), "palabra1" : "canto", "palabra2" : "cisne", "r1" : "el", "r2" : "del", "r3" : "del", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969400"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "o", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693a4"), "palabra1" : "canto", "palabra2" : "himno", "r1" : "el", "r2" : "del", "r3" : "a", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693b4"), "palabra1" : "canto", "palabra2" : "huapango", "r1" : "el", "r2" : "del", "r3" : "se", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693f5"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "a", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693f6"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "al", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fd1430a3abf849692d7"), "palabra1" : "canto", "palabra2" : "cuco", "r1" : "el", "r2" : "del", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fd1430a3abf849692d9"), "palabra1" : "canto", "palabra2" : "cuco", "r1" : "el", "r2" : "del", "r3" : "para", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fd1430a3abf849692dc"), "palabra1" : "canto", "palabra2" : "cuervo", "r1" : "el", "r2" : "del", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fd1430a3abf8496938e"), "palabra1" : "canto", "palabra2" : "grillo", "r1" : "el", "r2" : "del", "r3" : "con", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693a5"), "palabra1" : "canto", "palabra2" : "himno", "r1" : "el", "r2" : "del", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693b8"), "palabra1" : "canto", "palabra2" : "héroe", "r1" : "el", "r2" : "del", "r3" : "se", "frecuencia" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"canto",r1:"el",r2:"del",r3:"en"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955fd1430a3abf849693fb"), "palabra1" : "canto", "palabra2" : "loco", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 60 }
+{ "_id" : ObjectId("5b955fd1430a3abf8496942c"), "palabra1" : "canto", "palabra2" : "miserere", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955fd1430a3abf849692db"), "palabra1" : "canto", "palabra2" : "cuerno", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969358"), "palabra1" : "canto", "palabra2" : "fantoche", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969377"), "palabra1" : "canto", "palabra2" : "gallo", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969387"), "palabra1" : "canto", "palabra2" : "gloria", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf849693ae"), "palabra1" : "canto", "palabra2" : "hombre", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf84969409"), "palabra1" : "canto", "palabra2" : "macho", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fd1430a3abf849694ae"), "palabra1" : "canto", "palabra2" : "pájaro", "r1" : "el", "r2" : "del", "r3" : "en", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra2:"loco",r1:"la",r2:"el"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b95634e430a3abf84c73db0"), "palabra1" : "gabardina", "palabra2" : "loco", "r1" : "la", "r2" : "el", "r3" : "de", "frecuencia" : 50 }
+{ "_id" : ObjectId("5b956016430a3abf849a95b7"), "palabra1" : "chunga", "palabra2" : "loco", "r1" : "la", "r2" : "el", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95672a430a3abf84fbfc29"), "palabra1" : "página", "palabra2" : "loco", "r1" : "la", "r2" : "el", "r3" : "a", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955e9c430a3abf84848b0a"), "palabra1" : "acuarela", "palabra2" : "loco", "r1" : "la", "r2" : "el", "r3" : "el", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9561cb430a3abf84b24880"), "palabra1" : "dramaturgia", "palabra2" : "loco", "r1" : "la", "r2" : "el", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9565d1430a3abf84e910a0"), "palabra1" : "obra", "palabra2" : "loco", "r1" : "la", "r2" : "el", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956668430a3abf84f1e38e"), "palabra1" : "picó", "palabra2" : "loco", "r1" : "la", "r2" : "el", "r3" : "la", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95672a430a3abf84fbfc2a"), "palabra1" : "página", "palabra2" : "loco", "r1" : "la", "r2" : "el", "r3" : "de", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra1:"gabardina",r1:"la",r2:"el"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b95634e430a3abf84c73db0"), "palabra1" : "gabardina", "palabra2" : "loco", "r1" : "la", "r2" : "el", "r3" : "de", "frecuencia" : 50 }
+
+> db.relacionesFuncionales.find({palabra1:"loco",r2:"y",r3:"a"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9564c0430a3abf84daf816"), "palabra1" : "loco", "palabra2" : "bloqueando", "r1" : "un", "r2" : "y", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564c0430a3abf84daf81d"), "palabra1" : "loco", "palabra2" : "casar", "r1" : "el", "r2" : "y", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564c0430a3abf84daf838"), "palabra1" : "loco", "palabra2" : "dispuesto", "r1" : "de", "r2" : "y", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564c1430a3abf84daf86e"), "palabra1" : "loco", "palabra2" : "negándose", "r1" : "un", "r2" : "y", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564c1430a3abf84daf887"), "palabra1" : "loco", "palabra2" : "tambien", "r1" : "un", "r2" : "y", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564c1430a3abf84daf898"), "palabra1" : "loco", "palabra2" : "viene", "r1" : "el", "r2" : "y", "r3" : "a", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.find({palabra2:"bloqueando",r2:"y",r3:"a"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955f1e430a3abf848c1bcc"), "palabra1" : "artículo", "palabra2" : "bloqueando", "r1" : "el", "r2" : "y", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9564c0430a3abf84daf816"), "palabra1" : "loco", "palabra2" : "bloqueando", "r1" : "un", "r2" : "y", "r3" : "a", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b95696f430a3abf841b98ff"), "palabra1" : "vea", "palabra2" : "bloqueando", "r1" : "que", "r2" : "y", "r3" : "a", "frecuencia" : 1 }
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"esposa"}},{$group:{_id:"$palabra2",sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : "presidente", "sum" : 59 }
+{ "_id" : "madre", "sum" : 17 }
+{ "_id" : "rey", "sum" : 17 }
+{ "_id" : "hija", "sum" : 16 }
+{ "_id" : "hijos", "sum" : 16 }
+{ "_id" : "personaje", "sum" : 15 }
+{ "_id" : "DIGITO", "sum" : 14 }
+{ "_id" : "jefe", "sum" : 13 }
+{ "_id" : "hijo", "sum" : 13 }
+{ "_id" : "director", "sum" : 13 }
+{ "_id" : "dueño", "sum" : 12 }
+{ "_id" : "dios", "sum" : 12 }
+{ "_id" : "pedro", "sum" : 10 }
+{ "_id" : "gobernador", "sum" : 10 }
+{ "_id" : "éste", "sum" : 10 }
+{ "_id" : "embajador", "sum" : 8 }
+{ "_id" : "hermana", "sum" : 7 }
+{ "_id" : "duque", "sum" : 7 }
+{ "_id" : "general", "sum" : 7 }
+{ "_id" : "actor", "sum" : 7 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"esposa"}},{$group:{_id:"$palabra1",sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : "ser", "sum" : 81 }
+{ "_id" : "era", "sum" : 75 }
+{ "_id" : "DIGITO", "sum" : 73 }
+{ "_id" : "es", "sum" : 67 }
+{ "_id" : "fue", "sum" : 42 }
+{ "_id" : "castilla", "sum" : 16 }
+{ "_id" : "convirtió", "sum" : 15 }
+{ "_id" : "sería", "sum" : 10 }
+{ "_id" : "como", "sum" : 10 }
+{ "_id" : "madre", "sum" : 10 }
+{ "_id" : "aragón", "sum" : 10 }
+{ "_id" : "realidad", "sum" : 9 }
+{ "_id" : "portugal", "sum" : 9 }
+{ "_id" : "tiene", "sum" : 8 }
+{ "_id" : "papel", "sum" : 7 }
+{ "_id" : "inglaterra", "sum" : 7 }
+{ "_id" : "tomó", "sum" : 7 }
+{ "_id" : "fuera", "sum" : 6 }
+{ "_id" : "rey", "sum" : 6 }
+{ "_id" : "convertiría", "sum" : 6 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"marido"}},{$group:{_id:"$palabra2",sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : "ida", "sum" : 67 }
+{ "_id" : "mujer", "sum" : 17 }
+{ "_id" : "maría", "sum" : 7 }
+{ "_id" : "DIGITO", "sum" : 6 }
+{ "_id" : "personaje", "sum" : 4 }
+{ "_id" : "compañero", "sum" : 4 }
+{ "_id" : "protegerlos", "sum" : 3 }
+{ "_id" : "padre", "sum" : 3 }
+{ "_id" : "juana", "sum" : 3 }
+{ "_id" : "mar", "sum" : 3 }
+{ "_id" : "ésta", "sum" : 3 }
+{ "_id" : "encargaba", "sum" : 3 }
+{ "_id" : "adscribe", "sum" : 3 }
+{ "_id" : "trabajaba", "sum" : 2 }
+{ "_id" : "sorprendía", "sum" : 2 }
+{ "_id" : "vidal", "sum" : 2 }
+{ "_id" : "preguntaba", "sum" : 2 }
+{ "_id" : "poder", "sum" : 2 }
+{ "_id" : "pega", "sum" : 2 }
+{ "_id" : "parte", "sum" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"marido"}},{$group:{_id:"$palabra1",sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : "presencia", "sum" : 51 }
+{ "_id" : "es", "sum" : 18 }
+{ "_id" : "DIGITO", "sum" : 12 }
+{ "_id" : "ser", "sum" : 11 }
+{ "_id" : "muerte", "sum" : 10 }
+{ "_id" : "mujer", "sum" : 9 }
+{ "_id" : "apellido", "sum" : 8 }
+{ "_id" : "papel", "sum" : 7 }
+{ "_id" : "casa", "sum" : 6 }
+{ "_id" : "tenía", "sum" : 5 }
+{ "_id" : "fue", "sum" : 5 }
+{ "_id" : "busco", "sum" : 5 }
+{ "_id" : "viene", "sum" : 4 }
+{ "_id" : "interpretar", "sum" : 4 }
+{ "_id" : "dúo", "sum" : 4 }
+{ "_id" : "nombre", "sum" : 4 }
+{ "_id" : "buscar", "sum" : 4 }
+{ "_id" : "reversión", "sum" : 3 }
+{ "_id" : "restos", "sum" : 3 }
+{ "_id" : "quita", "sum" : 3 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"esposo"}},{$group:{_id:"$palabra2",sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : "estela", "sum" : 14 }
+{ "_id" : "esposa", "sum" : 5 }
+{ "_id" : "convirtió", "sum" : 4 }
+{ "_id" : "convierte", "sum" : 4 }
+{ "_id" : "olga", "sum" : 3 }
+{ "_id" : "lily", "sum" : 3 }
+{ "_id" : "padre", "sum" : 3 }
+{ "_id" : "hijo", "sum" : 3 }
+{ "_id" : "isabel", "sum" : 3 }
+{ "_id" : "eleanor", "sum" : 3 }
+{ "_id" : "juana", "sum" : 3 }
+{ "_id" : "parte", "sum" : 2 }
+{ "_id" : "maggie", "sum" : 2 }
+{ "_id" : "remedios", "sum" : 2 }
+{ "_id" : "mar", "sum" : 2 }
+{ "_id" : "sachiko", "sum" : 2 }
+{ "_id" : "adelaida", "sum" : 2 }
+{ "_id" : "perdona", "sum" : 2 }
+{ "_id" : "anita", "sum" : 2 }
+{ "_id" : "ellie", "sum" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"esposo"}},{$group:{_id:"$palabra1",sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+mongodb overflow sort stage buffered data usage{ "_id" : "DIGITO", "sum" : 19 }
+{ "_id" : "es", "sum" : 16 }
+{ "_id" : "ser", "sum" : 8 }
+{ "_id" : "era", "sum" : 7 }
+{ "_id" : "muerte", "sum" : 6 }
+{ "_id" : "fue", "sum" : 6 }
+{ "_id" : "nombre", "sum" : 6 }
+{ "_id" : "cuando", "sum" : 6 }
+{ "_id" : "interpretó", "sum" : 3 }
+{ "_id" : "papel", "sum" : 3 }
+{ "_id" : "consentimiento", "sum" : 3 }
+{ "_id" : "apellido", "sum" : 3 }
+{ "_id" : "amante", "sum" : 3 }
+{ "_id" : "familia", "sum" : 3 }
+{ "_id" : "sería", "sum" : 2 }
+{ "_id" : "sea", "sum" : 2 }
+{ "_id" : "rey", "sum" : 2 }
+{ "_id" : "padre", "sum" : 2 }
+{ "_id" : "será", "sum" : 2 }
+{ "_id" : "llama", "sum" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra2:"esposa"}},{$group:{_id:{r1:"$r1",r2:"$r2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r1" : "de", "r2" : "y" }, "sum" : 289 }
+{ "_id" : { "r1" : "que", "r2" : "la" }, "sum" : 118 }
+{ "_id" : { "r1" : "de", "r2" : "la" }, "sum" : 54 }
+{ "_id" : { "r1" : "en", "r2" : "la" }, "sum" : 51 }
+{ "_id" : { "r1" : "ella", "r2" : "la" }, "sum" : 43 }
+{ "_id" : { "r1" : "por", "r2" : "la" }, "sum" : 38 }
+{ "_id" : { "r1" : "la", "r2" : "y" }, "sum" : 34 }
+{ "_id" : { "r1" : "y", "r2" : "la" }, "sum" : 34 }
+{ "_id" : { "r1" : "a", "r2" : "la" }, "sum" : 27 }
+{ "_id" : { "r1" : "del", "r2" : "y" }, "sum" : 24 }
+{ "_id" : { "r1" : "se", "r2" : "en" }, "sum" : 23 }
+{ "_id" : { "r1" : "quien", "r2" : "la" }, "sum" : 22 }
+{ "_id" : { "r1" : "el", "r2" : "de" }, "sum" : 21 }
+{ "_id" : { "r1" : "al", "r2" : "la" }, "sum" : 16 }
+{ "_id" : { "r1" : "no", "r2" : "la" }, "sum" : 15 }
+{ "_id" : { "r1" : "para", "r2" : "la" }, "sum" : 13 }
+{ "_id" : { "r1" : "y", "r2" : "por" }, "sum" : 12 }
+{ "_id" : { "r1" : "donde", "r2" : "la" }, "sum" : 10 }
+{ "_id" : { "r1" : "la", "r2" : "la" }, "sum" : 10 }
+{ "_id" : { "r1" : "que", "r2" : "una" }, "sum" : 9 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"esposa",r1:"de",r2:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955ff2430a3abf8498828f"), "palabra1" : "castilla", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 12 }
+{ "_id" : ObjectId("5b956425430a3abf84d24caf"), "palabra1" : "inglaterra", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b955f08430a3abf848adb99"), "palabra1" : "aragón", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b955f08430a3abf848adb9a"), "palabra1" : "aragón", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "del", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b95669e430a3abf84f4fcd5"), "palabra1" : "portugal", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b955ff2430a3abf84988290"), "palabra1" : "castilla", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "del", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b956497430a3abf84d8910f"), "palabra1" : "león", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b955f48430a3abf848e8a4d"), "palabra1" : "austria", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "del", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95628e430a3abf84bc381f"), "palabra1" : "españa", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "del", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95669e430a3abf84f4fcd6"), "palabra1" : "portugal", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "del", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b956817430a3abf84099b8a"), "palabra1" : "servilia", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955ec1430a3abf8486b9ec"), "palabra1" : "alanwë", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955ec3430a3abf8486d5ce"), "palabra1" : "alburquerque", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955f44430a3abf848e4d1d"), "palabra1" : "augusto", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955f7c430a3abf84919ca8"), "palabra1" : "belleza", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955f92430a3abf8492dde9"), "palabra1" : "borgoña", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955f92430a3abf8492ddea"), "palabra1" : "borgoña", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "del", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955ffa430a3abf8498f3b6"), "palabra1" : "catón", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95619b430a3abf84afba1c"), "palabra1" : "diocleciano", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95636d430a3abf84c8f972"), "palabra1" : "gontroda", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"castilla",r1:"de",r2:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955ff2430a3abf849883c1"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "del", "frecuencia" : 830 }
+{ "_id" : ObjectId("5b955ff2430a3abf849883c8"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "en", "frecuencia" : 381 }
+{ "_id" : ObjectId("5b955ff2430a3abf84987ff4"), "palabra1" : "castilla", "palabra2" : "DIGITO", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 290 }
+{ "_id" : ObjectId("5b955ff3430a3abf849883ee"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "y", "frecuencia" : 278 }
+{ "_id" : ObjectId("5b955ff2430a3abf849883c0"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 262 }
+{ "_id" : ObjectId("5b955ff3430a3abf849883dc"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "por", "frecuencia" : 214 }
+{ "_id" : ObjectId("5b955ff3430a3abf849883e3"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "sin", "frecuencia" : 117 }
+{ "_id" : ObjectId("5b955ff3430a3abf849883d5"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "mediante", "frecuencia" : 101 }
+{ "_id" : ObjectId("5b955ff2430a3abf849883be"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "con", "frecuencia" : 66 }
+{ "_id" : ObjectId("5b955ff3430a3abf849883de"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "que", "frecuencia" : 60 }
+{ "_id" : ObjectId("5b955ff2430a3abf849883c7"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "el", "frecuencia" : 52 }
+{ "_id" : ObjectId("5b955ff2430a3abf849883b7"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "a", "frecuencia" : 44 }
+{ "_id" : ObjectId("5b955ff3430a3abf849883e1"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "se", "frecuencia" : 33 }
+{ "_id" : ObjectId("5b955ff3430a3abf849886d4"), "palabra1" : "castilla", "palabra2" : "señor", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 33 }
+{ "_id" : ObjectId("5b955ff3430a3abf849885d2"), "palabra1" : "castilla", "palabra2" : "ponce", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 27 }
+{ "_id" : ObjectId("5b955ff2430a3abf84988297"), "palabra1" : "castilla", "palabra2" : "estación", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 25 }
+{ "_id" : ObjectId("5b955ff2430a3abf8498838f"), "palabra1" : "castilla", "palabra2" : "leon", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 23 }
+{ "_id" : ObjectId("5b955ff3430a3abf849883ce"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "la", "frecuencia" : 23 }
+{ "_id" : ObjectId("5b955ff3430a3abf849883d8"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "o", "frecuencia" : 23 }
+{ "_id" : ObjectId("5b955ff2430a3abf849882c2"), "palabra1" : "castilla", "palabra2" : "fernando", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 22 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"castilla",r1:"de",r2:"y",r3:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b955ff2430a3abf84987ff4"), "palabra1" : "castilla", "palabra2" : "DIGITO", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 290 }
+{ "_id" : ObjectId("5b955ff2430a3abf849883c0"), "palabra1" : "castilla", "palabra2" : "león", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 262 }
+{ "_id" : ObjectId("5b955ff3430a3abf849886d4"), "palabra1" : "castilla", "palabra2" : "señor", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 33 }
+{ "_id" : ObjectId("5b955ff3430a3abf849885d2"), "palabra1" : "castilla", "palabra2" : "ponce", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 27 }
+{ "_id" : ObjectId("5b955ff2430a3abf84988297"), "palabra1" : "castilla", "palabra2" : "estación", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 25 }
+{ "_id" : ObjectId("5b955ff2430a3abf8498838f"), "palabra1" : "castilla", "palabra2" : "leon", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 23 }
+{ "_id" : ObjectId("5b955ff2430a3abf849882c2"), "palabra1" : "castilla", "palabra2" : "fernando", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 22 }
+{ "_id" : ObjectId("5b955ff3430a3abf84988522"), "palabra1" : "castilla", "palabra2" : "nieto", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 22 }
+{ "_id" : ObjectId("5b955ff3430a3abf84988699"), "palabra1" : "castilla", "palabra2" : "rey", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 21 }
+{ "_id" : ObjectId("5b955ff2430a3abf849881b0"), "palabra1" : "castilla", "palabra2" : "corona", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 18 }
+{ "_id" : ObjectId("5b955ff2430a3abf849882ff"), "palabra1" : "castilla", "palabra2" : "garcía", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 18 }
+{ "_id" : ObjectId("5b955ff2430a3abf8498839c"), "palabra1" : "castilla", "palabra2" : "leonor", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 16 }
+{ "_id" : ObjectId("5b955ff3430a3abf84988455"), "palabra1" : "castilla", "palabra2" : "madre", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 16 }
+{ "_id" : ObjectId("5b955ff3430a3abf849884dc"), "palabra1" : "castilla", "palabra2" : "maría", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b955ff3430a3abf84988672"), "palabra1" : "castilla", "palabra2" : "reino", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b955ff3430a3abf84988520"), "palabra1" : "castilla", "palabra2" : "nieta", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 13 }
+{ "_id" : ObjectId("5b955ff2430a3abf8498828f"), "palabra1" : "castilla", "palabra2" : "esposa", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 12 }
+{ "_id" : ObjectId("5b955ff2430a3abf84988168"), "palabra1" : "castilla", "palabra2" : "conde", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 11 }
+{ "_id" : ObjectId("5b955ff3430a3abf849886d6"), "palabra1" : "castilla", "palabra2" : "señora", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 9 }
+{ "_id" : ObjectId("5b955ff2430a3abf849880ea"), "palabra1" : "castilla", "palabra2" : "caballero", "r1" : "de", "r2" : "y", "r3" : "de", "frecuencia" : 8 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$match:{palabra1:"esposa"}},{$group:{_id:{r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}])
+{ "_id" : { "r2" : "de", "r3" : "y" }, "sum" : 272 }
+{ "_id" : { "r2" : "del", "r3" : "de" }, "sum" : 239 }
+{ "_id" : { "r2" : "de", "r3" : "de" }, "sum" : 125 }
+{ "_id" : { "r2" : "del", "r3" : "y" }, "sum" : 57 }
+{ "_id" : { "r2" : "de", "r3" : "se" }, "sum" : 49 }
+{ "_id" : { "r2" : "del", "r3" : "del" }, "sum" : 48 }
+{ "_id" : { "r2" : "de", "r3" : "en" }, "sum" : 35 }
+{ "_id" : { "r2" : "y", "r3" : "de" }, "sum" : 33 }
+{ "_id" : { "r2" : "de", "r3" : "el" }, "sum" : 32 }
+{ "_id" : { "r2" : "e", "r3" : "de" }, "sum" : 24 }
+{ "_id" : { "r2" : "de", "r3" : "que" }, "sum" : 21 }
+{ "_id" : { "r2" : "de", "r3" : "no" }, "sum" : 19 }
+{ "_id" : { "r2" : "del", "r3" : "se" }, "sum" : 16 }
+{ "_id" : { "r2" : "del", "r3" : "en" }, "sum" : 16 }
+{ "_id" : { "r2" : "y", "r3" : "del" }, "sum" : 13 }
+{ "_id" : { "r2" : "de", "r3" : "le" }, "sum" : 13 }
+{ "_id" : { "r2" : "de", "r3" : "lo" }, "sum" : 12 }
+{ "_id" : { "r2" : "del", "r3" : "no" }, "sum" : 11 }
+{ "_id" : { "r2" : "e", "r3" : "del" }, "sum" : 11 }
+{ "_id" : { "r2" : "de", "r3" : "a" }, "sum" : 11 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra1:"esposa",r2:"de",r3:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b95629c430a3abf84bd04f1"), "palabra1" : "esposa", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0568"), "palabra1" : "esposa", "palabra2" : "rick", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd021e"), "palabra1" : "esposa", "palabra2" : "antonio", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0279"), "palabra1" : "esposa", "palabra2" : "carlisle", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0292"), "palabra1" : "esposa", "palabra2" : "claudio", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0453"), "palabra1" : "esposa", "palabra2" : "luis", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0612"), "palabra1" : "esposa", "palabra2" : "éste", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0208"), "palabra1" : "esposa", "palabra2" : "alfeo", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd020c"), "palabra1" : "esposa", "palabra2" : "allen", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0223"), "palabra1" : "esposa", "palabra2" : "aquaman", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0294"), "palabra1" : "esposa", "palabra2" : "cochise", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd02c4"), "palabra1" : "esposa", "palabra2" : "creonte", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd03ea"), "palabra1" : "esposa", "palabra2" : "húrin", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd041b"), "palabra1" : "esposa", "palabra2" : "joe", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd046d"), "palabra1" : "esposa", "palabra2" : "manoa", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd049d"), "palabra1" : "esposa", "palabra2" : "monroe", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd04b3"), "palabra1" : "esposa", "palabra2" : "ned", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd04d6"), "palabra1" : "esposa", "palabra2" : "ossë", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd05b8"), "palabra1" : "esposa", "palabra2" : "sven", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd05ce"), "palabra1" : "esposa", "palabra2" : "tom", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"pedro",r1:"la",r2:"de",r3:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b95629c430a3abf84bd04f1"), "palabra1" : "esposa", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b955f4c430a3abf848eca16"), "palabra1" : "autoridad", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b956555430a3abf84e39b00"), "palabra1" : "muerte", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955ff7430a3abf8498c766"), "palabra1" : "catedral", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956095430a3abf84a0891a"), "palabra1" : "confesión", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956326430a3abf84c4f066"), "palabra1" : "fortaleza", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9563d4430a3abf84cdb2be"), "palabra1" : "historia", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9569aa430a3abf841f031c"), "palabra1" : "vocación", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955e85430a3abf84833f46"), "palabra1" : "academia", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955f8d430a3abf849294f5"), "palabra1" : "boda", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b955fea430a3abf84980016"), "palabra1" : "casa", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956157430a3abf84abce90"), "palabra1" : "deposición", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956255430a3abf84b8f440"), "palabra1" : "epístola", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9563c8430a3abf84ccfa2a"), "palabra1" : "hermana", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9563f3430a3abf84cf5f9c"), "palabra1" : "identidad", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b9563f6430a3abf84cf8f4b"), "palabra1" : "iglesia", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956452430a3abf84d4f45d"), "palabra1" : "ira", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956559430a3abf84e3deed"), "palabra1" : "mujer", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956567430a3abf84e4a882"), "palabra1" : "musica", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+{ "_id" : ObjectId("5b956594430a3abf84e5dfb1"), "palabra1" : "nave", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 1 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"pedro",r2:"de",r3:"y"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b95610e430a3abf84a78e40"), "palabra1" : "cuento", "palabra2" : "pedro", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd04f1"), "palabra1" : "esposa", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b955efb430a3abf848a1348"), "palabra1" : "apocalipsis", "palabra2" : "pedro", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955f4c430a3abf848eca16"), "palabra1" : "autoridad", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b9563c5430a3abf84cccf19"), "palabra1" : "hechos", "palabra2" : "pedro", "r1" : "los", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b956555430a3abf84e39b00"), "palabra1" : "muerte", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b9566c0430a3abf84f70318"), "palabra1" : "primado", "palabra2" : "pedro", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b955fa1430a3abf8493c1a1"), "palabra1" : "busca", "palabra2" : "pedro", "r1" : "en", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b955ff7430a3abf8498c766"), "palabra1" : "catedral", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956095430a3abf84a0891a"), "palabra1" : "confesión", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956185430a3abf84ae75a5"), "palabra1" : "devotos", "palabra2" : "pedro", "r1" : "con", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9562c6430a3abf84bf560b"), "palabra1" : "evangelio", "palabra2" : "pedro", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956326430a3abf84c4f066"), "palabra1" : "fortaleza", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9563d4430a3abf84cdb2be"), "palabra1" : "historia", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95642a430a3abf84d29bfe"), "palabra1" : "iniciativa", "palabra2" : "pedro", "r1" : "por", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956500430a3abf84deac49"), "palabra1" : "matrimonio", "palabra2" : "pedro", "r1" : "el", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9565b4430a3abf84e76d52"), "palabra1" : "nombres", "palabra2" : "pedro", "r1" : "los", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b95660d430a3abf84ec90ef"), "palabra1" : "palabras", "palabra2" : "pedro", "r1" : "las", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b956642430a3abf84efadd8"), "palabra1" : "pedro", "palabra2" : "pedro", "r1" : "de", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+{ "_id" : ObjectId("5b9569aa430a3abf841f031c"), "palabra1" : "vocación", "palabra2" : "pedro", "r1" : "la", "r2" : "de", "r3" : "y", "frecuencia" : 2 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.find({palabra1:"esposa",r2:"del",r3:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b95629c430a3abf84bd0523"), "palabra1" : "esposa", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 38 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0304"), "palabra1" : "esposa", "palabra2" : "dueño", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 11 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0563"), "palabra1" : "esposa", "palabra2" : "rey", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 11 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd04fd"), "palabra1" : "esposa", "palabra2" : "personaje", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 10 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd02f8"), "palabra1" : "esposa", "palabra2" : "director", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 8 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd031d"), "palabra1" : "esposa", "palabra2" : "embajador", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0394"), "palabra1" : "esposa", "palabra2" : "gobernador", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 7 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0203"), "palabra1" : "esposa", "palabra2" : "alcalde", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 6 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0381"), "palabra1" : "esposa", "palabra2" : "general", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 5 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd02a9"), "palabra1" : "esposa", "palabra2" : "conde", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd040b"), "palabra1" : "esposa", "palabra2" : "jefe", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0495"), "palabra1" : "esposa", "palabra2" : "ministro", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd052a"), "palabra1" : "esposa", "palabra2" : "presidente", "r1" : "y", "r2" : "del", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0540"), "palabra1" : "esposa", "palabra2" : "príncipe", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0566"), "palabra1" : "esposa", "palabra2" : "rey", "r1" : "y", "r2" : "del", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd05e8"), "palabra1" : "esposa", "palabra2" : "vicepresidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 4 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0274"), "palabra1" : "esposa", "palabra2" : "cantar", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0306"), "palabra1" : "esposa", "palabra2" : "duque", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0321"), "palabra1" : "esposa", "palabra2" : "emperador", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 3 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd03bf"), "palabra1" : "esposa", "palabra2" : "hermano", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 3 }
+Type "it" for more
+
+> db.relacionesFuncionales.find({palabra2:"presidente",r1:"la",r2:"del",r3:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b9561f2430a3abf84b48d11"), "palabra1" : "elección", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 174 }
+{ "_id" : ObjectId("5b9566b5430a3abf84f66232"), "palabra1" : "presencia", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 67 }
+{ "_id" : ObjectId("5b95629c430a3abf84bd0523"), "palabra1" : "esposa", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 38 }
+{ "_id" : ObjectId("5b9565e4430a3abf84ea30c0"), "palabra1" : "oficina", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 31 }
+{ "_id" : ObjectId("5b95678f430a3abf8401b1fc"), "palabra1" : "renuncia", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 31 }
+{ "_id" : ObjectId("5b95679e430a3abf84029101"), "palabra1" : "residencia", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 26 }
+{ "_id" : ObjectId("5b9560d5430a3abf84a440b2"), "palabra1" : "copa", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 24 }
+{ "_id" : ObjectId("5b9569a2430a3abf841e9091"), "palabra1" : "visita", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 24 }
+{ "_id" : ObjectId("5b9563ce430a3abf84cd5987"), "palabra1" : "hija", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 23 }
+{ "_id" : ObjectId("5b95644b430a3abf84d481e9"), "palabra1" : "investidura", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 22 }
+{ "_id" : ObjectId("5b956137430a3abf84a9f742"), "palabra1" : "decisión", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 17 }
+{ "_id" : ObjectId("5b9567f8430a3abf8407c7d1"), "palabra1" : "sede", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 17 }
+{ "_id" : ObjectId("5b955ea6430a3abf848523f2"), "palabra1" : "administración", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b956198430a3abf84af8964"), "palabra1" : "dimisión", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b956555430a3abf84e39bbf"), "palabra1" : "muerte", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 14 }
+{ "_id" : ObjectId("5b956303430a3abf84c2eb2f"), "palabra1" : "figura", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 13 }
+{ "_id" : ObjectId("5b955f31430a3abf848d3538"), "palabra1" : "asistencia", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 10 }
+{ "_id" : ObjectId("5b956311430a3abf84c3babd"), "palabra1" : "firma", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 9 }
+{ "_id" : ObjectId("5b956444430a3abf84d425f5"), "palabra1" : "intervención", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 9 }
+{ "_id" : ObjectId("5b955f4c430a3abf848eca47"), "palabra1" : "autoridad", "palabra2" : "presidente", "r1" : "la", "r2" : "del", "r3" : "de", "frecuencia" : 8 }
+Type "it" for more
+
+>> db.relacionesFuncionales.aggregate([{$group:{_id:"$r2",sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}],{allowDiskUse:true})
+{ "_id" : "de", "sum" : 8558125 }
+{ "_id" : "la", "sum" : 2476614 }
+{ "_id" : "y", "sum" : 2400650 }
+{ "_id" : "que", "sum" : 1529027 }
+{ "_id" : "a", "sum" : 1492914 }
+{ "_id" : "en", "sum" : 1402605 }
+{ "_id" : "el", "sum" : 1331763 }
+{ "_id" : "del", "sum" : 1194490 }
+{ "_id" : "se", "sum" : 1033527 }
+{ "_id" : "un", "sum" : 623978 }
+{ "_id" : "para", "sum" : 615852 }
+{ "_id" : "las", "sum" : 614812 }
+{ "_id" : "una", "sum" : 541076 }
+{ "_id" : "al", "sum" : 440830 }
+{ "_id" : "no", "sum" : 342032 }
+{ "_id" : "este", "sum" : 320575 }
+{ "_id" : "los", "sum" : 299515 }
+{ "_id" : "por", "sum" : 293092 }
+{ "_id" : "con", "sum" : 254469 }
+{ "_id" : "desde", "sum" : 170494 }
+Type "it" for more
+
+> db.relacionesFuncionales.aggregate([{$group:{_id:{p1:"$palabra1",r:"$r2",p2:"$palabra2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}],{allowDiskUse:true})
+{ "_id" : { "p1" : "informarte", "r" : "y", "p2" : "tienes" }, "sum" : 637720 }
+{ "_id" : { "p1" : "empañas", "r" : "la", "p2" : "imagen" }, "sum" : 568129 }
+{ "_id" : { "p1" : "damos", "r" : "la", "p2" : "bienvenida" }, "sum" : 492891 }
+{ "_id" : { "p1" : "trata", "r" : "de", "p2" : "reconocer" }, "sum" : 376175 }
+{ "_id" : { "p1" : "pruebas", "r" : "de", "p2" : "edición" }, "sum" : 376115 }
+{ "_id" : { "p1" : "aceptes", "r" : "las", "p2" : "disculpas" }, "sum" : 376067 }
+{ "_id" : { "p1" : "pruebas", "r" : "la", "p2" : "zona" }, "sum" : 293395 }
+{ "_id" : { "p1" : "fecha", "r" : "y", "p2" : "hora" }, "sum" : 280335 }
+{ "_id" : { "p1" : "invitamos", "r" : "a", "p2" : "colaborar" }, "sum" : 280283 }
+{ "_id" : { "p1" : "lees", "r" : "este", "p2" : "mensaje" }, "sum" : 280210 }
+{ "_id" : { "p1" : "nombre", "r" : "de", "p2" : "usuario" }, "sum" : 208119 }
+{ "_id" : { "p1" : "wikis", "r" : "de", "p2" : "wikimedia" }, "sum" : 185787 }
+{ "_id" : { "p1" : "equipo", "r" : "de", "p2" : "desarrolladores" }, "sum" : 185782 }
+{ "_id" : { "p1" : "tendrás", "r" : "que", "p2" : "usar" }, "sum" : 185760 }
+{ "_id" : { "p1" : "página", "r" : "de", "p2" : "discusión" }, "sum" : 133530 }
+{ "_id" : { "p1" : "comenzar", "r" : "a", "p2" : "editar" }, "sum" : 125436 }
+{ "_id" : { "p1" : "tiempo", "r" : "para", "p2" : "explorar" }, "sum" : 125349 }
+{ "_id" : { "p1" : "DIGITO", "r" : "desde", "p2" : "entonces" }, "sum" : 124130 }
+{ "_id" : { "p1" : "surgió", "r" : "en", "p2" : "mayo" }, "sum" : 123743 }
+{ "_id" : { "p1" : "dejar", "r" : "un", "p2" : "mensaje" }, "sum" : 123725 }
+Type "it" for more
+> it
+
+> db.relacionesFuncionales.aggregate([{$group:{_id:{r1:"$r1",r2:"$r2",r3:"$r3"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}],{allowDiskUse:true})
+{ "_id" : { "r1" : "el", "r2" : "de", "r3" : "de" }, "sum" : 1223153 }
+{ "_id" : { "r1" : "de", "r2" : "de", "r3" : "de" }, "sum" : 674274 }
+{ "_id" : { "r1" : "para", "r2" : "y", "r3" : "la" }, "sum" : 640037 }
+{ "_id" : { "r1" : "y", "r2" : "la", "r3" : "de" }, "sum" : 454465 }
+{ "_id" : { "r1" : "y", "r2" : "de", "r3" : "en" }, "sum" : 400185 }
+{ "_id" : { "r1" : "te", "r2" : "la", "r3" : "al" }, "sum" : 395095 }
+{ "_id" : { "r1" : "que", "r2" : "las", "r3" : "de" }, "sum" : 393054 }
+{ "_id" : { "r1" : "que", "r2" : "de", "r3" : "y" }, "sum" : 380946 }
+{ "_id" : { "r1" : "de", "r2" : "la", "r3" : "de" }, "sum" : 339244 }
+{ "_id" : { "r1" : "la", "r2" : "y", "r3" : "de" }, "sum" : 317099 }
+{ "_id" : { "r1" : "te", "r2" : "a", "r3" : "en" }, "sum" : 282678 }
+{ "_id" : { "r1" : "si", "r2" : "este", "r3" : "por" }, "sum" : 280216 }
+{ "_id" : { "r1" : "y", "r2" : "la", "r3" : "que" }, "sum" : 238823 }
+{ "_id" : { "r1" : "la", "r2" : "de", "r3" : "de" }, "sum" : 237003 }
+{ "_id" : { "r1" : "de", "r2" : "y", "r3" : "de" }, "sum" : 228196 }
+{ "_id" : { "r1" : "las", "r2" : "de", "r3" : "en" }, "sum" : 203648 }
+{ "_id" : { "r1" : "pero", "r2" : "que", "r3" : "el" }, "sum" : 186654 }
+{ "_id" : { "r1" : "mismo", "r2" : "de", "r3" : "en" }, "sum" : 186066 }
+{ "_id" : { "r1" : "del", "r2" : "de", "r3" : "de" }, "sum" : 163731 }
+{ "_id" : { "r1" : "de", "r2" : "de", "r3" : "en" }, "sum" : 141285 }
+Type "it" for more
+
+
+
+> db.relacionesFuncionales.aggregate([{$match:{r1:"el",r2:"de",r3:"de"}},{$group:{_id:{p1:"$palabra1",p2:"$palabra2"},sum:{$sum:"$frecuencia"}}},{$sort:{sum:-1}}],{allowDiskUse:true})
+{ "_id" : { "p1" : "equipo", "p2" : "desarrolladores" }, "sum" : 185768 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "mayo" }, "sum" : 75240 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "enero" }, "sum" : 74590 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "marzo" }, "sum" : 74475 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "julio" }, "sum" : 74152 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "octubre" }, "sum" : 73952 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "junio" }, "sum" : 72433 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "diciembre" }, "sum" : 72172 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "noviembre" }, "sum" : 69312 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "septiembre" }, "sum" : 69299 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "abril" }, "sum" : 69103 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "agosto" }, "sum" : 67526 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "febrero" }, "sum" : 62960 }
+{ "_id" : { "p1" : "punto", "p2" : "vista" }, "sum" : 2073 }
+{ "_id" : { "p1" : "total", "p2" : "población" }, "sum" : 1497 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "setiembre" }, "sum" : 1479 }
+{ "_id" : { "p1" : "DIGITO", "p2" : "DIGITO" }, "sum" : 1216 }
+{ "_id" : { "p1" : "escudo", "p2" : "armas" }, "sum" : 1157 }
+{ "_id" : { "p1" : "distrito", "p2" : "distrito" }, "sum" : 1093 }
+{ "_id" : { "p1" : "festival", "p2" : "cine" }, "sum" : 1056 }
+Type "it" for more
+
+
+> db.relacionesFuncionales.find({palabra1:"equipo",r1:"el",r2:"de",r3:"de"}).sort({frecuencia:-1})
+{ "_id" : ObjectId("5b956257430a3abf84b90bb6"), "palabra1" : "equipo", "palabra2" : "desarrolladores", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 185768 }
+{ "_id" : ObjectId("5b956258430a3abf84b91381"), "palabra1" : "equipo", "palabra2" : "fútbol", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 191 }
+{ "_id" : ObjectId("5b956256430a3abf84b900ad"), "palabra1" : "equipo", "palabra2" : "administración", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 86 }
+{ "_id" : ObjectId("5b956257430a3abf84b90bd8"), "palabra1" : "equipo", "palabra2" : "desarrollo", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 62 }
+{ "_id" : ObjectId("5b956259430a3abf84b92168"), "palabra1" : "equipo", "palabra2" : "producción", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 58 }
+{ "_id" : ObjectId("5b956257430a3abf84b903f7"), "palabra1" : "equipo", "palabra2" : "baloncesto", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 55 }
+{ "_id" : ObjectId("5b956257430a3abf84b90542"), "palabra1" : "equipo", "palabra2" : "béisbol", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 45 }
+{ "_id" : ObjectId("5b956259430a3abf84b92381"), "palabra1" : "equipo", "palabra2" : "redacción", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 41 }
+{ "_id" : ObjectId("5b956259430a3abf84b924a8"), "palabra1" : "equipo", "palabra2" : "rescate", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 38 }
+{ "_id" : ObjectId("5b956259430a3abf84b925b9"), "palabra1" : "equipo", "palabra2" : "rugby", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 33 }
+{ "_id" : ObjectId("5b956258430a3abf84b9176c"), "palabra1" : "equipo", "palabra2" : "investigación", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 28 }
+{ "_id" : ObjectId("5b956259430a3abf84b929b5"), "palabra1" : "equipo", "palabra2" : "trabajo", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 22 }
+{ "_id" : ObjectId("5b956257430a3abf84b90d41"), "palabra1" : "equipo", "palabra2" : "diseño", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 21 }
+{ "_id" : ObjectId("5b956259430a3abf84b92692"), "palabra1" : "equipo", "palabra2" : "selección", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 17 }
+{ "_id" : ObjectId("5b956257430a3abf84b90772"), "palabra1" : "equipo", "palabra2" : "club", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 16 }
+{ "_id" : ObjectId("5b956258430a3abf84b914ba"), "palabra1" : "equipo", "palabra2" : "gobierno", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 15 }
+{ "_id" : ObjectId("5b956257430a3abf84b9078d"), "palabra1" : "equipo", "palabra2" : "colaboración", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 14 }
+{ "_id" : ObjectId("5b956256430a3abf84b8ffbd"), "palabra1" : "equipo", "palabra2" : "DIGITO", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 11 }
+{ "_id" : ObjectId("5b956258430a3abf84b91d07"), "palabra1" : "equipo", "palabra2" : "natación", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 10 }
+{ "_id" : ObjectId("5b956259430a3abf84b927fc"), "palabra1" : "equipo", "palabra2" : "superhéroes", "r1" : "el", "r2" : "de", "r3" : "de", "frecuencia" : 10 }
+Type "it" for more
