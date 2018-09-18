@@ -119,7 +119,7 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 # AQUI COMIENZA EL PROGRAMA
 
-function main() {
+function main {
 ##	Esta es la función principal del programa
 #	utiliza las banderas de las opciones para hacer el procedimiento de cada una de las limpiezas.
 	cat "$1" | iconv -f utf-8 -t utf-8 -c \

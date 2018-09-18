@@ -111,7 +111,7 @@ if [[ $flag_split == true ]]; then
 	entrada="$ruta/corpus/split_${salida}/*"
 fi
 
-
+#FIXME: No he pasado todas las opciones del limpia_corpus al preprocesamiento
 if [[ $flag_split == true ]]; then
 	if [[ ! -d "$ruta/corpus/split_${salida}_out" ]]; then mkdir -p "$ruta/corpus/split_${salida}_out"; else echo "Se encontró un corpus ya limpiado y dividido"; flag_cleaned=true ; fi
 	if [[ $flag_cleaned == false ]]; then bash ../lib/limpia_corpus.sh "$punct2func" -s "$split_LINES" -wo "$ruta/corpus/split_${salida}_out/$salida" $entrada; fi

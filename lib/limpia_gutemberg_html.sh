@@ -62,8 +62,13 @@ function main() {
 	salida="${salida%.*}"
 	salida="${salida}.txt"
 	
-	hxprune -c toc -x "$entrada" | hxselect p | xml2asc | tr -d "\r" | tr "\n" " " | tr -s "[:space:]" | sed 's|</p><p|</p>\n<p|g' | grep -v "</a>" | while read linea; do
-	echo "$linea" | html2text | tr "\n" " "; echo
+	if grep -aq "charset=iso" "$entrada"; then
+		cat "$entrada" | asc2xml
+	else
+		cat "$entrada"
+	fi \
+	| hxprune -c toc -c pagenum -x | hxselect p | tr -d "\r" | tr "\n" " " | tr -s "[:space:]" | sed 's|</p><p|</p>\n<p|g' | grep -av "</a>" | while read linea; do
+	echo "$linea" | html2text -utf8 | tr "\n" " "; echo
 	done > "$salida"
 }
 export -f main
