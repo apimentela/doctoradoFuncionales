@@ -108,7 +108,7 @@ if [[ $flag_split == true ]]; then
 	else
 		echo "Se encontró un corpus ya dividido"
 	fi
-	entrada="$ruta/corpus/split_${salida}/*"
+	entrada="$ruta/corpus/split_${salida}/"*
 fi
 
 #FIXME: No he pasado todas las opciones del limpia_corpus al preprocesamiento
