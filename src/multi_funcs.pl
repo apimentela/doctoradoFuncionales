@@ -18,9 +18,9 @@ $palabras_funcionales =~ s/\n/|/g;
 #~ $expresion_palabras = '(' . $unaOmas_funcionales . ')( .+? )(?=(' . $unaOmas_funcionales . '))'; # Esta expresión regresa todos los contextos de palabras no funcionales rodeados de todoas las palabras funcionales juntas que encuentra al rededor
 #$expresion_palabras = '((?: ?\b(?:' . $palabras_funcionales . ')\b ?))( .+? )(?=((?: ?\b(?:' . $palabras_funcionales . ')\b ?)))'; # ERROR. Esta expresión toma solo UNA palabra funciona, quiza sea suficiente para las primeras pruebas # ERROR; esto no funcionó, regresa dentro de los contextos palabras funcionales.
 
-#~ $unaOmas_funcionales = '((?: ?\b(?:' . $palabras_funcionales . ')\b ?)+)';	# Esta expresión parece ya no funcionar si se toman en cuenta las comas como palabras funcionales, yo creo que es debido a la \b
+$unaOmas_funcionales = '((?: ?\b(?:' . $palabras_funcionales . ')\b ?)+)';	# Esta expresión parece ya no funcionar si se toman en cuenta las comas como palabras funcionales, yo creo que es debido a la \b
 
-$unaOmas_funcionales = '((?: (?:' . $palabras_funcionales . ')(?= ))+)';
+#~ $unaOmas_funcionales = '((?: (?:' . $palabras_funcionales . ')(?= ))+)';
 
 open(INPUT,"<$archivo_contenido") or die "No se pudo abrir el archivo, $!";
 while(<INPUT>){

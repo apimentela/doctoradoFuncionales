@@ -53,8 +53,6 @@ procesadores=$(nproc)
 
 if [[ $flag_splitted == true ]]; then parallel perl -C multi_funcs.pl ::: "$ruta/out/${prefijo_archivo}_funcs1" ::: "$ruta/corpus/split_${prefijo_archivo}_out"/* 
 else perl -C multi_funcs.pl "$ruta/out/${prefijo_archivo}_funcs1" "$ruta/corpus/${prefijo_archivo}_out" 
-fi | sort -S1G --parallel="$procesadores" | uniq -c | sort -S1G --parallel="$procesadores" -rn |
-if [[ $flag_min_apariciones == true ]]; then awk ' $1 >= '"$min_apariciones"' '
-fi | awk '{$1="";print}' | sed 's/^ *//' > "$ruta/out/${prefijo_archivo}_multifuncs"
+fi | sort -r | uniq > "$ruta/out/${prefijo_archivo}_multifuncs"
 #uniq > "$ruta/out/${prefijo_archivo}_multifuncs"
 #OJO: esto último es un cambio para que no importe la frecuencia en la que aparecen las combinaciones, puede ser solo algo temporal

@@ -1,12 +1,9 @@
 #!/bin/bash
 
-##	ventanas_funcionales
-#	Este programa tiene el propósito de obtener ventanas de contextos de
-#	palabras funcionales con sus cuentas con la particularidad de que asegurarse
-#	de que no estén rodeadas de más palabras funcionales, el punto de esto es hacer gráficas
-#	más adelante de manera que se pueda encontrar si hay algún patrón en las
-#	distribuciones de lo que serian frases hechas y las que solo se usan
-#	para conectar diferentes sintagmas
+##	triple_funcionales
+#	Este programa tiene el propósito de encontrar palabras de contenido
+#	que se encuentren rodeadas de tres palabras funcionales y agregar la
+#	información en una base de datos para hacer consultas posteriores.
 ##	DEPENDENCIAS
 #	- triple_funcs.pl
 #	- parallel
