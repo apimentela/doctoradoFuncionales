@@ -4,6 +4,8 @@
 # vectores.py
 #	Este programa entrena el word2vec
 
+# TODO: FALTA PONER COMO PARAMETRO DE ENTRADA EL SUFIJO DE io
+
 import nltk
 from gensim.models import Word2Vec
 
