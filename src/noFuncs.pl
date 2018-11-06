@@ -27,6 +27,7 @@ $ventanas_internas = '((?:' . $funcionales .') ?\w+ ?)(?=((?:' . $funcionales .'
 open(INPUT,"<$archivo_contenido") or die "No se pudo abrir el archivo, $!";
 while(<INPUT>){
 	$_ =~ s/$funcionales//g;	# delete funcion words
+	$_ =~ s/^\s+|\s+$//g;	# trim both ends
 	print "$_\n";
 	}	
 close INPUT;

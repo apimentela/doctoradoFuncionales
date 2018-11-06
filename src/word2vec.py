@@ -26,7 +26,7 @@ def main(s_archivo_entrada):
 	# access vector for one word
 	print(model['sentence'])
 	# save model
-	model.save('model.bin')
+	model.save('../out/model.bin')
 	#~ # load model
 	#~ new_model = Word2Vec.load('model.bin')
 	#~ print(new_model)
@@ -34,5 +34,5 @@ def main(s_archivo_entrada):
 if __name__ == '__main__':
 	import sys
 	#~ s_archivo_entrada=sys.argv[1]
-	s_archivo_entrada="/home/pimentel/doctoradoFuncionales/corpus/gutemberg_out"
+	s_archivo_entrada="/home/pimentel/doctoradoFuncionales/out/gutembergJ_noFuncs"
 	sys.exit(main(s_archivo_entrada))

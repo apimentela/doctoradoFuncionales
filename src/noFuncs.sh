@@ -55,4 +55,4 @@ function agrupador {
 
 if [[ $flag_splitted == true ]]; then parallel --linebuffer filtro ::: "$ruta/out/${prefijo}_multifuncs" ::: "$ruta/corpus/split_${prefijo}_out"/*
 else filtro "$ruta/out/${prefijo}_multifuncs" "$ruta/corpus/${prefijo}_out"
-fi > "$ruta/out/${prefijo}_noFuncs"
+fi | tr -s "[:space:]" > "$ruta/out/${prefijo}_noFuncs"
