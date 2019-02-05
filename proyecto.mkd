@@ -1,0 +1,18 @@
+# Proyecto
+
+## Objetivo
+
+El punto fundamental de todo, es encontrar una manera más inteligente de aprovechar la información que se puede presentar en un texto de una manera no supervisada.
+
+## Bases
+
+Hay que considerar las bases de o que actualmente funciona y sobre lo que se quiere construir: *embeddings*. Se considera que los *embeddings* son métodos no supervisados puesto que no necesitan un corpus etiquetado para funcionar. Pero, en esencia, se pueden ver como un modelo supervisado en el que el "etiquetado" de las palabras es el **contexto** en el que aparecen, es decir, es una manera inteligente de usar la información que ya se tiene para evitar el etiquetado.
+
+La idea ahora es ir un paso más allá y llevar esa misma idea un poco mas lejos, es decir, utilizar la información que ya se tiene de una manera un poco más inteligente aún. Como he dicho, en los *embeddings* se toma el contexto de las palabras como el etiquetado o el objetivo de un entrenamiento, y la manera en la que se define ese contexto es mediante una **ventana** de palabras de una dimensión fija establecida como un parámetro al momento de hacer el entrenamiento.
+
+Se tienen evidencias en publicaciones de que los *embeddings* han sido mejorados mediante el anexo de información como etiquetas POS y el parseo de **árboles sintácticos**. Esta segunda opción es de especial interés, pues la manera la incorpora esta información se logra mediante la **jerarquización** de relaciones entre palabras. Los mismos autores defienden que son relaciones que van más allá de una ventana de palabras constante pues, afirman, que aunque algunas palabras queden lejos de otras (separadas por cosas circunstanciales como adjetivos, adverbios o complementos) pueden quedar ligadas directamente en un árbol de dependencias sintácticas al ser detectados por ejemplo, como complementos de un verbo. De esta manera, los **contextos** cambian a una perspectiva más dinámica que toma en cuenta relaciones más fuertes que una simple aparición cercana.
+
+La idea de usar etiquetadores automáticos puede funcionar muy bien, si es que se tienen etiquetadores confiables para un determinado idioma, cosa que no siempre sucede. E incluso cuando si se tienen, para que funcionen correctamente necesitan un texto bien escrito, algo muy raro de encontrar en textos informales como las redes sociales. Esto nos lleva a pensar que lo ideal sería poder tener esos beneficios sin la necesidad de depender un sistema de esta naturaleza.
+
+## Hipótesis
+
