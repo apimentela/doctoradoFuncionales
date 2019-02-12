@@ -49,26 +49,26 @@ La instrucción anterior (que repite una primera aparición con dos palabras int
 
 Hay que encontrar las funcionales que me forman sustantivos compuestos (como el 'of'). Una forma de encontrar dicha palabra es al tomar la primera de el siguiente patrón:
 
-grep -Po "\b(LISTA1) (LISTA2) .*? (LISTA1)\b" gutemberg_out | grep -Pv "[^\w\s]" | awk '{print $NF}' | sort | uniq -c | sort -rn | less
+grep -Po "\b(LISTA1) (LISTA2) \S+ (LISTA1)\b" gutemberg_out | grep -Pv "[^\w\s]" | awk '{print $NF}' | sort | uniq -c | sort -rn | less
 
 El primero parece ser muy bueno en encontrar unificadores de sustantivos, no se si pueda haber mas de uno, en español e ingles creo que no hay, pero podría haber en otro idioma y no se cómo saber si debería tomar más de uno. Esta información creo que me serviría mucho para encontrar verbos en los siguientes verbos, para filtrarlo y no tomarlo en cuenta.
 
 
 
-En el primer paso (el primer patrón), al procesar, es importante conservar la información de las parejas con las que se encuentran las listas de palabras, ya que cuando se presentan pronombres (i,he,she) no se puede confiar demasiado en el patrón. Sin embargo es posible recuperar los pronombres con otro patrón y entonces usar esa información para "limpiar" los resultados anteriores, es decir, quitar aquellos que solo hayan salido con pronombres. El nuevo patrón es:
+En el primer paso (el primer patrón), al procesar, es importante conservar la información de las parejas con las que se encuentran las listas de palabras, ya que cuando se presentan pronombres (i,he,she) no se puede confiar demasiado en el patrón. Sin embargo es posible recuperar los pronombres con otro patrón y entonces usar esa información para "LIMPIAR" los resultados anteriores, es decir, quitar aquellos que solo hayan salido con pronombres. El nuevo patrón es:
 
 grep -Po "^\S+ \S+ (LISTA1+2)\b" gutemberg_out | grep -Pv "(DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$1,$2)}' | sort | uniq -c | sort -rn | less
 
-En este caso, la idea es que la primer palabra de una oracion sea el sustantivo seguida de un verbo, seguida de una de las palabras funcionales sustantivadoras (y que por lo tanto sería a lo que afecta el verbo) de esta manera, las palabras que se encuentren como primeras y que hayan estado en la segunda lista de el módulo anterior serán pronombres, y no solo eso, sino que las palabras que les sigan serán verbos. Si hay una palabra antes de un verbo identificado además, esta se puede catalogar también como un pronombre.*
+En este caso, la idea es que la primer palabra de una oracion sea el sustantivo seguida de un verbo, seguida de una de las palabras funcionales sustantivadoras (y que por lo tanto sería a lo que afecta el verbo) de esta manera, las palabras que se encuentren como primeras y que hayan estado en la segunda lista de el módulo anterior serán pronombres, y no solo eso, sino que las palabras que les sigan serán verbos. Si hay una palabra antes de un verbo identificado además, esta se puede catalogar también como un pronombre. Y si en primer o segundo lugar se encuentra no una palabra nueva sino una de las que conforman la primera parte de las funcionales-sustantivos o que ninguna de las dos palabras haya sido vista antes, entonces se puede considerar a esa anterior como una expresión nada más (por ejemplo 'one of ...', 'at last', 'and as'),. Hay que tener en cuenta también que si nos encontramos un verbo y antes de él una de las palabras de la primera lista, entonces esa palabra es un CONECTOR DESCRIPTOR y verbos especificadores (is, was). Lo ideal sería que en este módulo se mantuvieran también las palabras que siguen después de las primeras dos para que aquellas que se van "LIMPIANDO" del modulo anterior también se quiten de este al mismo tiempo.
 
 Ya con la lista de verbos, se puede hacer la búsqueda de otro patrón para encontrar ahora palabra que une verbos compuestos, en este caso será:
 
-grep -Po "\b(LISTA-VERBOS) .*? (LISTA-VERBOS)\b" gutemberg_out | grep -Pv "[^\w\s]" | awk '{print $2}' | sort | uniq -c | sort -rn | less
+grep -Po "\b(LISTA-VERBOS) \S+ (LISTA-VERBOS)\b" gutemberg_out | grep -Pv "[^\w\s]" | awk '{print $2}' | sort | uniq -c | sort -rn | less
 
-Aquí hay que tener cuidado, porque se tiene que tener antes ya la lista de los pronombres, ya que en la lista que resulta puede que salgan antes que nada, asi que se está buscando al primero que NO sea un pronombre. Lo de no saber si hay mas en otros idiomas pasa igual que en el caso anterior.
+De la lista resultante los primeros serán un gran indicador de verbos, tanto anterior como posterior, si además de ser indicador de verbo posterior es indicador de sustantivo posterior, entonces se puede usar como indicador de ARGUMENTO (ya que los argumentos pueden ser verbales o sustantivos)
 
 ******
 
-Y si en primer o segundo lugar se encuentra no una palabra nueva sino una de las que conforman la primera parte de las funcionales-sustantivos o que ninguna de las dos palabras haya sido vista antes, entonces se puede considerar a esa anterior como una expresión nada más (por ejemplo 'one of ...', 'at last', 'and as'), ESTA LISTA LA TENGO QUE SEGUIR REVISANDO.
 
-Lo ideal sería que en este módulo se mantuvieran también las palabras que siguen después de las primeras dos para que aquellas que se van "limpiando" del modulo anterior también se quiten de este al mismo tiempo.
+
+

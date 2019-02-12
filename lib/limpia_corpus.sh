@@ -127,7 +127,7 @@ function main {
 	| if [[ $flag_parentesis == false ]]; then sed -e 's|([^)]*)||g'; else cat; fi \
 	| if [[ $flag_minus == true ]]; then perl -C -ne 'print lc'; else cat; fi \
 	| if [[ $flag_num == false ]]; then perl -C -pe 's/\S*\d\S*/'"$etiqueta_DIGITO"'/g'; else cat; fi \
-	| if [[ $flag_punct2func == true ]]; then perl -C -pe 's/(?<=\S)\.(?=\S+)/\a/g' | tr -d '\f' | tr -d '\a' | tr -d '\v' | tr '.' '\n' | tr ';' '\v' | tr ',' '\f' | sed -e 's/[[:punct:]]/ /g' | tr '\f' ',' | tr '\a' '.' | tr '\v' ';' | sed -e 's/,/ , /g' | sed -e 's/;/ ; /g' | sed -e 's/^ *//g'
+	| if [[ $flag_punct2func == true ]]; then perl -C -pe 's/(?<=\S)\.(?=\S)/\a/g' | tr '.' '\n' | perl -C -pe 's/(?<=\S)([^\w\s] )/ \g1/g' | perl -C -pe 's/( [^\w\s])(?=\S)/\g1 /g' | tr '\a' '.' | sed -e 's/^ *//g'
 		else if [[ $flag_punct == false ]]; then sed -e 's|[[:punct:]]||g'; else cat; fi
 	fi
 
