@@ -59,7 +59,13 @@ En el primer paso (el primer patrón), al procesar, es importante conservar la i
 
 grep -Po "^\S+ \S+ (LISTA1+2)\b" gutemberg_out | grep -Pv "(DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$1,$2)}' | sort | uniq -c | sort -rn | less
 
-En este caso, la idea es que la primer palabra de una oracion sea el sustantivo seguida de un verbo, seguida de una de las palabras funcionales sustantivadoras (y que por lo tanto sería a lo que afecta el verbo) de esta manera, las palabras que se encuentren como primeras y que hayan estado en la segunda lista de el módulo anterior serán pronombres, y no solo eso, sino que las palabras que les sigan serán verbos. Si hay una palabra antes de un verbo identificado además, esta se puede catalogar también como un pronombre. Y si en primer o segundo lugar se encuentra no una palabra nueva sino una de las que conforman la primera parte de las funcionales-sustantivos o que ninguna de las dos palabras haya sido vista antes, entonces se puede considerar a esa anterior como una expresión nada más (por ejemplo 'one of ...', 'at last', 'and as'),. Hay que tener en cuenta también que si nos encontramos un verbo y antes de él una de las palabras de la primera lista, entonces esa palabra es un CONECTOR DESCRIPTOR y verbos especificadores (is, was). Lo ideal sería que en este módulo se mantuvieran también las palabras que siguen después de las primeras dos para que aquellas que se van "LIMPIANDO" del modulo anterior también se quiten de este al mismo tiempo.
+En este caso, la idea es que la primer palabra de una oracion sea el sustantivo seguida de un verbo, seguida de una de las palabras funcionales sustantivadoras (y que por lo tanto sería a lo que afecta el verbo) de esta manera, las palabras que se encuentren como primeras y que hayan estado en la segunda lista de el módulo anterior serán pronombres, y no solo eso, sino que las palabras que les sigan serán verbos. Si hay una palabra antes de un verbo identificado además, esta se puede catalogar también como un pronombre. Y si en primer o segundo lugar se encuentra no una palabra nueva sino una de las que conforman la primera parte de las funcionales-sustantivos o que ninguna de las dos palabras haya sido vista antes, entonces se puede considerar a esa anterior como una expresión nada más (por ejemplo 'one of ...', 'at last', 'and as'),. Hay que tener en cuenta también que si nos encontramos un verbo y antes de él una de las palabras de la primera lista, entonces esa palabra es un CONECTOR GENERAL y verbos especificadores (is, was), ese conector puede ir antes tanto de verbos como de sustantivos y va a estar ligado siempre a un verbo pues esta refiriendo a algo antes mencionado o lo que está justo después.
+
+Lo ideal sería que en este módulo se mantuvieran también las palabras que siguen después de las primeras dos para que aquellas que se van "LIMPIANDO" del modulo anterior también se quiten de este al mismo tiempo.
+
+Con la lista de pronombres, se pueden buscar mas de esos CONECTORES GENERALES al ver si se pueden combinar entre ellos, dandole prioridad a poderse combinar con MUCHOS de ellos como en el siguiente código:
+
+grep -Po "^(it|there|he|this|i|you|she|here|that) (it|there|he|this|i|you|she|here|that)\b" gutemberg_out | grep -Pv "(DIGITO|[^\s\w])" | sort -u | awk '{print $1}'| sort | uniq -c | sort -rn | less
 
 Ya con la lista de verbos, se puede hacer la búsqueda de otro patrón para encontrar ahora palabra que une verbos compuestos, en este caso será:
 
@@ -67,8 +73,9 @@ grep -Po "\b(LISTA-VERBOS) \S+ (LISTA-VERBOS)\b" gutemberg_out | grep -Pv "[^\w\
 
 De la lista resultante los primeros serán un gran indicador de verbos, tanto anterior como posterior, si además de ser indicador de verbo posterior es indicador de sustantivo posterior, entonces se puede usar como indicador de ARGUMENTO (ya que los argumentos pueden ser verbales o sustantivos)
 
-******
 
+Lo siguiente es encontrar verbos auxiliares:
 
+grep -Po "\b(LISTA-PRONOMBRE) \S+ (LISTA-VERBOS)\b" gutemberg_out | grep -Pv "(DIGITO|[^\s\w])" | sort | uniq -c | sort -rn | less
 
 
