@@ -25,7 +25,7 @@ function usage {
 }
 function post_perl {
 	export LC_ALL=C
-	cat | sort -S1G --parallel="$procesadores" \
+	sort "$salida_temp" \
 	| if [[ $flag_count == true ]]; then uniq -c | sort -rn -S1G --parallel="$procesadores" | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort -S1G --parallel="$procesadores" ; else uniq ;fi | grep -v $'[\xc2\x93]' > "$salida_vocab"
 	#~ | if [[ $flag_count == true ]]; then uniq -c | sort -rn -S1G --parallel="$procesadores" | grep -v $'[\xc2\x80-\xc2\xa0]' | tee "${salida_freqs}" | awk '{printf("%s\n",$2)}' | sort -S1G --parallel="$procesadores" ; else uniq | grep -v $'[\xc2\x80-\xc2\xa0]';fi > "$salida_vocab"
 }
@@ -61,6 +61,7 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 # Opción final de la salida
 : ${salida:="salida_vocabulario"} # Esto es una asignación por defecto de un valor, si no se ha establecido el valor de salida, se usa el segundo valor (el de la primera entrada)
 entrada=$@
+export salida_temp="${salida}_temp"
 export salida_freqs="${salida}_freqs"
 export salida_vocab="${salida}_vocab"
 
@@ -81,4 +82,8 @@ export -f main
 
 if [ "$#" -gt 1 ]; then parallel main ::: $entrada
 else cat $entrada | perl -C -pe "s/\s/\n/g" | tr -s [:space:]
-fi | post_perl
+fi > "$salida_temp"
+
+post_perl
+
+rm "$salida_temp"
