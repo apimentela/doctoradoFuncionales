@@ -35,7 +35,7 @@ cd ..
 #	palabras funcionales compuestas.
 
 temp_funcs_susts_full="out/temp_funcs_susts_full_${prefijo_archivo}"
-temp_funcs_uniqSort="out/temp_funcs_uniqSort_${prefijo_archivo}"
+#temp_funcs_uniqSort="out/temp_funcs_uniqSort_${prefijo_archivo}"
 
 function indicadoras_sustantivos {
 	archivo_entrada="$1"
@@ -43,13 +43,12 @@ function indicadoras_sustantivos {
 }
 export -f indicadoras_sustantivos
 
-if [[ $flag_splitted == true ]]; then parallel indicadoras_sustantivos ::: "corpus/split_${prefijo_archivo}_out"/* 
+if [[ $flag_split == true ]]; then parallel indicadoras_sustantivos ::: "corpus/split_${prefijo_archivo}_out"/* 
 else indicadoras_sustantivos "corpus/${prefijo_archivo}_out" 
 fi > "$temp_funcs_susts_full"
 
-sort "$temp_funcs_susts_full" | uniq -c | sort -rn \
-	> "$temp_funcs_uniqSort"
-
+sort "$temp_funcs_susts_full" | uniq -c | sort -rn |
+	python3 "src/ge_funcs_susts.py"
 
 
 
