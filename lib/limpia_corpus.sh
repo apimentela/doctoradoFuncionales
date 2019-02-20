@@ -124,6 +124,8 @@ shift $(expr $OPTIND - 1) # remove options from positional parameters
 export salida
 # AQUI COMIENZA EL PROGRAMA
 
+# | sed 's/ / /g'
+
 function main {
 ##	Esta es la función principal del programa
 #	utiliza las banderas de las opciones para hacer el procedimiento de cada una de las limpiezas.
@@ -134,7 +136,7 @@ function main {
 	| if [[ $flag_parentesis == false ]]; then sed -e 's|([^)]*)||g'; else cat; fi \
 	| if [[ $flag_minus == true ]]; then perl -C -ne 'print lc'; else cat; fi \
 	| if [[ $flag_num == false ]]; then perl -C -pe 's/\S*\d\S*/'"$etiqueta_DIGITO"'/g'; else cat; fi \
-	| if [[ $flag_punct2func == true ]]; then perl -C -pe 's/(?<=\S)\.(?=\S)/\a/g' | tr '.' '\n' | perl -C -pe 's/([^\w\s])(?=[^\w\s])/\1 /g' | perl -C -pe 's/(?<=\S)([^\w\s])(?= |$)/ \1/g' | perl -C -pe 's/(?: |^)\K([^\w\s])(?=\S)/\1 /g' | tr '\a' '.' | sed -e 's/^ *//g'
+	| if [[ $flag_punct2func == true ]]; then perl -C -pe 's/(?<=\S)\.(?=\S)/\a/g' | tr '.' '\n' | tr '\a' '.' | perl -C -pe 's/([^\w\s])(?=[^\w\s])/\1 /g' | perl -C -pe 's/(?<=\S)([^\w\s])(?=\s|$)/ \1/g' | perl -C -pe 's/(?:\s|^)\K([^\w\s])(?=\S)/\1 /g' | sed -e 's/^ *//g'
 		else if [[ $flag_punct == false ]]; then sed -e 's|[[:punct:]]||g'; else cat; fi
 	  fi \
 	| if [[ $flag_empty == false ]]; then tr -s [:space:]; else cat; fi \

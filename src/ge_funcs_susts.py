@@ -9,8 +9,11 @@
 #	de sus relaciones.
 
 import json
+import csv
 
 def main(args):
+	s_prefijo_archivo=args[1]
+	
 	lis_palabras_izq=[]
 	lis_palabras_der=[]
 	dic_relaciones_izqAder={}
@@ -27,37 +30,51 @@ def main(args):
 		elif s_derecha_confiable==s_palabra_izq:break	# Aquí se checa la condición de paro
 		
 		if s_palabra_der in lis_palabras_izq : continue # Si en la segunda columna hay una palabra que ha aparecido como la primera, entonces la que aparece como la primera no se toma en cuenta asi que se continua sin cambiar nada
-		else: 
-			if not s_palabra_der in lis_palabras_der:
-				lis_palabras_der.append(s_palabra_der)
-			try:
-				if not s_palabra_der in dic_relaciones_izqAder[s_palabra_izq]:
-					dic_relaciones_izqAder[s_palabra_izq].append(s_palabra_der)	# Se guarda la relación en los diccionarios (en ambas direcciones)
-			except:
-				dic_relaciones_izqAder[s_palabra_izq]=[s_palabra_der]
-			try:
-				if not s_palabra_izq in dic_relaciones_derAizq[s_palabra_der]:
-					dic_relaciones_derAizq[s_palabra_der].append(s_palabra_izq)
-			except:
-				dic_relaciones_derAizq[s_palabra_der]=[s_palabra_izq]
-		if not s_palabra_izq in lis_palabras_der: 	# Si no esta la palabra de la izquierda en la lista de la derecha, se agrega a su lista y punto
-			if not s_palabra_izq in lis_palabras_izq:
-				lis_palabras_izq.append(s_palabra_izq)
-		else:	# Si se encuentra una palabra en la primera columna que haya aparecido en la segunda antes, entonces se saca de la segunda lista para que solo esté en la primera
-			if not s_palabra_izq in lis_palabras_izq:
-				lis_palabras_izq.append(s_palabra_izq)
-			lis_palabras_der.remove(s_palabra_izq)
-			
-			for palabra_izq in dic_relaciones_derAizq[s_palabra_izq]:	# Para cada palabra que apunta a esta EX-palabra derecha 
+		
+		if s_palabra_izq in lis_palabras_der: 	# Si en la primera columna aparece una palabra que ha aparecido como la segunda, entonces se tienen que revisar algunas cosas
+			if len(dic_relaciones_derAizq[s_palabra_izq])>1:	# Si la palabra que se encontró en la izquierda es una palabra de la derecha que está relacionada a varias de la izquierda, quiere decir que se encontró una palabra confiable, se debe saltar o terminar el programa
+				continue
+				
+			lis_palabras_der.remove(s_palabra_izq)	# De lo contrario, se saca de la lista de palabras de la derecha y se agrega a las de la izquierda
+			for palabra_izq in dic_relaciones_derAizq[s_palabra_izq]:	# Además. para cada palabra que apunta a esta EX-palabra derecha 
 				if len(dic_relaciones_izqAder[palabra_izq])==1:	# Si dicha palabra no apunta a ninguna otra, se quita de las relaciones
 					dic_relaciones_izqAder.pop(palabra_izq)
 					lis_palabras_izq.remove(palabra_izq)
 				else: dic_relaciones_izqAder[palabra_izq].remove(s_palabra_izq)	# Su apunta a otras también, entonces solo quita de las relaciones a la EX-palabra derecha
 			dic_relaciones_derAizq.pop(s_palabra_izq)	# Por último, también se quitan las relaciones que de la derecha apuntaban a las palabras inzquierdas
-
+		
+		# Si se llega a este punto, es que se van a agregar las palabras
+		#	a sus respectivas listas y se van a actualizar sus relaciones
+		
+		if not s_palabra_der in lis_palabras_der:
+				lis_palabras_der.append(s_palabra_der)
+		if not s_palabra_izq in lis_palabras_izq:	
+				lis_palabras_izq.append(s_palabra_izq)
+				
+		try:
+			if not s_palabra_der in dic_relaciones_izqAder[s_palabra_izq]:
+				dic_relaciones_izqAder[s_palabra_izq].append(s_palabra_der)	# Se guarda la relación en los diccionarios (en ambas direcciones)
+		except:
+			dic_relaciones_izqAder[s_palabra_izq]=[s_palabra_der]
+		try:
+			if not s_palabra_izq in dic_relaciones_derAizq[s_palabra_der]:
+				dic_relaciones_derAizq[s_palabra_der].append(s_palabra_izq)
+		except:
+			dic_relaciones_derAizq[s_palabra_der]=[s_palabra_izq]
+	
+	print("|".join(lis_palabras_izq))
+	print("|".join(lis_palabras_der))
+	
+	#~ max_key=max(dic_relaciones_izqAder,key=lambda x:len(dic_relaciones_izqAder[x]))
+	#~ print(max_key) 
+	
+	#~ with open("out/"+s_prefijo_archivo+"_listas_funcs_susts","w") as archivo:
+		#~ csv_escritor=csv.writer(archivo,delimiter="|")
+		#~ csv_escritor.writerow(lis_palabras_izq)
+		#~ csv_escritor.writerow(lis_palabras_der)
+	
 	for derecha in lis_palabras_der:
 		print(derecha,dic_relaciones_derAizq[derecha])
-	print("\n")
 	for izquierda in lis_palabras_izq:
 		print(izquierda,dic_relaciones_izqAder[izquierda])
 				
