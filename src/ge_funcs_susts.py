@@ -9,7 +9,6 @@
 #	de sus relaciones.
 
 import json
-import csv
 
 def main(args):
 	s_prefijo_archivo=args[1]
@@ -66,17 +65,11 @@ def main(args):
 	print("|".join(lis_palabras_der))
 	
 	#~ max_key=max(dic_relaciones_izqAder,key=lambda x:len(dic_relaciones_izqAder[x]))
-	#~ print(max_key) 
+	#~ print(max_key)
 	
-	#~ with open("out/"+s_prefijo_archivo+"_listas_funcs_susts","w") as archivo:
-		#~ csv_escritor=csv.writer(archivo,delimiter="|")
-		#~ csv_escritor.writerow(lis_palabras_izq)
-		#~ csv_escritor.writerow(lis_palabras_der)
-	
-	for derecha in lis_palabras_der:
-		print(derecha,dic_relaciones_derAizq[derecha])
-	for izquierda in lis_palabras_izq:
-		print(izquierda,dic_relaciones_izqAder[izquierda])
+	with open("out/"+s_prefijo_archivo+"_dicts_relaciones.json","w") as archivo:
+		json.dump(dic_relaciones_izqAder,archivo)
+		json.dump(dic_relaciones_derAizq,archivo)
 				
 	return 0
 
