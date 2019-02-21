@@ -63,6 +63,20 @@ En este caso, la idea es que la primer palabra de una oracion sea el sustantivo 
 
 Lo ideal sería que en este módulo se mantuvieran también las palabras que siguen después de las primeras dos para que aquellas que se van "LIMPIANDO" del modulo anterior también se quiten de este al mismo tiempo.
 
+#OJO, el patrón anterior no funciona para español, con algunos experimentos creo que vale mas jugar con algo mas abstracto: la variedad de palabras con las que se juntan, algo como esto:
+
+grep -Po "^($lista2) \S+ \S+ ($lista1) ($lista2)\b" novelas_out | grep -Pv "( de |DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$1,$2)}' | sort -u | awk '{print $1}' | sort | uniq -c | sort -rn | less
+y
+grep -Po "^($lista2) \S+ \S+ ($lista1) ($lista2)\b" novelas_out | grep -Pv "( de |DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$3,$4)}' | sort -u | awk '{print $2}' | sort | uniq -c | sort -rn | less
+
+donde el punto es buscar un sustantivo en las primeras dos palabras, seguido de un verbo y luego otro indicador de sustantivo, y con lo siguiente es buscar la primera y cuarta palabra que tengan mayor variedad (que indicarían sustantivos y verbos respectivamente) para luego ir bajando
+
+
+# AQUI, hay un nuevo patrón para encontrar pronombre que creo que sirve también para el español: el "en" se encuentra por ser la palabra funcional con mayor variedad de palabras anteriores en el patrón anterior (que yo pensaría que es un indicador de verbo). La condición de paro sería la misma de encontrar una de las palabras confiables (como 'el' o 'la', quizá sea mejor buscar cualquiera de las primeras 2 en cualquier caso)
+
+grep -Po "^(la|el|los|su|las|tan|del|al|se|sus|un|una|the|lo|mi|me|le|sin|muy|no|mis|tu|sea) \S+ en (la|el|los|su|las|tan|del|al|se|sus|un|una|the|lo|mi|me|le|sin|muy|no|mis|tu|sea)" novelas_out | grep -Pv "(DIGITO|[^\w\s])" | sort | uniq -c | sort -rn | less
+
+
 Con la lista de pronombres, se pueden buscar mas de esos CONECTORES GENERALES al ver si se pueden combinar entre ellos, dandole prioridad a poderse combinar con MUCHOS de ellos como en el siguiente código:
 
 grep -Po "^(it|there|he|this|i|you|she|here|that) (it|there|he|this|i|you|she|here|that)\b" gutemberg_out | grep -Pv "(DIGITO|[^\s\w])" | sort -u | awk '{print $1}'| sort | uniq -c | sort -rn | less
