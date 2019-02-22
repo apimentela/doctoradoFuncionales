@@ -139,22 +139,24 @@ export funcs_susts_confs=${funcs_susts_confs##*:}
 
 function prueba {
 	archivo_entrada="$1"
-	#grep -Po "\b($funcs_susts_confs) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $2}'
-	match=$(grep -Po "\b($funcs_susts_confs) \S+ \S+ ($conector_susts)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])")
-	echo "$match" | awk '{print $3}'  | while read candidato_sustantivo; do
-		if grep --quiet " ${candidato_sustantivo}$" "out/${prefijo_archivo}_susts_confs"; then
-			echo "$match" | awk '{print $2}'
-		fi
-	done
+	grep -Po "\b($funcs_susts_confs) \S+ \S+ ($conector_susts)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$2,$3)}'
 }
 export -f prueba
+function prueba2 {
+	match="$1"
+	candidato_sustantivo=$(echo "$match" | awk '{print $3}')
+	if grep --quiet " ${candidato_sustantivo}$" "out/${prefijo_archivo}_susts_confs"; then
+		echo "$match" | awk '{printf("%s %s\n",$1,$2)}'
+	fi
+}
+export -f prueba2
 
 if [[ $flag_split == true ]]; then parallel prueba ::: "corpus/split_${prefijo_archivo}_out"/* 
 else prueba "corpus/${prefijo_archivo}_out" 
-fi > "$temp_prueba"
+fi  > "$temp_prueba"
 
-sort "$temp_prueba" | uniq -c | sort -rn \
-	> "out/${prefijo_archivo}_prueba"
+sort "$temp_prueba" | uniq -c |
+	parallel prueba2 | sort -rn > "out/${prefijo_archivo}_prueba"
 
 #~ rm "$temp_prueba"
 
