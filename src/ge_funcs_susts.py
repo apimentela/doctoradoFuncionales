@@ -8,8 +8,6 @@
 #	funcionales compuestas, se obtienen dos grupos y una tabla
 #	de sus relaciones.
 
-import json
-
 def main(args):
 	s_prefijo_archivo=args[1]
 	
@@ -67,9 +65,20 @@ def main(args):
 	#~ max_key=max(dic_relaciones_izqAder,key=lambda x:len(dic_relaciones_izqAder[x]))
 	#~ print(max_key)
 	
-	with open("out/"+s_prefijo_archivo+"_dicts_relaciones.json","w") as archivo:
-		json.dump(dic_relaciones_izqAder,archivo)
-		json.dump(dic_relaciones_derAizq,archivo)
+	print()
+	for key in dic_relaciones_izqAder:
+		campos="|".join(dic_relaciones_izqAder[key])
+		salida=key+":"+campos
+		print(salida)
+	print()
+	for key in dic_relaciones_derAizq:
+		campos="|".join(dic_relaciones_derAizq[key])
+		salida=key+":"+campos
+		print(salida)
+	
+	#~ with open("out/"+s_prefijo_archivo+"_dicts_relaciones.json","w") as archivo:
+		#~ json.dump(dic_relaciones_izqAder,archivo)
+		#~ json.dump(dic_relaciones_derAizq,archivo)
 				
 	return 0
 

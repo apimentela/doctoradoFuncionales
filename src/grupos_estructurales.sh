@@ -33,6 +33,10 @@ temp_conector_susts="out/temp_conector_susts_${prefijo_archivo}"
 export temp_lista_saca_comun="out/temp_lista_saca_comun_${prefijo_archivo}"
 export temp_lista_saca_susts="out/temp_lista_saca_susts_${prefijo_archivo}"
 export temp_lista_saca_verbos="out/temp_lista_saca_verbos_${prefijo_archivo}"
+temp_susts_confs="out/temp_susts_confs_${prefijo_archivo}"
+
+temp_prueba="out/temp_prueba_${prefijo_archivo}"
+
 temp_lista_pronombres_verbos="out/temp_lista_pronombres_verbos_${prefijo_archivo}"
 temp_lista_semillas_comun="out/temp_lista_semillas_comun_${prefijo_archivo}"
 
@@ -59,9 +63,12 @@ temp_lista_semillas_comun="out/temp_lista_semillas_comun_${prefijo_archivo}"
 
 #~ rm "$temp_funcs_susts_full"
 
-# En el archivo json, las salidas primero estan el diccionario de  izq
+# En el de salida, también están las relaciones con el formato:
+	# KEY:W|W|W|...
+	# uno por linea
+	# las salidas primero estan el diccionario de  izq
 	# a derecha y luego el de derecha a izquierda
-
+	
 ########################################################################
 
 export lista1=$(head -n1 "out/${prefijo_archivo}_listas_funcs_susts")
@@ -75,25 +82,27 @@ export lista2=$(tail -n+2 "out/${prefijo_archivo}_listas_funcs_susts" | head -n1
 	# palabra (que está en la primera lista) es la que nos interesa, pues
 	# la que más se repita será, seguramente, un conector de sustantivos.
 
-function conectores_sustantivos {
-	archivo_entrada="$1"
-	#grep -Po "\b($lista1) ($lista2) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $NF}'
-	grep -Po "\b($lista2) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $NF}'
-}
-export -f conectores_sustantivos
+#~ function conectores_sustantivos {
+	#~ archivo_entrada="$1"
+	#~ #grep -Po "\b($lista1) ($lista2) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $NF}'
+	#~ grep -Po "\b($lista2) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $NF}'
+#~ }
+#~ export -f conectores_sustantivos
 
-if [[ $flag_split == true ]]; then parallel conectores_sustantivos ::: "corpus/split_${prefijo_archivo}_out"/* 
-else conectores_sustantivos "corpus/${prefijo_archivo}_out" 
-fi > "$temp_conector_susts"
+#~ if [[ $flag_split == true ]]; then parallel conectores_sustantivos ::: "corpus/split_${prefijo_archivo}_out"/* 
+#~ else conectores_sustantivos "corpus/${prefijo_archivo}_out" 
+#~ fi > "$temp_conector_susts"
 
-sort "$temp_conector_susts" | uniq -c | sort -rn \
-	> "out/${prefijo_archivo}_conectores_susts"
+#~ sort "$temp_conector_susts" | uniq -c | sort -rn \
+	#~ > "out/${prefijo_archivo}_conectores_susts"
 
-rm "$temp_conector_susts"
+#~ rm "$temp_conector_susts"
 
 ########################################################################
 
 export conector_susts=$(head -n1 "out/${prefijo_archivo}_conectores_susts" | awk '{print $2}')
+funcs_susts_confs=$(grep "^${conector_susts}:" "out/${prefijo_archivo}_listas_funcs_susts")
+export funcs_susts_confs=${funcs_susts_confs##*:}
 
 ########################################################################
 # En tercer lugar filtramos de la lista2 aquellos elementos dudosos y nos
@@ -103,6 +112,51 @@ export conector_susts=$(head -n1 "out/${prefijo_archivo}_conectores_susts" | awk
 	# obtener directamente de las relaciones que se obtuvieron al conseguir
 	# las listas 1 y 2.
 
+#~ function sustantivos_confiables {
+	#~ archivo_entrada="$1"
+	#~ #grep -Po "\b($funcs_susts_confs) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $2}'
+	#~ grep -Po "\b($funcs_susts_confs) \S+ ($conector_susts)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $2}'
+#~ }
+#~ export -f sustantivos_confiables
+
+#~ if [[ $flag_split == true ]]; then parallel sustantivos_confiables ::: "corpus/split_${prefijo_archivo}_out"/* 
+#~ else sustantivos_confiables "corpus/${prefijo_archivo}_out" 
+#~ fi > "$temp_susts_confs"
+
+#~ sort "$temp_susts_confs" | uniq -c | sort -rn \
+	#~ > "out/${prefijo_archivo}_susts_confs"
+
+#~ rm "$temp_susts_confs"
+
+########################################################################
+
+#~ lista_sustantivos=$(awk '{print $2}' "out/${prefijo_archivo}_susts_confs" | tr "\n" "|")
+#~ export lista_sustantivos=${lista_sustantivos%|}
+# Esta lista es demasiado larga
+
+########################################################################
+# En cuarto lugar se tiene que ir ampliando el número de palabras.
+
+function prueba {
+	archivo_entrada="$1"
+	#grep -Po "\b($funcs_susts_confs) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $2}'
+	match=$(grep -Po "\b($funcs_susts_confs) \S+ \S+ ($conector_susts)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])")
+	echo "$match" | awk '{print $3}'  | while read candidato_sustantivo; do
+		if grep --quiet " ${candidato_sustantivo}$" "out/${prefijo_archivo}_susts_confs"; then
+			echo "$match" | awk '{print $2}'
+		fi
+	done
+}
+export -f prueba
+
+if [[ $flag_split == true ]]; then parallel prueba ::: "corpus/split_${prefijo_archivo}_out"/* 
+else prueba "corpus/${prefijo_archivo}_out" 
+fi > "$temp_prueba"
+
+sort "$temp_prueba" | uniq -c | sort -rn \
+	> "out/${prefijo_archivo}_prueba"
+
+#~ rm "$temp_prueba"
 
 ########################################################################
 # En X lugar buscamos las listas de palabras que nos llevarán a
@@ -118,7 +172,7 @@ export conector_susts=$(head -n1 "out/${prefijo_archivo}_conectores_susts" | awk
 
 #~ function lista_saca_comun {
 	#~ archivo_entrada="$1"
-	#~ grep -Po "^($lista2) \S+ ($lista1) ($lista2)\b" "$archivo_entrada" | grep -Pv "( $conector_susts |DIGITO|[^\w\s])"
+	#~ grep -Po "^($lista2) \S+ \S+ ($lista1) ($lista2)\b" "$archivo_entrada" | grep -Pv "( $conector_susts |DIGITO|[^\w\s])"
 #~ }
 #~ export -f lista_saca_comun
 
