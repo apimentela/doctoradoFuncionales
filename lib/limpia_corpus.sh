@@ -140,7 +140,7 @@ function main {
 		else if [[ $flag_punct == false ]]; then sed -e 's|[[:punct:]]||g'; else cat; fi
 	  fi \
 	| if [[ $flag_empty == false ]]; then tr -s [:space:]; else cat; fi \
-	| if [[ $flag_splitted == true ]]; then cat - > "${salida}_$nombre"; echo "escrito archivo $nombre"; else cat; fi
+	| if [[ $flag_splitted == true ]]; then cat - > "${salida}_$nombre"; echo "escrito archivo $nombre"; else cat - > "$salida"; fi
 }
 export -f main
 

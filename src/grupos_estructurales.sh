@@ -34,8 +34,8 @@ export temp_lista_saca_comun="out/temp_lista_saca_comun_${prefijo_archivo}"
 export temp_lista_saca_susts="out/temp_lista_saca_susts_${prefijo_archivo}"
 export temp_lista_saca_verbos="out/temp_lista_saca_verbos_${prefijo_archivo}"
 temp_susts_confs="out/temp_susts_confs_${prefijo_archivo}"
-
-temp_prueba="out/temp_prueba_${prefijo_archivo}"
+export temp_pares_adjs_susts="out/temp_pares_adjs_susts_${prefijo_archivo}"
+temp_filtra_adjs="out/temp_filtra_adjs_${prefijo_archivo}"
 
 temp_lista_pronombres_verbos="out/temp_lista_pronombres_verbos_${prefijo_archivo}"
 temp_lista_semillas_comun="out/temp_lista_semillas_comun_${prefijo_archivo}"
@@ -47,21 +47,21 @@ temp_lista_semillas_comun="out/temp_lista_semillas_comun_${prefijo_archivo}"
 	# y cosas como "on, with, at" anteriores a éstas. Es decir, se tienen
 	# palabras funcionales compuestas.
 
-#~ function indicadoras_sustantivos {
-	#~ archivo_entrada="$1"
-	#~ grep -Po "\b(\S+) \S+ \S+ \1\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$3,$4)}' 
-#~ }
-#~ export -f indicadoras_sustantivos
+function indicadoras_sustantivos {
+	archivo_entrada="$1"
+	grep -Po "\b(\S+) \S+ \S+ \1\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$3,$4)}' 
+}
+export -f indicadoras_sustantivos
 
-#~ if [[ $flag_split == true ]]; then parallel indicadoras_sustantivos ::: "corpus/split_${prefijo_archivo}_out"/* 
-#~ else indicadoras_sustantivos "corpus/${prefijo_archivo}_out" 
-#~ fi > "$temp_funcs_susts_full"
+if [[ $flag_split == true ]]; then parallel indicadoras_sustantivos ::: "corpus/split_${prefijo_archivo}_out"/* 
+else indicadoras_sustantivos "corpus/${prefijo_archivo}_out" 
+fi > "$temp_funcs_susts_full"
 
-#~ sort "$temp_funcs_susts_full" | uniq -c | sort -rn |
-	#~ python3 "src/ge_funcs_susts.py" "${prefijo_archivo}" \
-	#~ > "out/${prefijo_archivo}_listas_funcs_susts"
+sort "$temp_funcs_susts_full" | uniq -c | sort -rn |
+	python3 "src/ge_funcs_susts.py" "${prefijo_archivo}" \
+	> "out/${prefijo_archivo}_listas_funcs_susts"
 
-#~ rm "$temp_funcs_susts_full"
+rm "$temp_funcs_susts_full"
 
 # En el de salida, también están las relaciones con el formato:
 	# KEY:W|W|W|...
@@ -82,21 +82,21 @@ export lista2=$(tail -n+2 "out/${prefijo_archivo}_listas_funcs_susts" | head -n1
 	# palabra (que está en la primera lista) es la que nos interesa, pues
 	# la que más se repita será, seguramente, un conector de sustantivos.
 
-#~ function conectores_sustantivos {
-	#~ archivo_entrada="$1"
-	#~ #grep -Po "\b($lista1) ($lista2) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $NF}'
-	#~ grep -Po "\b($lista2) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $NF}'
-#~ }
-#~ export -f conectores_sustantivos
+function conectores_sustantivos {
+	archivo_entrada="$1"
+	#grep -Po "\b($lista1) ($lista2) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $NF}'
+	grep -Po "\b($lista1) ($lista2) \S+ ($lista1) ($lista2)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $4}'
+}
+export -f conectores_sustantivos
 
-#~ if [[ $flag_split == true ]]; then parallel conectores_sustantivos ::: "corpus/split_${prefijo_archivo}_out"/* 
-#~ else conectores_sustantivos "corpus/${prefijo_archivo}_out" 
-#~ fi > "$temp_conector_susts"
+if [[ $flag_split == true ]]; then parallel conectores_sustantivos ::: "corpus/split_${prefijo_archivo}_out"/* 
+else conectores_sustantivos "corpus/${prefijo_archivo}_out" 
+fi > "$temp_conector_susts"
 
-#~ sort "$temp_conector_susts" | uniq -c | sort -rn \
-	#~ > "out/${prefijo_archivo}_conectores_susts"
+sort "$temp_conector_susts" | uniq -c | sort -rn \
+	> "out/${prefijo_archivo}_conectores_susts"
 
-#~ rm "$temp_conector_susts"
+rm "$temp_conector_susts"
 
 ########################################################################
 
@@ -112,21 +112,21 @@ export funcs_susts_confs=${funcs_susts_confs##*:}
 	# obtener directamente de las relaciones que se obtuvieron al conseguir
 	# las listas 1 y 2.
 
-#~ function sustantivos_confiables {
-	#~ archivo_entrada="$1"
-	#~ #grep -Po "\b($funcs_susts_confs) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $2}'
-	#~ grep -Po "\b($funcs_susts_confs) \S+ ($conector_susts)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $2}'
-#~ }
-#~ export -f sustantivos_confiables
+function sustantivos_confiables {
+	archivo_entrada="$1"
+	#grep -Po "\b($funcs_susts_confs) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $2}'
+	grep -Po "\b($funcs_susts_confs) \S+ ($conector_susts)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $2}'
+}
+export -f sustantivos_confiables
 
-#~ if [[ $flag_split == true ]]; then parallel sustantivos_confiables ::: "corpus/split_${prefijo_archivo}_out"/* 
-#~ else sustantivos_confiables "corpus/${prefijo_archivo}_out" 
-#~ fi > "$temp_susts_confs"
+if [[ $flag_split == true ]]; then parallel sustantivos_confiables ::: "corpus/split_${prefijo_archivo}_out"/* 
+else sustantivos_confiables "corpus/${prefijo_archivo}_out" 
+fi > "$temp_susts_confs"
 
-#~ sort "$temp_susts_confs" | uniq -c | sort -rn \
-	#~ > "out/${prefijo_archivo}_susts_confs"
+sort "$temp_susts_confs" | uniq -c | sort -rn \
+	> "out/${prefijo_archivo}_susts_confs"
 
-#~ rm "$temp_susts_confs"
+rm "$temp_susts_confs"
 
 ########################################################################
 
@@ -137,28 +137,47 @@ export funcs_susts_confs=${funcs_susts_confs##*:}
 ########################################################################
 # En cuarto lugar se tiene que ir ampliando el número de palabras.
 
-function prueba {
+function pares_adjs_susts {
 	archivo_entrada="$1"
 	grep -Po "\b($funcs_susts_confs) \S+ \S+ ($conector_susts)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$2,$3)}'
 }
-export -f prueba
-function prueba2 {
-	match="$1"
-	candidato_sustantivo=$(echo "$match" | awk '{print $3}')
-	if grep --quiet " ${candidato_sustantivo}$" "out/${prefijo_archivo}_susts_confs"; then
-		echo "$match" | awk '{printf("%s %s\n",$1,$2)}'
+export -f pares_adjs_susts
+
+function filtra_adjs {
+	set $1
+	candidato1="$1"
+	candidato2="$2"
+	if grep --quiet " ${candidato2}$" "out/${prefijo_archivo}_susts_confs"; then	# Si la segunda palabra está identificada como sustantivo, se prosigue
+		if grep --quiet " ${candidato1}$" "out/${prefijo_archivo}_susts_confs"; then # En este caso, ambos son posibles sustantivos, hay que revisar cuál tiene mayor peso
+			peso2=$(grep " ${candidato2}$" "out/${prefijo_archivo}_susts_confs" | awk '{print $1}')
+			peso1=$(grep " ${candidato1}$" "out/${prefijo_archivo}_susts_confs" | awk '{print $1}')
+			if [[ "$peso1" -gt "$peso2" ]]; then	# Si la primer palabra tiene mas peso, se muestra la segunda como adjetivo, de lo contrario, se muestra la primera
+				echo "$candidato2"
+			else
+				echo "$candidato1"
+			fi
+		else	# Si la primer palabra no aparece como sustantivo, entonces se muestra como adjetivo
+			echo "$candidato1"
+		fi
+	else	# Si la segunda palabra no aparece como sustantivo, se revisa la primera
+		if grep --quiet " ${candidato1}$" "out/${prefijo_archivo}_susts_confs"; then	# Si si aparece, se muestra la segunda como adjetivo
+			echo "$candidato2"
+		fi
 	fi
 }
-export -f prueba2
+export -f filtra_adjs
 
-if [[ $flag_split == true ]]; then parallel prueba ::: "corpus/split_${prefijo_archivo}_out"/* 
-else prueba "corpus/${prefijo_archivo}_out" 
-fi  > "$temp_prueba"
+if [[ $flag_split == true ]]; then parallel pares_adjs_susts ::: "corpus/split_${prefijo_archivo}_out"/* 
+else pares_adjs_susts "corpus/${prefijo_archivo}_out" 
+fi  > "$temp_pares_adjs_susts"
 
-sort "$temp_prueba" | uniq -c |
-	parallel prueba2 | sort -rn > "out/${prefijo_archivo}_prueba"
+sort -u "$temp_pares_adjs_susts" | # Se hará el seccionamiento por pareja de candidatos
+	parallel filtra_adjs > "${temp_filtra_adjs}" 
 
-#~ rm "$temp_prueba"
+sort "${temp_filtra_adjs}" | uniq -c | sort -rn > "out/${prefijo_archivo}_adjs"
+
+rm "$temp_pares_adjs_susts"
+rm "${temp_filtra_adjs}"
 
 ########################################################################
 # En X lugar buscamos las listas de palabras que nos llevarán a
