@@ -77,6 +77,30 @@ donde el punto es buscar un sustantivo en las primeras dos palabras, seguido de 
 grep -Po "^(la|el|los|su|las|tan|del|al|se|sus|un|una|the|lo|mi|me|le|sin|muy|no|mis|tu|sea) \S+ en (la|el|los|su|las|tan|del|al|se|sus|un|una|the|lo|mi|me|le|sin|muy|no|mis|tu|sea)" novelas_out | grep -Pv "(DIGITO|[^\w\s])" | sort | uniq -c | sort -rn | less
 
 
+
+
+
+
+
+
+
+
+# Es importante encontrar encontrar preposiciones, y creo que una manera es mediante:
+
+grep -Po "\by (\S+) (el|la|los|las)\b" novelas_out | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $2}' | sort | uniq -c | sort -rn | less
+
+Aunque entonces también es importante encontrar las combinaciones de estas palabras, que creo que pueden dar aún más información que ellas por separado (OJO, quitar el "de" de la lista). En el siguiente patrón, la lista sale del anterior.
+
+grep -Po "\b(en|a|con|que|por|se|todos|cuando|si|como|sobre|no|todas|hasta|todo|toda|para|luego|entre|desde|yo|bajo|durante|mientras|aunque|entonces|es|era|sin|hacia)( .*?)? (en|a|con|que|por|se|todos|cuando|si|como|sobre|no|todas|hasta|todo|toda|para|luego|entre|desde|yo|bajo|durante|mientras|aunque|entonces|es|era|sin|hacia)\b" novelas_out | grep -Pv "(DIGITO|[^\w\s])" | sort | uniq -c | sort -rn | less
+
+
+
+
+
+
+
+
+
 Con la lista de pronombres, se pueden buscar mas de esos CONECTORES GENERALES al ver si se pueden combinar entre ellos, dandole prioridad a poderse combinar con MUCHOS de ellos como en el siguiente código:
 
 grep -Po "^(it|there|he|this|i|you|she|here|that) (it|there|he|this|i|you|she|here|that)\b" gutemberg_out | grep -Pv "(DIGITO|[^\s\w])" | sort -u | awk '{print $1}'| sort | uniq -c | sort -rn | less
