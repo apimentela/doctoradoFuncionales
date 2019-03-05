@@ -49,7 +49,8 @@ temp_lista_semillas_comun="out/temp_lista_semillas_comun_${prefijo_archivo}"
 
 function indicadoras_sustantivos {
 	archivo_entrada="$1"
-	grep -Po "\b(\S+) \S+ \S+ \1\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$3,$4)}' 
+	#~ grep -Po "\b(\S+) \S+ \S+ \1\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{printf("%s %s\n",$3,$4)}' 
+	perl -C -wln -e "/\b(\S+) \S+ \S+ \1\b/ and print $&" "$archivo_entrada" | perl -C -wln -e "/(DIGITO|[^\w\s])/ or print" | awk '{print $3,$4}' 
 }
 export -f indicadoras_sustantivos
 
@@ -85,7 +86,8 @@ export lista2=$(tail -n+2 "out/${prefijo_archivo}_listas_funcs_susts" | head -n1
 function conectores_sustantivos {
 	archivo_entrada="$1"
 	#grep -Po "\b($lista1) ($lista2) \S+ ($lista1)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $NF}'
-	grep -Po "\b($lista1) ($lista2) \S+ ($lista1) ($lista2)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $4}'
+	#~ grep -Po "\b($lista1) ($lista2) \S+ ($lista1) ($lista2)\b" "$archivo_entrada" | grep -Pv "(DIGITO|[^\w\s])" | awk '{print $4}'
+	perl -C -wln -e "/\b($lista1) ($lista2) \S+ ($lista1) ($lista2)\b/ and print $&" "$archivo_entrada" | perl -C -wln -e "/(DIGITO|[^\w\s])/ or print" | awk '{print $4}'
 }
 export -f conectores_sustantivos
 
@@ -178,6 +180,32 @@ sort "${temp_filtra_adjs}" | uniq -c | sort -rn > "out/${prefijo_archivo}_adjs"
 
 rm "$temp_pares_adjs_susts"
 rm "${temp_filtra_adjs}"
+
+########################################################################
+# PRUEBA
+
+#~ function busca_sustantivos {
+	#~ sustantivo="$1"
+	#~ archivo="$2"
+	#~ while read match; do
+		#~ candidato=$(echo "$match" | awk '{print $3}')
+		#~ if grep --quiet " ${candidato}$" "out/${prefijo_archivo}_susts_confs"; then
+			#~ echo "$match" | awk '{print $2}'
+		#~ fi
+	#~ done < <(grep -Po "\b$sustantivo \S+ \S+\b" "$archivo")
+#~ }
+#~ export -f busca_sustantivos
+
+#~ head -n300 "out/${prefijo_archivo}_susts_confs" | awk '{print $2}' |
+	#~ if [[ $flag_split == true ]]; then parallel busca_sustantivos :::: - ::: "corpus/split_${prefijo_archivo}_out"/* 
+	#~ else parallel busca_sustantivos :::: - ::: "corpus/${prefijo_archivo}_out" 
+	#~ fi  > "$temp_pares_adjs_susts" # Mal temporal
+
+#~ sort "${temp_pares_adjs_susts}" | uniq -c | sort -rn > "out/${prefijo_archivo}_PRUEBA"
+
+
+########################################################################
+########################################################################
 
 ########################################################################
 # En X lugar buscamos las listas de palabras que nos llevarán a
