@@ -11,6 +11,7 @@
 def main(args):
 	s_prefijo_archivo=args[1]
 	
+	lis_palabras_extra=[]
 	lis_palabras_izq=[]
 	lis_palabras_der=[]
 	dic_relaciones_izqAder={}
@@ -26,7 +27,10 @@ def main(args):
 		if not s_derecha_confiable : s_derecha_confiable=s_palabra_der	# Se guarda la primer palabra que ocurre a la derecha para usarla como purnto de corte cuando se encuentre en otra posición.
 		elif s_derecha_confiable==s_palabra_izq:break	# Aquí se checa la condición de paro
 		
-		if s_palabra_der in lis_palabras_izq : continue # Si en la segunda columna hay una palabra que ha aparecido como la primera, entonces la que aparece como la primera no se toma en cuenta asi que se continua sin cambiar nada
+		if s_palabra_der in lis_palabras_izq :	# Si en la segunda columna hay una palabra que ha aparecido como la primera, entonces la que aparece como la primera no se toma en cuenta asi que se continua sin cambiar nada
+			if not s_palabra_der in lis_palabras_extra:	# O mejor se guardan en una tercera lista por si acaso
+				lis_palabras_extra.append(s_palabra_der)
+			continue 
 		
 		if s_palabra_izq in lis_palabras_der: 	# Si en la primera columna aparece una palabra que ha aparecido como la segunda, entonces se tienen que revisar algunas cosas
 			if len(dic_relaciones_derAizq[s_palabra_izq])>1:	# Si la palabra que se encontró en la izquierda es una palabra de la derecha que está relacionada a varias de la izquierda, quiere decir que se encontró una palabra confiable, se debe saltar o terminar el programa
@@ -62,6 +66,8 @@ def main(args):
 	print("|".join(lis_palabras_izq))
 	print("|".join(lis_palabras_der))
 	
+	print()
+	print("|".join(lis_palabras_extra))
 	#~ max_key=max(dic_relaciones_izqAder,key=lambda x:len(dic_relaciones_izqAder[x]))
 	#~ print(max_key)
 	

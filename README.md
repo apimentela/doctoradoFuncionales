@@ -72,6 +72,20 @@ grep -Po "^($lista2) \S+ \S+ ($lista1) ($lista2)\b" novelas_out | grep -Pv "( de
 donde el punto es buscar un sustantivo en las primeras dos palabras, seguido de un verbo y luego otro indicador de sustantivo, y con lo siguiente es buscar la primera y cuarta palabra que tengan mayor variedad (que indicarían sustantivos y verbos respectivamente) para luego ir bajando
 
 
+
+# Encontré un buen patrón para encontrar pronombres que inicialmente pasaron como parte de la lista2. y es buscar palabras de la lista2 seguidas de palabras de la lista1. Sin embargo, para esto es MUY importante que se tengan bien identificadas las palabras que son indicadoras de sustantivos, porque pueden aparecer también con ese filtro, sobre todo por homónimo. Así que hay que quitarlas antes
+
+
+
+
+
+
+
+
+
+
+
+
 # AQUI, hay un nuevo patrón para encontrar pronombre que creo que sirve también para el español: el "en" se encuentra por ser la palabra funcional con mayor variedad de palabras anteriores en el patrón anterior (que yo pensaría que es un indicador de verbo). La condición de paro sería la misma de encontrar una de las palabras confiables (como 'el' o 'la', quizá sea mejor buscar cualquiera de las primeras 2 en cualquier caso)
 
 grep -Po "^(la|el|los|su|las|tan|del|al|se|sus|un|una|the|lo|mi|me|le|sin|muy|no|mis|tu|sea) \S+ en (la|el|los|su|las|tan|del|al|se|sus|un|una|the|lo|mi|me|le|sin|muy|no|mis|tu|sea)" novelas_out | grep -Pv "(DIGITO|[^\w\s])" | sort | uniq -c | sort -rn | less
