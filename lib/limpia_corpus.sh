@@ -148,5 +148,5 @@ export -f main
 #TODO: Este programa procesa en paralelo el archivo dividido, pero después los junta para volverlos a dividir nuevamente, creo que se puede evitar ese paso
 
 parallel --linebuffer main ::: $@ \
-#~ | if [[ $flag_splitted == true ]]; then echo "estaba dividido"; else cat; fi \
-#~ | if [[ $flag_split == true ]]; then split -l "$split_LINES" - "${salida}_"; else cat - > "$salida";fi
+| if [[ $flag_splitted == true ]]; then echo "estaba dividido"; else cat; fi \
+| if [[ $flag_split == true ]]; then split -l "$split_LINES" - "${salida}_"; else cat - > "$salida";fi
