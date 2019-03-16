@@ -6,6 +6,7 @@
 
 # DEPENDENCIAS:
 #	bigramas.pl
+#	grafo.pl
 
 nombre_programa="$BASH_SOURCE"
 
@@ -29,20 +30,22 @@ export prefijo_archivo="$1"
 
 cd ..
 
-function main {
+function segmenta_bigramas {
 	archivo_entrada="$1"
-	perl -C -- src/bigramas.pl "$archivo_entrada"
+	perl -wlC -- src/bigramas.pl "$archivo_entrada"
 }
-export -f main
+export -f segmenta_bigramas
 
-if [[ $flag_split == true ]]; then parallel main ::: "corpus/split_${prefijo_archivo}_out"/* 
-else main "corpus/${prefijo_archivo}_out" 
+
+if [[ $flag_split == true ]]; then parallel segmenta_bigramas ::: "corpus/split_${prefijo_archivo}_out"/* 
+else segmenta_bigramas "corpus/${prefijo_archivo}_out" 
 fi > "temp_bigramas"
 
 sort -u "temp_bigramas" > "out/${prefijo_archivo}_bigramas"
 
 cat "out/${prefijo_archivo}_bigramas" | tr " " "\n" > "temp_bigramas"
-sort -u "temp_bigramas" > "out/${prefijo_archivo}_vocab"
+sort -u "temp_bigramas" | awk '{print NR, $0}' > "out/${prefijo_archivo}_vocab"
 
 rm "temp_bigramas"
 
+perl -wlC -- src/grafo.pl "out/${prefijo_archivo}_vocab" "out/${prefijo_archivo}_bigramas" > "out/${prefijo_archivo}_grafo"
