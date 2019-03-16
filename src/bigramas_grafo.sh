@@ -12,12 +12,15 @@ nombre_programa="$BASH_SOURCE"
 
 # Default behavior
 flag_split=true
+flag_anillos=true
 
 # Parse short options
 OPTIND=1
-while getopts "sj" opt
+while getopts "sjac" opt
 do
   case "$opt" in
+    "a") flag_anillos=true;;
+    "c") flag_anillos=false;;
 	"s") flag_split=true;;
 	"j") flag_split=false;;
 	":") echo "La opción -$OPTARG necesita un argumento";;
@@ -36,8 +39,8 @@ function segmenta_bigramas {
 }
 export -f segmenta_bigramas
 
-
-if [[ $flag_split == true ]]; then parallel segmenta_bigramas ::: "corpus/split_${prefijo_archivo}_out"/* 
+if [[ $flag_anillos == true ]]; then segmenta_bigramas "out/${prefijo_archivo}_anillos"
+elif [[ $flag_split == true ]]; then parallel segmenta_bigramas ::: "corpus/split_${prefijo_archivo}_out"/* 
 else segmenta_bigramas "corpus/${prefijo_archivo}_out" 
 fi > "temp_bigramas"
 
