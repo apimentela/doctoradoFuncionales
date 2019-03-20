@@ -130,4 +130,11 @@ Lo siguiente es encontrar verbos auxiliares:
 
 grep -Po "\b(LISTA-PRONOMBRE) \S+ (LISTA-VERBOS)\b" gutemberg_out | grep -Pv "(DIGITO|[^\s\w])" | sort | uniq -c | sort -rn | less
 
+##
+
+para continuar con los experimentos, necesito primero una lista de palabras funcionales para agarrar convinaciones, comienzo con esto: 30 parece ser un buen head, o que la relación de frecuencia sea menor a 5e-3 
+
+perl -C -wlne "/\b(\S+) \S+ y \1 \S+\b/ and print $&" esWiki_out | perl -C -wlne "/(DIGITO|[^\w\s])/ or print" | awk '{print $1}' | sort | uniq -c | sort -rn | head -n 30 | awk '{print $2}' | tr "\n" "|"  > ../temp/lista_funcionales
+
+No es tan fácil la expansión, empiezan a salir cosas mucho mas ruidosas. Sin embargo, creo que aquí entra perfecto mi detector de palabras funcionales indicadoras de sustantivos, porque con esas se pueden filtrar de las combinaciones del "y" las que no son de sustantivos, y quitarlas de las combinaciones. POR SUPUESTO si es la misma palabra, entonces aunque no sea indicadora de sustantivo esta bien. Por otro lado, con la combinación de información también puede detectar de forma un poco mas segura palabras como "del"
 
