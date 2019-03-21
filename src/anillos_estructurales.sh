@@ -34,6 +34,6 @@ if [[ $flag_split == true ]]; then parallel anillos ::: "corpus/split_${prefijo_
 else anillos "corpus/${prefijo_archivo}_out" 
 fi > "temp_anillos"
 
-sort -u "temp_anillos" > "out/${prefijo_archivo}_anillos"
+sort "temp_anillos" | uniq -c | sort -rn | head -n 10000 | awk '{$1=""; print $0}' | sed 's/^ //g' > "out/${prefijo_archivo}_anillos"
 
 rm "temp_anillos"
