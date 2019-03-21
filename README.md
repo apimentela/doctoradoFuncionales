@@ -130,14 +130,6 @@ Lo siguiente es encontrar verbos auxiliares:
 
 grep -Po "\b(LISTA-PRONOMBRE) \S+ (LISTA-VERBOS)\b" gutemberg_out | grep -Pv "(DIGITO|[^\s\w])" | sort | uniq -c | sort -rn | less
 
-##
-
-para continuar con los experimentos, necesito primero una lista de palabras funcionales para agarrar convinaciones, comienzo con esto: 30 parece ser un buen head, o que la relación de frecuencia sea menor a 5e-3 
-
-perl -C -wlne "/\b(\S+) \S+ y \1 \S+\b/ and print $&" esWiki_out | perl -C -wlne "/(DIGITO|[^\w\s])/ or print" | awk '{print $1}' | sort | uniq -c | sort -rn | head -n 30 | awk '{print $2}' | tr "\n" "|"  > ../temp/lista_funcionales
-
-No es tan fácil la expansión, empiezan a salir cosas mucho mas ruidosas. Sin embargo, creo que aquí entra perfecto mi detector de palabras funcionales indicadoras de sustantivos, porque con esas se pueden filtrar de las combinaciones del "y" las que no son de sustantivos, y quitarlas de las combinaciones. POR SUPUESTO si es la misma palabra, entonces aunque no sea indicadora de sustantivo esta bien. Por otro lado, con la combinación de información también puede detectar de forma un poco mas segura palabras como "del"
-
 
 ##############################################################################
 # He encontrado que el esquema de anillos es bastante bueno, al menos para lo que no sea whatsapp (mas que la primera parte)
@@ -159,3 +151,17 @@ Así que es mejor mantener solo dos palabras alrededor, las de pivote se puede a
 Esto saca muy buenas relaciones aunque se tiene que pulir mas:
 
 perl -C -wlne "/\b(.+) \S+ y \1 \S+\b/ and print $&" esWiki_out | perl -C -wlne "/(DIGITO|[^\w\s])/ or print" | sort | uniq -c | sort -rn | less
+
+##
+
+para continuar con los experimentos, necesito primero una lista de palabras funcionales para agarrar convinaciones, comienzo con esto: 30 parece ser un buen head, o que la relación de frecuencia sea menor a 5e-3 
+
+perl -C -wlne "/\b(\S+) \S+ y \1 \S+\b/ and print $&" esWiki_out | perl -C -wlne "/(DIGITO|[^\w\s])/ or print" | awk '{print $1}' | sort | uniq -c | sort -rn | head -n 30 | awk '{print $2}' | tr "\n" "|"  > ../temp/lista_funcionales
+
+No es tan fácil la expansión, empiezan a salir cosas mucho mas ruidosas. Sin embargo, creo que aquí entra perfecto mi detector de palabras funcionales indicadoras de sustantivos, porque con esas se pueden filtrar de las combinaciones del "y" las que no son de sustantivos, y quitarlas de las combinaciones. POR SUPUESTO si es la misma palabra, entonces aunque no sea indicadora de sustantivo esta bien. Por otro lado, con la combinación de información también puede detectar de forma un poco mas segura palabras como "del"
+
+##
+
+( perl -C -wlne "/\b($lista1) abeja ($lista2) ($lista1) \S+\b/ and print $&" esWiki_out | perl -C -wlne "/(DIGITO|[^\w\s])/ or print" | awk '{print $2,$5}'; perl -C -wlne "/\b($lista1) \S+ ($lista2) ($lista1) abeja\b/ and print $&" esWiki_out | perl -C -wlne "/(DIGITO|[^\w\s])/ or print" | awk '{print $5,$2}' ) | sort | uniq -c | sort -rn | less
+
+Necesito hacer mas pruebas, al aumentar la cantidad de palabras si me traen otras cosas, pero también trae mucha más basura, creo que podría quitar las cosas que luego de la palabra (de la segunda) traigan un "de".
