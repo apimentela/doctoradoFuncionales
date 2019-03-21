@@ -131,3 +131,24 @@ Lo siguiente es encontrar verbos auxiliares:
 grep -Po "\b(LISTA-PRONOMBRE) \S+ (LISTA-VERBOS)\b" gutemberg_out | grep -Pv "(DIGITO|[^\s\w])" | sort | uniq -c | sort -rn | less
 
 
+
+##############################################################################
+# He encontrado que el esquema de anillos es bastante bueno, al menos para lo que no sea whatsapp (mas que la primera parte)
+
+perl -C -wlne "/\b(\S+) (\S+) \S+ \2 \1\b/ and print $&" whatsApp_out | perl -C -wlne "/(?:DIGITO|[^\w\s]|\b(\S+) (\S+) (\1 )?\2\b)/ or print" | sort -u | awk '{print $3}' | sort | uniq -c | sort -rn | less
+
+El patrón anterior son para la búsqueda de palabras que sean el centro de espejos, si se quitan en el whats las líneas que tienen puras repeticiones nada mas (ultima parte de las elecciones del segundo perl) incluso allí sirve para encontrar el "y" (o el "o"), entre más palabras se buscan, se reducen los resultados, pero las disyunciones siempre se conservan.
+
+Luego de eso, se pueden ver en los anillos:
+
+grep -Po "\b(\S+) (\S+) \S+ \1 \2\b" enWiki_out | perl -C -wlne "/(DIGITO|[^\w\s])/ or print" | sort | uniq -c | sort -rn | less
+
+allí aparecen las convinaciones indicadoras de sustantivos (no en whats) y en primer lugar la preposición que une sustantivos, además de que sale una gran lista de sustantivos luego luego. Si se aumenta a 3 palabras a coincidir con una de pivote, vuelve a aparecer el "y" central, por lo que 2 son las palabras que forman estructura (para ingles y español).
+
+grep -Po "\b(\S+) (\S+) \S+ \1 \2\b" esWiki_out | perl -C -wlne "/(DIGITO|[^\w\s])/ or print" | sort -u | awk '{print $1, $2}' | sort | uniq -c | sort -rn | less
+
+Así que es mejor mantener solo dos palabras alrededor, las de pivote se puede aumentar a 2 y aparecen entidades de dos palabras y adjetivos. Si se sigue aumentando van apareciendo más fenómenos.
+
+Esto saca muy buenas relaciones aunque se tiene que pulir mas:
+
+perl -C -wlne "/\b(.+) \S+ y \1 \S+\b/ and print $&" esWiki_out | perl -C -wlne "/(DIGITO|[^\w\s])/ or print" | sort | uniq -c | sort -rn | less
