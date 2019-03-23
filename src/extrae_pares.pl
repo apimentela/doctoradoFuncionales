@@ -4,7 +4,9 @@
 #	Este programa tiene el propósito de obtener pares de palabras
 #	relacionadas
 
-use utf8;
+# Se usan estas dos líneas para que pueda leer sin problemas los parámetros como utf8
+use Encode qw(decode_utf8);
+@ARGV = map { decode_utf8($_, 1) } @ARGV;
 
 my $palabra_estimulo = $ARGV[0];
 my $archivo_entrada = $ARGV[1];
@@ -22,11 +24,11 @@ my $verificacion = '\b(?:' . $lista_funcs_1 . '|' . $lista_funcs_2 . ')\b';
 open(INPUT,"<$archivo_entrada") or die "No se pudo abrir el archivo, $!";
 while(<INPUT>){
 	while ($_ =~ /$expresion_1/g){
-		if ( $4 =~ /$verificacion/ || $& =~ /$ignorar/ ) { next; }
+		if ( $4 =~ /$verificacion/ || $& =~ /$ignorar/ || $2 eq $4 ) { next; }
 		print "$2 $4\n";
 	}
 	while ($_ =~ /$expresion_2/g){
-		if ( $2 =~ /$verificacion/ || $& =~ /$ignorar/ ) { next; }
+		if ( $2 =~ /$verificacion/ || $& =~ /$ignorar/ || $2 eq $4 ) { next; }
 		print "$4 $2\n";
 	}
 }

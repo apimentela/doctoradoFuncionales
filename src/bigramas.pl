@@ -4,7 +4,9 @@
 #	Este programa tiene el propósito de obtener bigramas, ahora con
 #	 expresiones regulares
 
-use utf8;
+# Se usan estas dos líneas para que pueda leer sin problemas los parámetros como utf8
+use Encode qw(decode_utf8);
+@ARGV = map { decode_utf8($_, 1) } @ARGV;
 
 my $archivo_entrada = $ARGV[0];
 

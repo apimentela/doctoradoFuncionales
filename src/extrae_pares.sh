@@ -11,7 +11,7 @@
 nombre_programa="$BASH_SOURCE"
 
 # Default behavior
-flag_split=true
+export flag_split=true
 
 # Parse short options
 OPTIND=1
@@ -34,7 +34,7 @@ cd ..
 function llama_perl {
 	palabra_estimulo="$1"
 	archivo_entrada="$2"
-	perl -C -- src/bigramas.pl "$archivo_entrada"
+	perl -C -- src/extrae_pares.pl "$palabra_estimulo" "$archivo_entrada"
 }
 export -f llama_perl
 
